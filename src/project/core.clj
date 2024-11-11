@@ -33,7 +33,6 @@
     "Not allowed value"))
 ;;B30
 (defn sgps
-  ""
   [kps Rg]
   (if (> kps 1)
     (if (> Rg 0)
@@ -119,3 +118,53 @@
     "cpv must be greater than 0")
   )
 
+;; 2*-3* combustion chamber  I2
+(defn p2*
+  [M0 kv p0 sigmau sigmap]
+  (if (>= M0 0)
+    (if (> kv 1)
+      (if (> p0 0)
+        (if (> sigmau 0)
+          (if (> sigmap 0)
+            (* (p1* M0 kv p0 sigmau) sigmap)
+            "SigmaP must be greater than 0")
+          "SigmaU must be greater than 0")
+        "p0 must be greater than 0")
+      "kv must be greater than 0")
+    "M0 must be greater than or equal to 0")
+  )
+;;I3
+(defn q
+  [Cpps T2* cpv t1* Hd sigmag]
+  (if (> Cpps 0)
+    (if (> T2* 0)
+      (if (> cpv 0)
+        (if (> t1* 0)
+          (if (> Hd 0)
+            (if (> sigmag 0)
+              (/ (- (* Cpps T2*) (* cpv t1*)) (- (* Hd sigmag) (* Cpps T2*)))
+              "SigmaG must be greater than 0")
+            "Hd must be greater than 0")
+          "T1* must be greater than 0")
+        "cpv must be greater than 0")
+      "T2* must be greater than 0")
+    "Cpps must be greater than 0"))
+
+;;I5
+(defn theta
+  [T2* T0]
+  (if (> T2* 0)
+    (if (> T0 0)
+      (/ T2* T0)
+      "T2* must be greater than 0")
+    "T0 must be greater than 0"))
+
+;;M2
+(defn pimr
+  [p2 p0]
+  (if (> p2 0)
+    (if (> p0 0)
+      (/ p2 p0)
+      "p2 must be greater than 0")
+    "p0 must be greater than 0")
+  )
