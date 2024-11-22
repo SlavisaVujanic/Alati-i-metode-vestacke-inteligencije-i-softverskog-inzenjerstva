@@ -162,3 +162,44 @@
       (/ thrustt mv)
          "Incorrect value of the mass air flow")
       "Incorrect value of the thrust"))
+
+;;System of 3 equations
+;;15.User needs degree of heating
+(defn degree-of-heating
+[pimr c1]
+(if (> pimr 0)
+      (if (> c1 0)
+      (Math/pow (/ pimr c1) 2 )
+         "Incorrect value of the parameter")
+      "Incorrect value of the Available degree of spread in the nozzle"))
+
+;;16.User needs Mass air flow
+(defn air-flow
+  [v0 ro0 Au]
+   (if (> v0 0)
+   (if (> ro0 1)
+      (if (> Au 0)
+      (* v0 (* ro0 Au))
+         "Incorrect value of the Cross-sectional area of the grommet")
+      "Incorrect value of the Density")
+      "Incorrect value of the Movement speed"))
+
+;;17.User needs Constant for easy calculation
+(defn easy-calculation
+  [Cpps T0 pimr kv]
+  (if (> Cpps 0)
+   (if (> T0 1)
+      (if (> pimr 0)
+        (if (> kv 1)
+        (Math/sqrt(* 2 (* Cpps (* T0 (- 1 (Math/pow (/ 1 pimr) (fn1 kv)))))))
+        "Incorrect value of the adiabatic constant of air")
+        "Incorrect value of the Available degree of spread in the nozzle")
+        "Incorrect value of the ambient temperature")
+        "Incorrect value of the Specific heat capacity of combustion products"))
+
+;;18.User needs Mixing ratio of fuel and air
+(defn ratio-fuel-air
+[a b c]
+(if (> a 0)
+(/ (- (Math/sqrt (- (Math/pow b 2) (* 4 (* a c)))) b) (* 2 a))
+"Incorrect value of a"))
