@@ -1,7 +1,7 @@
 (ns project.core
   (:gen-class) )
-;;NMM ideal
-;;B23  B24
+
+ ;;1.The user wants to get a parameters that makes the calculation easier for him
 (defn fn1
   "kv / (kv - 1)  or  kps/(kps-1)"
   [par1]
@@ -10,161 +10,44 @@
     (if (< par1 1)
       "Not allowed value"
       (/ par1 (- par1 1)))))
-;;B25 B27
+
 (defn fn2
   "(kv-1)/kv or (kps-1)/kps"
   [par]
   (if (> par 1)
     (/ (- par 1) par)
     "Not allowed value"))
-;;B26
+
 (defn fn3
   "1/(kps-1)"
   [par]
   (if (> par 1)
     (/ 1 (- par 1))
     "Not allowed value"))
-;;B32
+
 (defn fn4
   "(kv-1)/2"
   [par]
   (if (> par 1)
     (/ (- par 1) 2)
     "Not allowed value"))
-;;B30
-(defn sgps
-  [kps Rg]
-  (if (> kps 1)
-    (if (> Rg 0)
-      (* (Math/sqrt (* (/ (* 2 kps) (+ kps 1)) (/ 1 Rg)))
-         (Math/pow (/ 2 (+ kps 1)) (fn3 kps)))
-      "Invalid Rg value")
-    "Invalid kps value"))
-;;NMM real
-;; 0-1* editorial real
-;;E2
-(defn p0*
-  [kv M0 p0]
-  (if (> kv 1)
-    (if (>= M0 0)
-      (if (> p0 0)
-        (* p0 (Math/pow (+ 1 (* (/ (- kv 1) 2) (Math/pow M0 2))) (/ kv (- kv 1))))
-        "p0 must be greater than 0")
-      "M0 must be greater than or equal to 0")
-    "kv must be greater than 0")
-  )
-;;E3 real
-(defn p1*
-  [M0 kv p0 sigmau]
-    (if (>= M0 0)
-      (if (> kv 1)
-        (if (> p0 0)
-          (if (> sigmau 0)
-            (* (* sigmau p0) (Math/pow (+ 1 (* (fn4 kv) (Math/pow M0 2))) (fn1 kv)))
-            "SigmaU must be greater than 0")
-          "p0 must be greater than 0")
-        "kv must be greater than 0")
-      "M0 must be greater than or equal to 0")
-  )
-;;E5 
-(defn piu
-  [M0 kv p0 sigmau]
-  (if (>= M0 0)
-    (if (> kv 1)
-      (if (> p0 0)
-        (if (> sigmau 0)
-          (/ (p1* M0 kv p0 sigmau) p0)
-          "SigmaU must be greater than 0")
-        "p0 must be greater than 0")
-      "kv must be greater than 0")
-    "M0 must be greater than or equal to 0")
- )
+;;2.The user wants to get the ambient temperature depending on the flight altitude
+(defn T0
+  [H]
+  (if (> H 0)
+    (if (> H 11000)
+    (- 288.15 (* 11000 0.0065))
+    (- 288.15 (* H 0.0065)))
+    "Invalid value of flight altitude"))
 
-;;E6
-(defn tauu
-  [M0 kv p0 sigmau]
-  (if (>= M0 0)
-    (if (> kv 1)
-      (if (> p0 0)
-        (if (> sigmau 0)
-          (Math/pow (piu M0 kv p0 sigmau) (fn2 kv))
-          "SigmaU must be greater than 0")
-        "p0 must be greater than 0")
-      "kv must be greater than 0")
-    "M0 must be greater than or equal to 0"))
+;;3.The user wants to get the density of the environment depending on the flight altitude
+(defn ro0
+  [H]
+  (if (> H 0)
+    (if (<= H 11000)
+    (* 1.225 (Math/pow (- 1 (* 0.0065 (/ H 288.15))) 4.2561))
+    (* 0.364 (Math/exp (/ (- 11000 H) 6330))))
+    "Invalid value of flight altitude"))
 
-;;E5 T1 real
-(defn T1*
-  [M0 kv p0 sigmau T0]
-  (if (>= M0 0)
-    (if (> kv 1)
-      (if (> p0 0)
-        (if (> sigmau 0)
-          (if (> T0 0)
-            (* (tauu M0 kv p0 sigmau) T0)
-            "T0 must be greater than 0")
-          "SigmaU must be greater than 0")
-        "p0 must be greater than 0")
-      "kv must be greater than 0")
-    "M0 must be greater than or equal to 0"))
 
-;;E8
-(defn h0
-  [cpv T0]
-  (if (> cpv 0)
-    (if (> T0 0)
-      (* cpv T0)
-      "T0 must be greater than 0")
-    "cpv must be greater than 0")
-  )
-
-;; 2*-3* combustion chamber  I2
-(defn p2*
-  [M0 kv p0 sigmau sigmap]
-  (if (>= M0 0)
-    (if (> kv 1)
-      (if (> p0 0)
-        (if (> sigmau 0)
-          (if (> sigmap 0)
-            (* (p1* M0 kv p0 sigmau) sigmap)
-            "SigmaP must be greater than 0")
-          "SigmaU must be greater than 0")
-        "p0 must be greater than 0")
-      "kv must be greater than 0")
-    "M0 must be greater than or equal to 0")
-  )
-;;I3
-(defn q
-  [Cpps T2* cpv t1* Hd sigmag]
-  (if (> Cpps 0)
-    (if (> T2* 0)
-      (if (> cpv 0)
-        (if (> t1* 0)
-          (if (> Hd 0)
-            (if (> sigmag 0)
-              (/ (- (* Cpps T2*) (* cpv t1*)) (- (* Hd sigmag) (* Cpps T2*)))
-              "SigmaG must be greater than 0")
-            "Hd must be greater than 0")
-          "T1* must be greater than 0")
-        "cpv must be greater than 0")
-      "T2* must be greater than 0")
-    "Cpps must be greater than 0"))
-
-;;I5
-(defn theta
-  [T2* T0]
-  (if (> T2* 0)
-    (if (> T0 0)
-      (/ T2* T0)
-      "T2* must be greater than 0")
-    "T0 must be greater than 0"))
-
-;;M2
-(defn pimr
-  [p2 p0]
-  (if (> p2 0)
-    (if (> p0 0)
-      (/ p2 p0)
-      "p2 must be greater than 0")
-    "p0 must be greater than 0")
-  )
+ 
