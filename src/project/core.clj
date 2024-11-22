@@ -49,5 +49,26 @@
     (* 0.364 (Math/exp (/ (- 11000 H) 6330))))
     "Invalid value of flight altitude"))
 
+;;4.The user wants to get the atmospheric pressure at a specific flight altitude
+(defn p0
+  [H]
+  (if (> H 0)
+    (if (> H 11000)
+      (* (* 101325 (Math/pow(- 1 (* 0.0065 (/ H 288.15))) 5.2561)) (Math/exp (/ (- 11000 H) 6330)))
+      (* 101325 (Math/pow(- 1 (* 0.0065 (/ H 288.15))) 5.2561))) 
+      "Invalid value of flight altitude"))
 
+;;5.The user wants to get the speed of sound based on the parameters entered
+(defn a0 
+[kv Rv T0]
+(if (> kv 1)
+   (if (> Rv 0)
+      (if (> T0 0)
+      (Math/sqrt (* kv (* Rv T0)))
+      "Incorrect value of the ambient temperature")
+      "Incorrect value of the gas constant of air")
+      "Incorrect value of the adiabatic constant of air"))
+
+
+  
  
