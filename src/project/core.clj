@@ -166,12 +166,12 @@
 ;;System of 3 equations
 ;;15.User needs degree of heating
 (defn degree-of-heating
-[pimr c1]
-(if (> pimr 0)
+[vi c1]
+(if (> vi 0)
   (if (> c1 0)
-    (Math/pow (/ pimr c1) 2)
+    (Math/pow (/ vi c1) 2)
     "Incorrect value of the parameter")
-  "Incorrect value of the Available degree of spread in the nozzle"))
+  "Incorrect value of the Nozzle exit velocity"))
 
 ;;16.User needs Mass air flow
 (defn air-flow
@@ -240,3 +240,22 @@
         "Incorrect value of the Specific thrust")
       "Incorrect value of the movement speed")
     "Incorrect value of the Coefficient inlet"))
+
+;;Combustion chamber
+;;22.User needs combustion chamber pressure
+(defn p2* 
+[p1* sigmap]
+(if (> p1* 0)
+  (if (> sigmap 0)
+    (* p1* sigmap)
+    "Incorrect value of the Pressure drop due to heat supply")
+  "Incorrect value of the pressure from inlet"))
+
+;;23.User needs combustion chamber temperature
+(defn T2*
+[T0 theta]
+(if (> T0 0)
+  (if (> theta 0)
+    (* T0 theta)
+    "Incorrect value of the degree of heating")
+  "Incorrect value of the ambient temperature"))
