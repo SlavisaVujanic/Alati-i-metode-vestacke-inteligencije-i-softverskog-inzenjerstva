@@ -95,14 +95,14 @@
   [p0* sigmau]
   (if (> p0* 0)
     (if (> sigmau 0)
-      (* p0 sigmau)
+      (* p0* sigmau)
       "Incorrect value of the Coefficient of recovery of the total pressure in the inlet")
     "Incorrect value of the atmospheric pressure"))
 
 ;;9.User needs temperature in the inlet
 (defn T1*
   [T0 tau]
-  (if (> T0* 0)
+  (if (> T0 0)
     (if (> tau 0)
       (* T0 tau)
       "Incorrect value of the Coefficient of temperature")
@@ -259,3 +259,72 @@
     (* T0 theta)
     "Incorrect value of the degree of heating")
   "Incorrect value of the ambient temperature"))
+
+;;Nozzle
+;;24.User needs Available expansion rate in the nozzle
+(defn pimr
+[p2* p0]
+(if (> p2* 0)
+  (if (> p0 0)
+    (/ p2* p0)
+    "Incorrect value of the atmospheric pressure")
+  "Incorrect value of the combustion chamber pressure"))
+
+ ;;25.User needs Convergent nozzle coefficient
+ (defn conv-pim
+ [pimr pikrit]
+ (if (> pimr 0)
+  (if (> pikrit 0)
+    (if (> pimr pikrit)
+      (pikrit)
+      (pimr))
+    "Incorrect value of the Critical degree of expansion in the nozzle")
+  "Incorrect value of the Available expansion rate in the nozzle")) 
+
+;;26.User needs Convergent-Divergent nozzle coefficient
+ (defn conv-div-pim
+ [pimr pikrit]
+ (if (> pimr 0)
+  (if (> pikrit 0)
+    (if (> pimr pikrit)
+      (pikrit)
+      "Non-existent case")
+    "Incorrect value of the Critical degree of expansion in the nozzle")
+  "Incorrect value of the Available expansion rate in the nozzle")) 
+
+;;27.User needs Nozzle exit velocity
+(defn vi
+[fsp v0 q]
+(if (> fsp 0)
+   (if (> v0 0)
+     (if (> q 0)
+       (/ (+ fsp v0) (+ 1 q))
+       "Incorrect value of the Mixing ratio of fuel and air")
+     "Incorrect value of the Movement speed")
+   "Incorrect value of the Specific thrust"))
+
+;;28.User needs Fuel mass flow
+(defn mg
+ [q mv]
+ (if (> q 0)
+  (if (> mv 0)
+    (* q mv)
+    "Incorrect value of the Mixing ratio of fuel and air")
+  "Incorrect value of the  mass air flow")) 
+
+;;29.User needs Specific fuel consumption with 2 different measurement units
+(defn csps
+[mg F]
+ (if (> mg 0)
+  (if (> F 0)
+    (/ mg F)
+    "Incorrect value of the thrust")
+  "Incorrect value of the Fuel mass flow"))
+
+ (defn csph
+[mg F]
+ (if (> mg 0)
+  (if (> F 0)
+    (* (csps mg F) 36000)
+    "Incorrect value of the thrust")
+  "Incorrect value of the Fuel mass flow")) 
