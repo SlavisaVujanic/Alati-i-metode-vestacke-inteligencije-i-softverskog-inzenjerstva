@@ -230,12 +230,12 @@
 
 ;;21.User needs coefficient c
 (defn coeff-c
-  [tau v0 fsp c1]
+  [tau v fsp c1]
   (if (> tau 0)
-    (if (> v0 0)
+    (if (> v 0)
       (if (> fsp 0)
         (if (> c1 0)
-          (+ tau (coeff-a Hd Cpv T0))
+          (- tau (Math/pow (/ (v fsp) c1) 2))
           "Incorrect value of the constant")
         "Incorrect value of the Specific thrust")
       "Incorrect value of the movement speed")
@@ -272,12 +272,12 @@
 
  ;;25.User needs Convergent nozzle coefficient
  (defn conv-pim
- [pimr pikrit]
- (if (> pimr 0)
+ [pimr1 pikrit]
+ (if (> pimr1 0)
   (if (> pikrit 0)
     (if (> pimr pikrit)
       (pikrit)
-      (pimr))
+      (pimr1))
     "Incorrect value of the Critical degree of expansion in the nozzle")
   "Incorrect value of the Available expansion rate in the nozzle")) 
 
