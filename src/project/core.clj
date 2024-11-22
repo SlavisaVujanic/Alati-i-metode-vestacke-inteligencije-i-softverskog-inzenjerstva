@@ -69,6 +69,52 @@
       "Incorrect value of the gas constant of air")
       "Incorrect value of the adiabatic constant of air"))
 
+;;Inlet
+;;6.User needs Coefficient inlet
+(defn tauu
+  [kv M0] 
+   (if (> kv 1)
+      (if (> M0 0)
+      (+ 1 (* (fn4 kv) (Math/pow M0 2)))
+         "Incorrect value of the Mach number")
+      "Incorrect value of the adiabatic constant of air"))
 
-  
+;;7.The user needs a pressure value in the inlet
+(defn p0*
+  [p0 kv M0]
+  (if (> p0 0)
+   (if (> kv 1)
+      (if (> M0 0)
+      (* p0 (Math/pow (tauu kv M0) (fn1 kv)))
+         "Incorrect value of the Mach number")
+      "Incorrect value of the adiabatic constant of air")
+      "Incorrect value of the atmospheric pressure"))  
+
+;;8.The user needs output value of pressure from inlet
+(defn p1*
+  [p0* sigmau]
+  (if (> p0* 0)
+    (if (> sigmau 0)
+      (* p0 sigmau)
+      "Incorrect value of the Coefficient of recovery of the total pressure in the inlet")
+    "Incorrect value of the atmospheric pressure"))
+
+;;9.User needs temperature in the inlet
+(defn T1*
+  [T0 tau]
+  (if (> T0* 0)
+    (if (> tau 0)
+      (* T0 tau)
+      "Incorrect value of the Coefficient of temperature")
+    "Incorrect value of the ambient temperature"))
+
+;;10.User needs Coefficient of pressure in the inlet
+(defn piu
+  [tau kv] 
+   (if (> tau 0)
+      (if (> kv 1)
+      (Math/pow tau (fn1 kv))
+         "Incorrect value of the adiabatic constant of air")
+      "Incorrect value of the Coefficient inlet"))
+
  
