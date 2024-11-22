@@ -117,4 +117,48 @@
          "Incorrect value of the adiabatic constant of air")
       "Incorrect value of the Coefficient inlet"))
 
- 
+;;Additional parameters
+;;11.User needs Movement speed
+(defn v0
+[M0 a0]
+ (if (> M0 0)
+      (if (> a0 0)
+      (* M0 a0)
+         "Incorrect value of the Speed of sound")
+      "Incorrect value of the Mach number"))
+
+;;12.User needs Mach number 
+(defn mach-number
+[v0 a0]
+ (if (> v0 0)
+      (if (> a0 0)
+      (/ v0 a0)
+         "Incorrect value of the Speed of sound")
+      "Incorrect value of the Movement speed"))
+
+;;13.User needs Aircraft weight
+(defn aircraft-weight
+[m g]
+(if (> m 0)
+      (if (> g 0)
+      (* m g)
+         "Incorrect value of the gravitational acceleration")
+      "Incorrect value of the mass of the aircraft"))
+
+;;14.User needs thrust
+(defn thrust
+[weight finesse]
+(if (> weight 0)
+      (if (> finesse 0)
+      (/ weight finesse)
+         "Incorrect value of the finesse")
+      "Incorrect value of the weight of the aircraft"))
+
+;;14.User needs specific thrust
+(defn specific-thrust
+[thrustt mv]
+(if (> thrustt 0)
+      (if (> mv 0)
+      (/ thrustt mv)
+         "Incorrect value of the mass air flow")
+      "Incorrect value of the thrust"))
