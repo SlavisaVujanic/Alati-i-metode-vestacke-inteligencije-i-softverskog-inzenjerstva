@@ -566,3 +566,65 @@
         "Incorrect value of the Specific heat capacity of air")
       "Incorrect value of the Maximum temperature in the cycle")
     "Incorrect value of the Specific heat capacity of combustion products"))
+
+;;50.User needs tmm thrust with 2 different measurement units
+(defn tmm-thrust-n
+  [mv q sigma vi v0 aout pout p0]
+  (if (> mv 0)
+    (if (> q 0)
+      (if (> sigma 0)
+        (if (> vi 1)
+          (if (> v0 0)
+            (if (> aout 0)
+              (if (> pout 0)
+                (if (> p0 0)
+                  (+ (* mv (- (* (- (+ 1 q) sigma) vi) v0)) (* aout (- pout p0)))
+                  "Incorrect value of the atmospheric pressure")
+                "Incorrect value of the output pressure")
+              "Incorrect value of the output function")
+            "Incorrect value of the Movement speed")
+          "Incorrect value of the Jet exit velocity")
+        "Incorrect value of the sigma parameter")
+      "Incorrect value of the  Mixing ratio of fuel and air")
+    "Incorrect value of the mass air flow"))
+
+(defn tmm-thrust-dan
+  [mv q sigma vi v0 aout pout p0]
+  (if (> mv 0)
+    (if (> q 0)
+      (if (> sigma 0)
+        (if (> vi 1)
+          (if (> v0 0)
+            (if (> aout 0)
+              (if (> pout 0)
+                (if (> p0 0)
+                  (/ (tmm-thrust-n mv q sigma vi v0 aout pout p0) 10)
+                  "Incorrect value of the atmospheric pressure")
+                "Incorrect value of the output pressure")
+              "Incorrect value of the output function")
+            "Incorrect value of the Movement speed")
+          "Incorrect value of the Jet exit velocity")
+        "Incorrect value of the sigma parameter")
+      "Incorrect value of the Mixing ratio of fuel and air")
+    "Incorrect value of the mass air flow"))
+
+;;51.User needs Specific fuel consumption with 2 different measurement units
+(defn tmm-csps
+[q mv F]
+ (if (> q 0)
+  (if (> mv 0)
+    (if (> F 0)
+      (/ (* q mv) F)
+      "Incorrect value of the thrust")
+    "Incorrect value of the mass air flow")
+  "Incorrect value of the Mixing ratio of fuel and air"))
+
+(defn tmm-csph
+  [q mv F]
+  (if (> q 0)
+    (if (> mv 0)
+      (if (> F 0)
+        (* (tmm-csps q mv F) 36000)
+        "Incorrect value of the thrust")
+      "Incorrect value of the mass air flow")
+    "Incorrect value of the Mixing ratio of fuel and air"))
