@@ -180,9 +180,9 @@
   (if (> c1 0)
     (if (> fi 0)
       (Math/pow (/ vi (* c1 fi)) 2)
-      "Incorrect value of the Coefficient of discharge from the nozzle")
+      "Incorrect value of the Coefficient of discharge from the jet")
     "Incorrect value of the parameter")
-  "Incorrect value of the Nozzle exit velocity"))
+  "Incorrect value of the Jet exit velocity"))
 
 ;;16.User needs Mass air flow
 (defn air-flow
@@ -204,7 +204,7 @@
         (if (> kv 1)
           (Math/sqrt (* 2 (* Cpps (* T0 (- 1 (Math/pow (/ 1 pimr) (fn1 kv)))))))
           "Incorrect value of the adiabatic constant of air")
-        "Incorrect value of the Available degree of spread in the nozzle")
+        "Incorrect value of the Available degree of spread in the jet")
       "Incorrect value of the ambient temperature")
     "Incorrect value of the Specific heat capacity of combustion products"))
 
@@ -271,8 +271,8 @@
     "Incorrect value of the degree of heating")
   "Incorrect value of the ambient temperature"))
 
-;;Nozzle
-;;24.User needs Available expansion rate in the nozzle
+;;jet
+;;24.User needs Available expansion rate in the jet
 (defn pimr
 [p2* p0]
 (if (> p2* 0)
@@ -281,7 +281,7 @@
     "Incorrect value of the atmospheric pressure")
   "Incorrect value of the combustion chamber pressure"))
 
- ;;25.User needs Convergent nozzle coefficient
+ ;;25.User needs Convergent jet coefficient
  (defn conv-pim
  [pimr1 pikrit]
  (if (> pimr1 0)
@@ -289,10 +289,10 @@
     (if (> pimr pikrit)
       (pikrit)
       (pimr1))
-    "Incorrect value of the Critical degree of expansion in the nozzle")
-  "Incorrect value of the Available expansion rate in the nozzle")) 
+    "Incorrect value of the Critical degree of expansion in the jet")
+  "Incorrect value of the Available expansion rate in the jet"))
 
-;;26.User needs Convergent-Divergent nozzle coefficient
+;;26.User needs Convergent-Divergent jet coefficient
  (defn conv-div-pim
  [pimr pikrit]
  (if (> pimr 0)
@@ -300,10 +300,10 @@
     (if (> pimr pikrit)
       (pikrit)
       "Non-existent case")
-    "Incorrect value of the Critical degree of expansion in the nozzle")
-  "Incorrect value of the Available expansion rate in the nozzle")) 
+    "Incorrect value of the Critical degree of expansion in the jet")
+  "Incorrect value of the Available expansion rate in the jet"))
 
-;;27.User needs Nozzle exit velocity
+;;27.User needs Jet exit velocity
 (defn vi
 [fsp v0 q]
 (if (> fsp 0)
@@ -495,3 +495,74 @@
         "Incorrect value of the Mixing ratio of fuel and air")
       "Incorrect value of the compressor w parameter")
     "Incorrect value of the Mass air flow"))
+
+;;TMM-jet
+;;44.User needs Available expansion rate in the TMM-jet
+(defn tmm-pimr
+  [p4 p0]
+  (if (> p4 0)
+    (if (> p0 0)
+      (/ p4 p0)
+      "Incorrect value of the turbine pressure")
+    "Incorrect value of the atmospheric pressure"))
+
+;;45.User needs mass parameter at the jet
+(defn mps
+  [mv q sigma]
+  (if (> mv 0)
+    (if (> q 0)
+      (if (> sigma 0)
+        (* mv (+ 1 (- q sigma)) )
+        "Incorrect value of the sigma parameter")
+      "Incorrect value of the Mixing ratio of fuel and air")
+    "Incorrect value of the Mass air flow") )
+
+;;46.User needs output pressure
+(defn pout
+  [p4 pim]
+  (if (> p4 0)
+    (if (> pim 0)
+      (/ p4 pim)
+      "Incorrect value of the pim coefficient")
+    "Incorrect value of the turbine pressure"))
+
+;;47.User needs output velocity
+(defn tmm-vi
+  [fi cpps t4 pim kps]
+  (if (> fi 0)
+    (if (> cpps 0)
+      (if (> t4 0)
+        (if (> pim 0)
+          (if (> kps 1)
+            (* fi (Math/sqrt (* 2 (* cpps (* t4 (- 1 (/ 1 (Math/pow pim (fn2 kps)))))))))
+            "Incorrect value of the Adiabatic constant of combustion products")
+          "Incorrect value of the pim coefficient")
+        "Incorrect value of the  turbine temperature")
+      "Incorrect value of the Specific heat capacity of combustion products")
+    "Incorrect value of the Coefficient of discharge from the jet"))
+
+;;48.User needs parameter dependent on Mach number
+(defn func-M
+  [m kps]
+  (if (> m 0)
+    (if (> kps 1)
+      (* m (Math/pow (* (fn4 kps) (Math/pow m 2)) (/ (- 0 (+ kps 1)) (* 2 (- kps 1)))))
+      "Incorrect value of the Adiabatic constant of combustion products")
+    "Incorrect value of the Mach number"))
+
+;;49.User needs output A
+(defn out-a
+  [mps fm rps kps t4 p4]
+  (if (> mps 0)
+    (if (> fm 0)
+      (if (> rps 0)
+        (if (> kps 1)
+          (if (> t4 0)
+            (if (> p4 0)
+              (* (/ mps fm) (* (Math/sqrt (/ rps kps)) (/ (Math/sqrt t4) p4)))
+              "Incorrect value of the Lower heating value of fuel")
+            "Incorrect value of the Coefficient of completeness of combustion")
+          "Incorrect value of the temperature in the compressor")
+        "Incorrect value of the Specific heat capacity of air")
+      "Incorrect value of the Maximum temperature in the cycle")
+    "Incorrect value of the Specific heat capacity of combustion products"))
