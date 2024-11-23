@@ -427,4 +427,71 @@
       "Incorrect value of the Maximum temperature in the cycle")
     "Incorrect value of the Specific heat capacity of combustion products"))
 
+;;Turbine
+;;38.User needs parameter pi of turbine
+(defn pi-turbine
+  [t4 t3 nit kps]
+  (if (> t4 0)
+    (if (> t3 0)
+      (if (> nit 1)
+        (if (> kps 0)
+          (Math/pow (- 1 (* (- 1 (/ t4 t3)) (/ 1 nit))) (- 0 (fn1 kps)) )
+          "Incorrect value of the Adiabatic constant of combustion products")
+        "Incorrect value of the Turbine efficiency")
+      "Incorrect value of the Maximum temperature in the cycle")
+    "Incorrect value of the turbine temperature"))
 
+;;39.User needs turbine pressure
+(defn tmm-p4
+  [p3 pit]
+  (if (> p3 0)
+    (if (> pit 0)
+      (/ p3 pit)
+      "Incorrect value of the pi parameter of turbine")
+    "Incorrect value of the  pressure in the combustion chamber"))
+
+;;40.User needs turbine temperature
+(defn tmm-t4
+  [t3 wt cpps]
+  (if (> t3 0)
+    (if (> wt 0)
+      (if (> cpps 0)
+        (- t3 (/ wt cpps))
+        "Incorrect value of the Specific heat capacity of combustion products")
+      "Incorrect value of the Turbine w parameter")
+    "Incorrect value of the Maximum temperature in the cycle"))
+
+;;41.User needs turbine tau parameter
+(defn tau-t
+  [t3 t4]
+  (if (> t3 0)
+    (if (> t4 0)
+      (/ t3 t4)
+      "Incorrect value of the turbine temperature")
+    "Incorrect value of the Maximum temperature in the cycle"))
+
+;;42.User needs compressor w parameter
+(defn wk
+  [cpv t2 t1]
+  (if (> cpv 0)
+    (if (> t2 0)
+      (if (> t1 0)
+        (* cpv (- t2 t1))
+        "Incorrect value of the temperature in the inlet")
+      "Incorrect value of the temperature in the compressor")
+    "Incorrect value of the Specific heat capacity of air"))
+
+;;43.User needs turbine w parameter
+(defn wt
+  [mv wk q sigma nim]
+  (if (> mv 0)
+    (if (> wk 0)
+      (if (> q 0)
+        (if (> sigma 0)
+          (if (> nim 0)
+            (/ (* mv wk) (* mv (* nim (+ 1 (- q sigma)))) )
+            "Incorrect value of the Coefficient of mechanical usefulness")
+          "Incorrect value of the sigma parameter")
+        "Incorrect value of the Mixing ratio of fuel and air")
+      "Incorrect value of the compressor w parameter")
+    "Incorrect value of the Mass air flow"))
