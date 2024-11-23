@@ -1,6 +1,7 @@
 (ns project.core
   (:gen-class) )
 
+;;NMM
  ;;1.The user wants to get a parameters that makes the calculation easier for him
 (defn fn1
   "kv / (kv - 1)  or  kps/(kps-1)"
@@ -109,13 +110,21 @@
     "Incorrect value of the ambient temperature"))
 
 ;;10.User needs Coefficient of pressure in the inlet
-(defn piu
-  [tau kv] 
-   (if (> tau 0)
-     (if (> kv 1)
-       (Math/pow tau (fn1 kv))
-       "Incorrect value of the adiabatic constant of air")
-     "Incorrect value of the Coefficient inlet"))
+(defn piu-v1
+  [tau kv]
+  (if (> tau 0)
+    (if (> kv 1)
+      (Math/pow tau (fn1 kv))
+      "Incorrect value of the adiabatic constant of air")
+    "Incorrect value of the Coefficient inlet"))
+
+(defn piu-v2
+  [p1 p0]
+   (if (> p1 0)
+     (if (> p0 1)
+       (/ p1 p0)
+       "Incorrect value of the atmospheric pressure")
+     "Incorrect value of the pressure from inlet"))
 
 ;;Additional parameters
 ;;11.User needs Movement speed
@@ -166,10 +175,12 @@
 ;;System of 3 equations
 ;;15.User needs degree of heating
 (defn degree-of-heating
-[vi c1]
+[vi c1 fi]
 (if (> vi 0)
   (if (> c1 0)
-    (Math/pow (/ vi c1) 2)
+    (if (> fi 0)
+      (Math/pow (/ vi (* c1 fi)) 2)
+      "Incorrect value of the Coefficient of discharge from the nozzle")
     "Incorrect value of the parameter")
   "Incorrect value of the Nozzle exit velocity"))
 
@@ -321,10 +332,62 @@
     "Incorrect value of the thrust")
   "Incorrect value of the Fuel mass flow"))
 
- (defn csph
-[mg F]
- (if (> mg 0)
-  (if (> F 0)
-    (* (csps mg F) 36000)
-    "Incorrect value of the thrust")
-  "Incorrect value of the Fuel mass flow")) 
+(defn csph
+  [mg F]
+   (if (> mg 0)
+    (if (> F 0)
+     (* (csps mg F) 36000)
+     "Incorrect value of the thrust")
+  "Incorrect value of the Fuel mass flow"))
+
+;;TMM
+;;compressor
+;;30.User needs temperature in the compressor
+(defn t2-tmm
+  [t1 pik kv nik]
+  (if (> t1 0)
+    (if (> pik 0)
+      (if (> kv 1)
+        (if (> nik 0)
+          (* t1 (+ 1 (* (- (Math/pow pik (fn2 kv)) 1) (/ 1 nik))))
+          "Incorrect value of the Efficiency coefficient of the compressor")
+        "Incorrect value of the adiabatic constant of air")
+      "Incorrect value of the input parameter")
+    "Incorrect value of the temperature in the inlet"))
+
+;;31.User needs compressor pressure
+(defn p2-tmm
+  [p1 pik]
+  (if (> p1 0)
+    (if (> pik 0)
+      (* p1 pik)
+      "Incorrect value of the input parameter")
+    "Incorrect value of the inlet pressure"))
+
+;;32.User needs tau parameter of the compressor
+(defn tau-sum
+  [tau1 tau2]
+  (if (> tau1 0)
+    (if (> tau2 0)
+      (* tau1 tau2)
+      "Incorrect value of the tau1 parameter")
+    "Incorrect value of the tau2 parameter"))
+
+;;33.User needs tau temperature parameter
+(defn tau-k
+  [t2 t1]
+  (if (> t2 0)
+    (if (> t1 0)
+      (* t1 t2)
+      "Incorrect value of temperature in the inlet")
+    "Incorrect value of the temperature in the compressor"))
+
+;;34.User needs pi parameter of the compressor
+(defn pi-sum
+  [pi1 pi2]
+  (if (> pi1 0)
+    (if (> pi2 0)
+      (* pi1 pi2)
+      "Incorrect value of the pi1 parameter")
+    "Incorrect value of the pi2 parameter"))
+
