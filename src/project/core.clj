@@ -391,3 +391,40 @@
       "Incorrect value of the pi1 parameter")
     "Incorrect value of the pi2 parameter"))
 
+;;TMM-Combustion chamber
+;;35.User needs pressure in the combustion chamber
+(defn p3-tmm
+  [sigmap p2]
+  (if (> sigmap 0)
+    (if (> p2 0)
+      (* sigmap p2)
+      "Incorrect value of the compressor pressure")
+    "Incorrect value of the Pressure drop due to heat supply"))
+
+;;36.User needs tmm degree of heating
+(defn tmm-degree-heating
+  [t3 t0]
+  (if (> t3 0)
+    (if (> t0 0)
+      (/ t3 t0)
+      "Incorrect value of the ambient temperature")
+    "Incorrect value of the Maximum temperature in the cycle"))
+
+;;37.User needs tmm Mixing ratio of fuel and air
+(defn tmm-mixing-ratio
+  [cpps t3  cpv t2 sigmag hd]
+  (if (> cpps 0)
+    (if (> t3 0)
+      (if (> cpv 0)
+        (if (> t2 0)
+          (if (> sigmag 0)
+            (if (> hd 0)
+              (/ (- (* cpps t3) (* cpv t2)) (- (* sigmag hd) (* cpps t3)))
+              "Incorrect value of the Lower heating value of fuel")
+            "Incorrect value of the Coefficient of completeness of combustion")
+          "Incorrect value of the temperature in the compressor")
+        "Incorrect value of the Specific heat capacity of air")
+      "Incorrect value of the Maximum temperature in the cycle")
+    "Incorrect value of the Specific heat capacity of combustion products"))
+
+
