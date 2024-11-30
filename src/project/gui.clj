@@ -3,27 +3,32 @@
         '(java.awt.event ActionListener)
         '(java.awt GridLayout))
 
-(let [frame (new JFrame "Aircraft Performance")
-      par1-label (new JLabel "Par1")
-      par2-label (new JLabel "Par2")
-      par3-label (new JLabel "Par3")
-      button (new JButton "Btn")]
+(let [main-frame (new JFrame "Aircraft Performance")
+      main-nmm-button (new JButton "NMM")
+      main-tmm-button (new JButton "TMM")
+      main-compare (new JButton "Compare")
 
-  (.setLayout frame nil)
+      nmm-frame (new JFrame "NMM")]
 
-  (.setBounds par1-label 0 0 50 50)
-  (.setBounds par2-label 50 0 50 50)
-  (.setBounds par3-label 100 0 50 50)
-  (.setBounds button 200 100 100 50)
+  (.setLayout main-frame nil)
+  (.setBounds main-nmm-button 0 0 100 50)
+  (.setBounds main-compare 110 0 100 50)
+  (.setBounds main-tmm-button 220 0 100 50)
 
 
-  (doto frame
+  (doto main-frame
     (.setDefaultCloseOperation JFrame/EXIT_ON_CLOSE)
-    (.setSize 640 360)
+    (.setSize 330 87)
     (.setResizable false)
     (.setLocationRelativeTo nil)
     (.setVisible true)
-    (.add par1-label)
-    (.add par2-label)
-    (.add par3-label)
-    (.add button)))
+    (.add main-nmm-button)
+    (.add main-compare)
+    (.add main-tmm-button))
+
+  (doto nmm-frame
+    (.setDefaultCloseOperation JFrame/EXIT_ON_CLOSE)
+    (.setSize 330 87)
+    (.setResizable false)
+    (.setLocationRelativeTo nil)
+    (.setVisible false)))
