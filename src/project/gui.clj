@@ -33,6 +33,7 @@
       par22-label (new JLabel "Par22")
       par23-label (new JLabel "Par23")
       par24-label (new JLabel "Par24")
+      par25-label (new JLabel "Par25")
       par1-text (new JTextField)
       par2-text (new JTextField)
       par3-text (new JTextField)
@@ -57,6 +58,8 @@
       par22-text (new JTextField)
       par23-text (new JTextField)
       par24-text (new JTextField)
+      par25-text (new JTextField)
+      calc-nmm-button (new JButton "Calculate")
       tmm-frame (new JFrame "TMM")
       compare-frame (new JFrame "Compare")]
   ;;main-frame
@@ -133,6 +136,10 @@
   (.setBounds par23-text 270 205 50 30)
   (.setBounds par24-label 330 205 40 30)
   (.setBounds par24-text 380 205 50 30)
+  (.setBounds par25-label 0 245 40 30)
+  (.setBounds par25-text 50 245 50 30)
+  (.setBounds calc-nmm-button 160 300 100 20)
+
 
   (doto main-frame
     (.setDefaultCloseOperation JFrame/EXIT_ON_CLOSE)
@@ -197,7 +204,10 @@
     (.add par23-label)
     (.add par23-text)
     (.add par24-label)
-    (.add par24-text))
+    (.add par24-text)
+    (.add par25-label)
+    (.add par25-text)
+    (.add calc-nmm-button))
 
   (doto tmm-frame
     (.setDefaultCloseOperation JFrame/EXIT_ON_CLOSE)
