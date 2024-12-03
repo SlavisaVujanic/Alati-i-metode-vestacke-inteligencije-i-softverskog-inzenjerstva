@@ -56,6 +56,10 @@
       jet-label1 (new JLabel "πmr")
       jet-label2 (new JLabel "πm")
       jet-label3 (new JLabel "Vi")
+      q-label (new JLabel "Parameters of the quadratic equation")
+      a-label (new JLabel "a")
+      b-label (new JLabel "b")
+      c-label (new JLabel "c")
       par1-text (new JTextField)
       par2-text (new JTextField)
       par3-text (new JTextField)
@@ -99,6 +103,9 @@
       jet-text1 (new JTextField)
       jet-text2 (new JTextField)
       jet-text3 (new JTextField)
+      a-text (new JTextField)
+      b-text (new JTextField)
+      c-text (new JTextField)
       calc-nmm-button (new JButton "Calculate")
       tmm-frame (new JFrame "TMM")
       compare-frame (new JFrame "Compare")]
@@ -219,6 +226,14 @@
   (.setBounds jet-text2 130 570 50 30)
   (.setBounds jet-label3 185 570 25 20)
   (.setBounds jet-text3 215 570 50 30)
+  (.setBounds q-label 0 600 230 25)
+  (.setBounds a-label 0 630 20 20)
+  (.setBounds a-text 30 630 70 30)
+  (.setBounds b-label 110 630 20 20)
+  (.setBounds b-text 140 630 70 30)
+  (.setBounds c-label 220 630 20 20)
+  (.setBounds c-text 250 630 70 30)
+
 
 
   (doto main-frame
@@ -327,7 +342,14 @@
     (.add jet-label3)
     (.add jet-text1)
     (.add jet-text2)
-    (.add jet-text3))
+    (.add jet-text3)
+    (.add q-label)
+    (.add a-label)
+    (.add a-text)
+    (.add b-label)
+    (.add b-text)
+    (.add c-label)
+    (.add c-text))
 
   (doto tmm-frame
     (.setDefaultCloseOperation JFrame/EXIT_ON_CLOSE)
