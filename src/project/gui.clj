@@ -52,6 +52,10 @@
       chamber-label2 (new JLabel "q")
       chamber-label3 (new JLabel "T2*")
       chamber-label4 (new JLabel "\u03B8")
+      jet-label (new JLabel "Jet")
+      jet-label1 (new JLabel "πmr")
+      jet-label2 (new JLabel "πm")
+      jet-label3 (new JLabel "Vi")
       par1-text (new JTextField)
       par2-text (new JTextField)
       par3-text (new JTextField)
@@ -92,6 +96,9 @@
       chamber-text2 (new JTextField)
       chamber-text3 (new JTextField)
       chamber-text4 (new JTextField)
+      jet-text1 (new JTextField)
+      jet-text2 (new JTextField)
+      jet-text3 (new JTextField)
       calc-nmm-button (new JButton "Calculate")
       tmm-frame (new JFrame "TMM")
       compare-frame (new JFrame "Compare")]
@@ -205,6 +212,13 @@
   (.setBounds chamber-text3 210 510 50 30)
   (.setBounds chamber-label4 270 510 20 20)
   (.setBounds chamber-text4 300 510 50 30)
+  (.setBounds jet-label 0 545 40 20)
+  (.setBounds jet-label1 0 570 30 20)
+  (.setBounds jet-text1 45 570 50 30)
+  (.setBounds jet-label2 100 570 25 20)
+  (.setBounds jet-text2 130 570 50 30)
+  (.setBounds jet-label3 185 570 25 20)
+  (.setBounds jet-text3 215 570 50 30)
 
 
   (doto main-frame
@@ -306,7 +320,14 @@
     (.add chamber-label3)
     (.add chamber-text3)
     (.add chamber-label4)
-    (.add chamber-text4))
+    (.add chamber-text4)
+    (.add jet-label)
+    (.add jet-label1)
+    (.add jet-label2)
+    (.add jet-label3)
+    (.add jet-text1)
+    (.add jet-text2)
+    (.add jet-text3))
 
   (doto tmm-frame
     (.setDefaultCloseOperation JFrame/EXIT_ON_CLOSE)
