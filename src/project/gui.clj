@@ -31,7 +31,7 @@
       par20-label (new JLabel "Rps")
       par21-label (new JLabel "\u03c0krit")
       par22-label (new JLabel "Cz/Cx")
-      par23-label (new JLabel "m")                         
+      par23-label (new JLabel "m")
       par24-label (new JLabel "g")
       par25-label (new JLabel "T0")
       par26-label (new JLabel "ρ0")
