@@ -76,17 +76,18 @@
   [tau kv]
   (Math/pow tau (fn1 kv)))
 
+;;11.
 (defn piu-v2
   [p1 p0]
   (/ p1 p0))
 
 ;;Additional parameters
-;;13.User needs Aircraft weight
+;;12.User needs Aircraft weight
 (defn aircraft-weight
 [m g]
   (* m g))
 
-;;14.User needs thrust
+;;13.User needs thrust
 (defn thrust
 [weight finesse]
   (/ weight finesse))
@@ -160,17 +161,17 @@
      (pikrit)
      (pimr1)))
 
-;;27.User needs Jet exit velocity
+;;26.User needs Jet exit velocity
 (defn vi
 [fsp v0 q]
   (/ (+ fsp v0) (+ 1 q)))
 
-;;28.User needs Fuel mass flow
+;;27.User needs Fuel mass flow
 (defn mg
  [q mv]
   (* q mv))
 
-;;29.User needs Specific fuel consumption with 2 different measurement units
+;;28.User needs Specific fuel consumption with 2 different measurement units
 (defn csps
 [mg F]
   (/ mg F))
@@ -181,110 +182,110 @@
 
 ;;TMM
 ;;compressor
-;;30.User needs temperature in the compressor
+;;29.User needs temperature in the compressor
 (defn t2-tmm
   [t1 pik kv nik]
   (* t1 (+ 1 (* (- (Math/pow pik (fn2 kv)) 1) (/ 1 nik)))))
 
-;;31.User needs compressor pressure
+;;30.User needs compressor pressure
 (defn p2-tmm
   [p1 pik]
   (* p1 pik))
 
-;;32.User needs tau parameter of the compressor
+;;31.User needs tau parameter of the compressor
 (defn tau-sum
   [tau1 tau2]
   (* tau1 tau2))
 
-;;33.User needs tau temperature parameter
+;;32.User needs tau temperature parameter
 (defn tau-k
   [t2 t1]
   (* t1 t2))
 
-;;34.User needs pi parameter of the compressor
+;;33.User needs pi parameter of the compressor
 (defn pi-sum
   [pi1 pi2]
   (* pi1 pi2))
 
 ;;TMM-Combustion chamber
-;;35.User needs pressure in the combustion chamber
+;;34.User needs pressure in the combustion chamber
 (defn p3-tmm
   [sigmap p2]
   (* sigmap p2))
 
-;;36.User needs tmm degree of heating
+;;35.User needs tmm degree of heating
 (defn tmm-degree-heating
   [t3 t0]
   (/ t3 t0))
 
-;;37.User needs tmm Mixing ratio of fuel and air
+;;36.User needs tmm Mixing ratio of fuel and air
 (defn tmm-mixing-ratio
   [cpps t3  cpv t2 sigmag hd]
   (/ (- (* cpps t3) (* cpv t2)) (- (* sigmag hd) (* cpps t3))))
 
 ;;Turbine
-;;38.User needs parameter pi of turbine
+;;37.User needs parameter pi of turbine
 (defn pi-turbine
   [t4 t3 nit kps]
   (Math/pow (- 1 (* (- 1 (/ t4 t3)) (/ 1 nit))) (- 0 (fn1 kps)) ))
 
-;;39.User needs turbine pressure
+;;38.User needs turbine pressure
 (defn tmm-p4
   [p3 pit]
   (/ p3 pit))
 
-;;40.User needs turbine temperature
+;;39.User needs turbine temperature
 (defn tmm-t4
   [t3 wt cpps]
   (- t3 (/ wt cpps)))
 
-;;41.User needs turbine tau parameter
+;;40.User needs turbine tau parameter
 (defn tau-t
   [t3 t4]
   (/ t3 t4))
 
-;;42.User needs compressor w parameter
+;;41.User needs compressor w parameter
 (defn wk
   [cpv t2 t1]
   (* cpv (- t2 t1)))
 
-;;43.User needs turbine w parameter
+;;42.User needs turbine w parameter
 (defn wt
   [mv wk q sigma nim]
   (/ (* mv wk) (* mv (* nim (+ 1 (- q sigma)))) ))
 
 ;;TMM-jet
-;;44.User needs Available expansion rate in the TMM-jet
+;;43.User needs Available expansion rate in the TMM-jet
 (defn tmm-pimr
   [p4 p0]
   (/ p4 p0))
 
-;;45.User needs mass parameter at the jet
+;;44.User needs mass parameter at the jet
 (defn mps
   [mv q sigma]
   (* mv (+ 1 (- q sigma)) ) )
 
-;;46.User needs output pressure
+;;45.User needs output pressure
 (defn pout
   [p4 pim]
   (/ p4 pim))
 
-;;47.User needs output velocity
+;;46.User needs output velocity
 (defn tmm-vi
   [fi cpps t4 pim kps]
   (* fi (Math/sqrt (* 2 (* cpps (* t4 (- 1 (/ 1 (Math/pow pim (fn2 kps))))))))))
 
-;;48.User needs parameter dependent on Mach number
+;;47.User needs parameter dependent on Mach number
 (defn func-M
   [m kps]
   (* m (Math/pow (* (fn4 kps) (Math/pow m 2)) (/ (- 0 (+ kps 1)) (* 2 (- kps 1))))))
 
-;;49.User needs output A
+;;48.User needs output A
 (defn out-a
   [mps fm rps kps t4 p4]
   (* (/ mps fm) (* (Math/sqrt (/ rps kps)) (/ (Math/sqrt t4) p4))))
 
-;;50.User needs tmm thrust with 2 different measurement units
+;;49.User needs tmm thrust with 2 different measurement units
 (defn tmm-thrust-n
   [mv q sigma vi v0 aout pout p0]
   (+ (* mv (- (* (- (+ 1 q) sigma) vi) v0)) (* aout (- pout p0))))
@@ -293,7 +294,7 @@
   [mv q sigma vi v0 aout pout p0]
   (/ (tmm-thrust-n mv q sigma vi v0 aout pout p0) 10))
 
-;;51.User needs Specific fuel consumption with 2 different measurement units
+;;50.User needs Specific fuel consumption with 2 different measurement units
 (defn tmm-csps
 [q mv F]
   (/ (* q mv) F))
@@ -301,3 +302,19 @@
 (defn tmm-csph
   [q mv F]
   (* (tmm-csps q mv F) 36000))
+
+;;51.Parse values from JTextFields
+(defn parse [text]
+  (try
+    (Double/parseDouble text)
+    (catch Exception _ -1)))
+
+;;52.Validate fields
+(defn validate-fields [greater-than-zero-fields greater-than-one-fields]
+  (let [values-zero (map parse (map #(.getText %) greater-than-zero-fields))
+        values-one  (map parse (map #(.getText %) greater-than-one-fields))
+        all-greater-than-zero? (every? pos? values-zero)
+        all-greater-than-one?  (every? greater-than-one? values-one)]
+    {:valid (and all-greater-than-zero? all-greater-than-one?)
+     :values-zero values-zero
+     :values-two values-one}))

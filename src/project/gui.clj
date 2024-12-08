@@ -127,9 +127,17 @@
       mv-text (new JTextField)
       c1-text (new JTextField)
       calc-nmm-button (new JButton "Calculate")
+      check-btn (new JButton "Check")
+      reset-btn (new JButton "Reset")
       back-btn (new JButton "Back")
       tmm-frame (new JFrame "TMM")
       compare-frame (new JFrame "Compare")]
+
+
+
+  (let [fields-one [par3-text par4-text]
+        fields-zero [par1-text par2-text par5-text par6-text par7-text par8-text par9-text par10-text par11-text par12-text par13-text par14-text par15-text par16-text par17-text par18-text par19-text par20-text  par21-text  par22-text  par23-text  par24-text]] )
+
   ;;main-frame
   (.setLayout main-frame nil)
   (.setBounds main-nmm-button 0 0 100 50)
@@ -213,7 +221,11 @@
   (.setBounds par27-label 220 245 40 30)
   (.setBounds par27-text 270 245 50 30)
   (.setEditable par27-text false)
+  (.setBounds check-btn 50 280 100 20)
   (.setBounds calc-nmm-button 160 280 100 20)
+  (.setEnabled calc-nmm-button false)
+  (.setBounds reset-btn 270 280 100 20)
+  (.setEnabled reset-btn false)
   (.setBounds expression-label 5 300 80 20)
   (.setBounds exp1-label 5 325 60 30)
   (.setBounds exp1-text 70 325 50 30)
@@ -387,7 +399,9 @@
     (.add par26-text)
     (.add par27-label)
     (.add par27-text)
+    (.add check-btn)
     (.add calc-nmm-button)
+    (.add reset-btn)
     (.add expression-label)
     (.add exp1-label)
     (.add exp1-text)
