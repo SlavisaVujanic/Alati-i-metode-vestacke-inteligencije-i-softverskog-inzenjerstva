@@ -4,7 +4,8 @@
 
 ;;0
 (defn greater-than-one? [n]
-  (> n 1))
+  (> n 1)
+  )
 ;;NMM
  ;;1.The user wants to get a parameters that makes the calculation easier for him
 (defn fn1
@@ -317,4 +318,4 @@
         all-greater-than-one?  (every? greater-than-one? values-one)]
     {:valid (and all-greater-than-zero? all-greater-than-one?)
      :values-zero values-zero
-     :values-two values-one}))
+     :values-one values-one}))

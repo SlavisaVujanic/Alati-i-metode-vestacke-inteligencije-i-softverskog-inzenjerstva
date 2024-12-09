@@ -1,4 +1,6 @@
-(ns project.gui)
+(ns project.gui
+  (:import (javax.swing JOptionPane))
+  (:require [project.core :as proj]))
 (import '(javax.swing JFrame JLabel JTextField JButton)
         '(java.awt.event ActionListener)
         '(java.awt GridLayout))
@@ -131,12 +133,9 @@
       reset-btn (new JButton "Reset")
       back-btn (new JButton "Back")
       tmm-frame (new JFrame "TMM")
-      compare-frame (new JFrame "Compare")]
-
-
-
-  (let [fields-one [par3-text par4-text]
-        fields-zero [par1-text par2-text par5-text par6-text par7-text par8-text par9-text par10-text par11-text par12-text par13-text par14-text par15-text par16-text par17-text par18-text par19-text par20-text  par21-text  par22-text  par23-text  par24-text]] )
+      compare-frame (new JFrame "Compare")
+      fields-one [par3-text par4-text]
+      fields-zero [par1-text par2-text par5-text par6-text par7-text par8-text par9-text par10-text par11-text par12-text par13-text par14-text par15-text par16-text par17-text par18-text par19-text par20-text  par21-text  par22-text  par23-text  par24-text]]
 
   ;;main-frame
   (.setLayout main-frame nil)
@@ -326,6 +325,25 @@
                         (actionPerformed [evt]
                           (.setVisible nmm-frame false)
                           (.setVisible main-frame true))))
+
+  (.addActionListener check-btn
+                      (proxy [ActionListener] []
+                        (actionPerformed [e]
+                          (let [validation-result (proj/validate-fields fields-zero fields-one)]
+                            (if (:valid validation-result)
+                              (do
+                                (.setEnabled calc-nmm-button true)
+                                (doseq [field (concat fields-zero fields-one)]
+                                  (.setEditable field false)))
+                              (do
+                                (cond
+                                  (some #(<= % 0) (:values-zero validation-result))
+                                  (JOptionPane/showMessageDialog nil "Some values must be greater than 0.")
+                                  (some #(not (proj/greater-than-one? % )) (:values-one validation-result))
+                                  (JOptionPane/showMessageDialog nil "Some values (kv,kps) must be greater than 1.")
+                                  :else
+                                  (JOptionPane/showMessageDialog nil "Please check the input values. They must be valid."))
+                                ))))))
 
 
 
