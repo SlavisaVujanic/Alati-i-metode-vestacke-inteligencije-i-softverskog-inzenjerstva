@@ -135,7 +135,11 @@
       tmm-frame (new JFrame "TMM")
       compare-frame (new JFrame "Compare")
       fields-one [par3-text par4-text]
-      fields-zero [par1-text par2-text par5-text par6-text par7-text par8-text par9-text par10-text par11-text par12-text par13-text par14-text par15-text par16-text par17-text par18-text par19-text par20-text  par21-text  par22-text  par23-text  par24-text]]
+      fields-zero [par1-text par2-text par5-text par6-text par7-text par8-text par9-text par10-text par11-text par12-text par13-text par14-text
+                   par15-text par16-text par17-text par18-text par19-text par20-text  par21-text  par22-text  par23-text  par24-text]
+      fields-expr [par25-text par26-text par27-text exp1-text exp2-text exp3-text exp4-text exp5-text exp6-text inlet-text1 inlet-text2 inlet-text3 inlet-text4 inlet-text5
+                   chamber-text1 chamber-text3 q-text2 jet-text1 jet-text2 jet-text3 a-text b-text c-text g-text f-text fsp-text mg-text csp-text1 csp-text2 mv-text c1-text]]
+
 
   ;;main-frame
   (.setLayout main-frame nil)
@@ -328,7 +332,7 @@
 
   (.addActionListener check-btn
                       (proxy [ActionListener] []
-                        (actionPerformed [e]
+                        (actionPerformed [evt]
                           (let [validation-result (proj/validate-fields fields-zero fields-one)]
                             (if (:valid validation-result)
                               (do
@@ -340,10 +344,18 @@
                                   (some #(<= % 0) (:values-zero validation-result))
                                   (JOptionPane/showMessageDialog nil "Some values must be greater than 0.")
                                   (some #(not (proj/greater-than-one? % )) (:values-one validation-result))
-                                  (JOptionPane/showMessageDialog nil "Some values (kv,kps) must be greater than 1.")
-                                  :else
-                                  (JOptionPane/showMessageDialog nil "Please check the input values. They must be valid."))
+                                  (JOptionPane/showMessageDialog nil "Some values (kv,kps) must be greater than 1."))
                                 ))))))
+
+(.addActionListener reset-btn
+                    (proxy [ActionListener] []
+                      (actionPerformed [evt]
+                        (doseq [field (concat fields-zero fields-one fields-expr)]
+                          (.setText field ""))
+                        ((doseq [fl (concat fields-zero fields-one) ]
+                           (.setEnabled fl true)))
+                        (.setEnabled calc-nmm-button false)
+                        (.setEnabled check-btn true))))
 
 
 
