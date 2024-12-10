@@ -352,11 +352,19 @@
                       (actionPerformed [evt]
                         (doseq [field (concat fields-zero fields-one fields-expr)]
                           (.setText field ""))
-                        ((doseq [fl (concat fields-zero fields-one) ]
-                           (.setEnabled fl true)))
+                        (doseq [fl (concat fields-zero fields-one) ]
+                          (.setEnabled fl true))
                         (.setEnabled calc-nmm-button false)
-                        (.setEnabled check-btn true))))
+                        (.setEnabled check-btn true)
+                        (.setEnabled reset-btn false))))
 
+(.addActionListener calc-nmm-button
+                    (proxy [ActionListener] []
+                      (actionPerformed [evt]
+                        (.setEnabled reset-btn true)
+                        (.setEnabled check-btn false)
+                        (.setEnabled calc-nmm-button false)
+                        (.setText par25-text (format "%.3f" (proj/T0 (Double/parseDouble (.getText par8-text)))) ))))
 
 
   (doto main-frame
