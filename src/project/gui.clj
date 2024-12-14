@@ -1,6 +1,9 @@
 (ns project.gui
-  (:import (javax.swing JOptionPane))
+  (:import (java.util Locale)
+           (javax.swing JOptionPane))
   (:require [project.core :as proj]))
+(Locale/setDefault Locale/US)
+
 (import '(javax.swing JFrame JLabel JTextField JButton)
         '(java.awt.event ActionListener)
         '(java.awt GridLayout))
@@ -252,11 +255,11 @@
   (.setBounds exp6-text 350 365 50 30)
   (.setEditable exp6-text false)
   (.setBounds inlet-label 5 395 60 20)
-  (.setBounds inlet-label1 5 420 60 30)
-  (.setBounds inlet-text1 70 420 50 30)
+  (.setBounds inlet-label1 5 420 40 30)
+  (.setBounds inlet-text1 55 420 70 30)
   (.setEditable inlet-text1 false)
-  (.setBounds inlet-label2 130 420 70 30)
-  (.setBounds inlet-text2 210 420 50 30)
+  (.setBounds inlet-label2 130 420 50 30)
+  (.setBounds inlet-text2 195 420 70 30)
   (.setEditable inlet-text2 false)
   (.setBounds inlet-label3 280 420 60 30)
   (.setBounds inlet-text3 350 420 50 30)
@@ -336,7 +339,10 @@
                             (.setText field "")
                             (when (or (some #(= field %) fields-zero)
                                       (some #(= field %) fields-one))
-                              (.setEditable field true))))))
+                              (.setEditable field true)))
+                          (.setEnabled check-btn true)
+                          (.setEnabled reset-btn false)
+                          (.setEnabled calc-nmm-button false))))
 
   (.addActionListener check-btn
                       (proxy [ActionListener] []
@@ -384,6 +390,8 @@
                         (.setText exp4-text (format "%.3f" (proj/fn3 (Double/parseDouble (.getText par4-text)))))
                         (.setText exp5-text (format "%.3f" (proj/fn2 (Double/parseDouble (.getText par4-text)))))
                         (.setText exp6-text (format "%.3f" (proj/fn4 (Double/parseDouble (.getText par3-text)))))
+                        (.setText inlet-text1 (format "%.3f" (proj/p0* (Double/parseDouble(.getText par27-text)) (Double/parseDouble (.getText par3-text)) (Double/parseDouble (.getText par10-text)))))
+                        (.setText inlet-text2 (format "%.3f" (proj/multiplication (Double/parseDouble(.getText inlet-text1)) (Double/parseDouble (.getText par11-text)))))
                         )))
 
 
