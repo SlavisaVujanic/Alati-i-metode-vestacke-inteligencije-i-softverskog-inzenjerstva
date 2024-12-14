@@ -328,7 +328,12 @@
                       (proxy [ActionListener] []
                         (actionPerformed [evt]
                           (.setVisible nmm-frame false)
-                          (.setVisible main-frame true))))
+                          (.setVisible main-frame true)
+                          (doseq [field (concat fields-zero fields-one fields-expr)]
+                            (.setText field "")
+                            (when (or (some #(= field %) fields-zero)
+                                      (some #(= field %) fields-one))
+                              (.setEditable field true))))))
 
   (.addActionListener check-btn
                       (proxy [ActionListener] []
@@ -337,6 +342,7 @@
                             (if (:valid validation-result)
                               (do
                                 (.setEnabled calc-nmm-button true)
+                                (.setEnabled check-btn false)
                                 (doseq [field (concat fields-zero fields-one)]
                                   (.setEditable field false)))
                               (do
@@ -351,9 +357,11 @@
                     (proxy [ActionListener] []
                       (actionPerformed [evt]
                         (doseq [field (concat fields-zero fields-one fields-expr)]
-                          (.setText field ""))
-                        (doseq [fl (concat fields-zero fields-one) ]
-                          (.setEnabled fl true))
+                          (.setText field "")
+                          (when (or (some #(= field %) fields-zero)
+                                    (some #(= field %) fields-one))
+                            (.setEditable field true)))
+
                         (.setEnabled calc-nmm-button false)
                         (.setEnabled check-btn true)
                         (.setEnabled reset-btn false))))
