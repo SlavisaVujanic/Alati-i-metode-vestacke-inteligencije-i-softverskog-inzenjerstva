@@ -392,6 +392,9 @@
                         (.setText exp6-text (format "%.3f" (proj/fn4 (Double/parseDouble (.getText par3-text)))))
                         (.setText inlet-text1 (format "%.3f" (proj/p0* (Double/parseDouble(.getText par27-text)) (Double/parseDouble (.getText par3-text)) (Double/parseDouble (.getText par10-text)))))
                         (.setText inlet-text2 (format "%.3f" (proj/multiplication (Double/parseDouble(.getText inlet-text1)) (Double/parseDouble (.getText par11-text)))))
+                        (.setText inlet-text4 (format "%.3f" (proj/division (Double/parseDouble(.getText inlet-text2)) (Double/parseDouble (.getText par27-text)))))
+                        (.setText inlet-text5 (format "%.3f" (proj/tauu (Double/parseDouble(.getText par3-text)) (Double/parseDouble (.getText par10-text)))))
+                        (.setText inlet-text3 (format "%.3f" (proj/multiplication (Double/parseDouble(.getText inlet-text5)) (Double/parseDouble (.getText par25-text)))))
                         )))
 
 
