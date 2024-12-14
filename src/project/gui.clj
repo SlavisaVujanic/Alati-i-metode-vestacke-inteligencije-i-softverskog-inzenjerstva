@@ -398,6 +398,8 @@
                         (.setText chamber-text1 (format "%.3f" (proj/multiplication (Double/parseDouble(.getText par13-text)) (Double/parseDouble (.getText inlet-text2)))))
                         (.setText jet-text1 (format "%.3f" (proj/division (Double/parseDouble(.getText chamber-text1)) (Double/parseDouble (.getText par27-text)))))
                         (.setText jet-text2 (format "%.3f" (proj/conv-pim (Double/parseDouble(.getText jet-text1)) (Double/parseDouble (.getText par21-text)))))
+                        (.setText g-text (format "%.3f" (proj/multiplication (Double/parseDouble(.getText par23-text)) (Double/parseDouble (.getText par24-text)))))
+                        (.setText f-text (format "%.3f" (proj/division (Double/parseDouble(.getText g-text)) (Double/parseDouble (.getText par22-text)))))
                         )))
 
 
