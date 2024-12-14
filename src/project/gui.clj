@@ -15,7 +15,6 @@
       par2-label (new JLabel "Cpps")
       par3-label (new JLabel "kv")
       par4-label (new JLabel "kps")
-      par5-label (new JLabel "T0")
       par6-label (new JLabel "v0")
       par7-label (new JLabel "Au")
       par8-label (new JLabel "H")
@@ -76,7 +75,6 @@
       par2-text (new JTextField)
       par3-text (new JTextField)
       par4-text (new JTextField)
-      par5-text (new JTextField)
       par6-text (new JTextField)
       par7-text (new JTextField)
       par8-text (new JTextField)
@@ -135,12 +133,12 @@
       tmm-frame (new JFrame "TMM")
       compare-frame (new JFrame "Compare")
       fields-one [par3-text par4-text]
-      fields-zero [par1-text par2-text par5-text par6-text par7-text par8-text par9-text par10-text par11-text par12-text par13-text par14-text
+      fields-zero [par1-text par2-text  par6-text par7-text par8-text par9-text par10-text par11-text par12-text par13-text par14-text
                    par15-text par16-text par17-text par18-text par19-text par20-text  par21-text  par22-text  par23-text  par24-text]
       fields-expr [par25-text par26-text par27-text exp1-text exp2-text exp3-text exp4-text exp5-text exp6-text inlet-text1 inlet-text2 inlet-text3 inlet-text4 inlet-text5
                    chamber-text1 chamber-text3 q-text2 jet-text1 jet-text2 jet-text3 a-text b-text c-text g-text f-text fsp-text mg-text csp-text1 csp-text2 mv-text c1-text theta-text]
       labels-one [par3-label par4-label]
-      labels-zero [par1-label par2-label par5-label par6-label par7-label par8-label par9-label par10-label par11-label par12-label par13-label par14-label
+      labels-zero [par1-label par2-label  par6-label par7-label par8-label par9-label par10-label par11-label par12-label par13-label par14-label
                    par15-label par16-label par17-label par18-label par19-label par20-label  par21-label  par22-label  par23-label  par24-label]
       labels-expr [ other-label q-label jet-label chamber-label inlet-label  expression-label par25-label par26-label par27-label exp1-label exp2-label exp3-label exp4-label exp5-label exp6-label inlet-label1 inlet-label2 inlet-label3 inlet-label4 inlet-label5
                    chamber-label1 chamber-label3 q-label2 jet-label1 jet-label2 jet-label3 a-label b-label c-label g-label f-label fsp-label mg-label csp-label mv-label c1-label theta-label4]
@@ -182,8 +180,8 @@
   (.setBounds par3-text 270 5 50 30)
   (.setBounds par4-label 330 5 40 30)
   (.setBounds par4-text 380 5 50 30)
-  (.setBounds par5-label 0 45 40 30)
-  (.setBounds par5-text 50 45 50 30)
+  (.setBounds par24-label 0 45 40 30)
+  (.setBounds par24-text 50 45 50 30)
   (.setBounds par6-label 110 45 40 30)
   (.setBounds par6-text 160 45 50 30)
   (.setBounds par7-label 220 45 40 30)
@@ -220,8 +218,6 @@
   (.setBounds par22-text 160 205 50 30)
   (.setBounds par23-label 220 205 40 30)
   (.setBounds par23-text 270 205 50 30)
-  (.setBounds par24-label 330 205 40 30)
-  (.setBounds par24-text 380 205 50 30)
   (.setBounds par25-label 0 245 40 30)
   (.setBounds par25-text 50 245 50 30)
   (.setEditable par25-text false)
@@ -229,7 +225,7 @@
   (.setBounds par26-text 160 245 50 30)
   (.setEditable par26-text false)
   (.setBounds par27-label 220 245 40 30)
-  (.setBounds par27-text 270 245 50 30)
+  (.setBounds par27-text 270 245 60 30)
   (.setEditable par27-text false)
   (.setBounds check-btn 50 280 100 20)
   (.setBounds calc-nmm-button 160 280 100 20)
@@ -355,7 +351,7 @@
                               (do
                                 (cond
                                   (some #(<= % 0) (:values-zero validation-result))
-                                  (JOptionPane/showMessageDialog nil "Some values must be greater than 0.")
+                                  (JOptionPane/showMessageDialog nil "All values (except kv, kps) must be greater than 0.")
                                   (some #(not (proj/greater-than-one? % )) (:values-one validation-result))
                                   (JOptionPane/showMessageDialog nil "Some values (kv,kps) must be greater than 1."))
                                 ))))))
@@ -379,7 +375,10 @@
                         (.setEnabled reset-btn true)
                         (.setEnabled check-btn false)
                         (.setEnabled calc-nmm-button false)
-                        (.setText par25-text (format "%.3f" (proj/T0 (Double/parseDouble (.getText par8-text)))) ))))
+                        (.setText par25-text (format "%.3f" (proj/T0 (Double/parseDouble (.getText par8-text)))))
+                        (.setText par26-text (format "%.3f" (proj/ro0 (Double/parseDouble (.getText par8-text)))))
+                        (.setText par27-text (format "%.3f" (proj/p0 (Double/parseDouble (.getText par8-text)))))
+                        )))
 
 
   (doto main-frame

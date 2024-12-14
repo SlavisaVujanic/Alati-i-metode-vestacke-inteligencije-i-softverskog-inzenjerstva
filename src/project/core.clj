@@ -2,6 +2,15 @@
   (:gen-class) )
 
 
+;;multiplication ;;functions p1*,t1*,aircraft-weight-p2*,t2*,mg,csph
+(defn multiplication
+  [a b]
+  (* a b))
+
+;;division ;;functions pimr piu-v2,thrust,specific-thrust,csps
+(defn division
+  [a b]
+  (/ a b))
 ;;0
 (defn greater-than-one? [n]
   (> n 1)
@@ -44,7 +53,7 @@
 (defn p0
   [H]
   (if (> H 11000)
-    (* (* 101325 (Math/pow (- 1 (* 0.0065 (/ H 288.15))) 5.2561)) (Math/exp (/ (- 11000 H) 6330)))
+    (* (* 101325 (Math/pow (- 1 (* 0.0065 (/ 11000 288.15))) 5.2561)) (Math/exp (/ (- 11000 H) 6330)))
     (* 101325 (Math/pow (- 1 (* 0.0065 (/ H 288.15))) 5.2561))))
 
 ;;5.The user wants to get the speed of sound based on the parameters entered
@@ -62,42 +71,13 @@
   [p0 kv M0]
   (* p0 (Math/pow (tauu kv M0) (fn1 kv))))
 
-;;8.The user needs output value of pressure from inlet
-(defn p1*
-  [p0* sigmau]
-  (* p0* sigmau))
-
-;;9.User needs temperature in the inlet
-(defn T1*
-  [T0 tau]
-  (* T0 tau))
-
 ;;10.User needs Coefficient of pressure in the inlet
 (defn piu-v1
   [tau kv]
   (Math/pow tau (fn1 kv)))
 
-;;11.
-(defn piu-v2
-  [p1 p0]
-  (/ p1 p0))
-
 ;;Additional parameters
-;;12.User needs Aircraft weight
-(defn aircraft-weight
-[m g]
-  (* m g))
-
-;;13.User needs thrust
-(defn thrust
-[weight finesse]
-  (/ weight finesse))
-
 ;;14.User needs specific thrust
-(defn specific-thrust
-[thrustt mv]
-  (/ thrustt mv))
-
 ;;System of 3 equations
 ;;15.User needs degree of heating
 (defn degree-of-heating
@@ -107,7 +87,7 @@
 ;;16.User needs Mass air flow
 (defn air-flow
   [v0 ro0 Au]
-  (* v0 (* ro0 Au)))
+  (* v0 ro0 Au))
 
 ;;17.User needs Constant for easy calculation
 (defn easy-calculation
@@ -143,22 +123,11 @@
     (* p1* sigmap)
     "Incorrect value of the Pressure drop due to heat supply")
   "Incorrect value of the pressure from inlet"))
-
-;;23.User needs combustion chamber temperature
-(defn T2*
-[T0 theta]
-  (* T0 theta))
-
 ;;jet
-;;24.User needs Available expansion rate in the jet
-(defn pimr
-[p2* p0]
-  (/ p2* p0))
-
  ;;25.User needs Convergent jet coefficient
  (defn conv-pim
  [pimr1 pikrit]
-   (if (> pimr pikrit)
+   (if (> pimr1 pikrit)
      (pikrit)
      (pimr1)))
 
@@ -166,21 +135,6 @@
 (defn vi
 [fsp v0 q]
   (/ (+ fsp v0) (+ 1 q)))
-
-;;27.User needs Fuel mass flow
-(defn mg
- [q mv]
-  (* q mv))
-
-;;28.User needs Specific fuel consumption with 2 different measurement units
-(defn csps
-[mg F]
-  (/ mg F))
-
-(defn csph
-  [mg F]
-  (* (csps mg F) 36000))
-
 ;;TMM
 ;;compressor
 ;;29.User needs temperature in the compressor
