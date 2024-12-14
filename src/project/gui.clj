@@ -378,6 +378,12 @@
                         (.setText par25-text (format "%.3f" (proj/T0 (Double/parseDouble (.getText par8-text)))))
                         (.setText par26-text (format "%.3f" (proj/ro0 (Double/parseDouble (.getText par8-text)))))
                         (.setText par27-text (format "%.3f" (proj/p0 (Double/parseDouble (.getText par8-text)))))
+                        (.setText exp1-text (format "%.3f" (proj/fn1 (Double/parseDouble (.getText par3-text)))))
+                        (.setText exp2-text (format "%.3f" (proj/fn1 (Double/parseDouble (.getText par4-text)))))
+                        (.setText exp3-text (format "%.3f" (proj/fn2 (Double/parseDouble (.getText par3-text)))))
+                        (.setText exp4-text (format "%.3f" (proj/fn3 (Double/parseDouble (.getText par4-text)))))
+                        (.setText exp5-text (format "%.3f" (proj/fn2 (Double/parseDouble (.getText par4-text)))))
+                        (.setText exp6-text (format "%.3f" (proj/fn4 (Double/parseDouble (.getText par3-text)))))
                         )))
 
 
