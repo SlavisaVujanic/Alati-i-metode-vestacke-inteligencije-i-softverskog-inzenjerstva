@@ -91,8 +91,8 @@
 
 ;;17.User needs Constant for easy calculation
 (defn easy-calculation
-  [Cpps T0 pimr kv]
-  (Math/sqrt (* 2 (* Cpps (* T0 (- 1 (Math/pow (/ 1 pimr) (fn1 kv))))))))
+  [Cpps T0 pimr kps]
+  (Math/sqrt (* 2 (* Cpps (* T0 (- 1 (Math/pow (/ 1 pimr) (fn2 kps))))))))
 
 ;;18.User needs Mixing ratio of fuel and air
 (defn ratio-fuel-air
@@ -101,18 +101,18 @@
 
 ;;19.User needs coefficient a
 (defn coeff-a
-[Hd Cpv T0]
-  (/ Hd (* Cpv T0)))
+[Hd sigmag Cpv T0]
+  (/ (* Hd sigmag) (* Cpv T0)))
 
 ;;20.User needs coefficient b
 (defn coeff-b
-[tau Hd Cpv T0]
-  (+ tau (coeff-a Hd Cpv T0)))
+[tau a]
+  (+ tau a)
 
 ;;21.User needs coefficient c
 (defn coeff-c
-  [tau v fsp c1]
-  (- tau (Math/pow (/ (v fsp) c1) 2)))
+  [tau cpps cpv v0 fsp c1 r]
+  (- tau (* (/ cpps cpv) (/ (Math/pow (+ v0 fsp) 2) (* (Math/pow c1 2) (Math/pow r 2))))))
 
 ;;Combustion chamber
 ;;22.User needs combustion chamber pressure

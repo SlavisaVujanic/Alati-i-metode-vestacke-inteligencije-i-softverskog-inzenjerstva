@@ -400,6 +400,11 @@
                         (.setText jet-text2 (format "%.3f" (proj/conv-pim (Double/parseDouble(.getText jet-text1)) (Double/parseDouble (.getText par21-text)))))
                         (.setText g-text (format "%.3f" (proj/multiplication (Double/parseDouble(.getText par23-text)) (Double/parseDouble (.getText par24-text)))))
                         (.setText f-text (format "%.3f" (proj/division (Double/parseDouble(.getText g-text)) (Double/parseDouble (.getText par22-text)))))
+                        (.setText mv-text (format "%.3f" (proj/air-flow (Double/parseDouble(.getText par6-text)) (Double/parseDouble (.getText par26-text)) (Double/parseDouble (.getText par7-text)))))
+                        (.setText c1-text (format "%.3f" (proj/easy-calculation (Double/parseDouble(.getText par2-text)) (Double/parseDouble (.getText par25-text)) (Double/parseDouble (.getText jet-text1)) (Double/parseDouble (.getText par4-text)))))
+                        (.setText a-text (format "%.3f" (proj/coeff-a (Double/parseDouble(.getText par14-text)) (Double/parseDouble(.getText par18-text))(Double/parseDouble (.getText par1-text)) (Double/parseDouble (.getText par25-text)))))
+                        (.setText b-text (format "%.3f" (proj/coeff-b (Double/parseDouble(.getText inlet-text5)) (Double/parseDouble (.getText a-text)))))
+
                         )))
 
 
