@@ -106,8 +106,8 @@
 
 ;;20.User needs coefficient b
 (defn coeff-b
-[tau a]
-  (+ tau a)
+  [tau a]
+  (+ tau a) )
 
 ;;21.User needs coefficient c
 (defn coeff-c

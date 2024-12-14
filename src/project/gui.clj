@@ -404,7 +404,7 @@
                         (.setText c1-text (format "%.3f" (proj/easy-calculation (Double/parseDouble(.getText par2-text)) (Double/parseDouble (.getText par25-text)) (Double/parseDouble (.getText jet-text1)) (Double/parseDouble (.getText par4-text)))))
                         (.setText a-text (format "%.3f" (proj/coeff-a (Double/parseDouble(.getText par14-text)) (Double/parseDouble(.getText par18-text))(Double/parseDouble (.getText par1-text)) (Double/parseDouble (.getText par25-text)))))
                         (.setText b-text (format "%.3f" (proj/coeff-b (Double/parseDouble(.getText inlet-text5)) (Double/parseDouble (.getText a-text)))))
-
+                        (.setText fsp-text (format "%.3f" (proj/division (Double/parseDouble(.getText f-text)) (Double/parseDouble (.getText mv-text)))))
                         )))
 
 
