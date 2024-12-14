@@ -272,7 +272,7 @@
   (.setEditable inlet-text5 false)
   (.setBounds chamber-label 5 490 120 15)
   (.setBounds chamber-label1 5 510 20 20)
-  (.setBounds chamber-text1 70 510 50 30)
+  (.setBounds chamber-text1 55 510 70 30)
   (.setEditable chamber-text1 false)
   (.setBounds chamber-label3 130 510 20 20)
   (.setBounds chamber-text3 210 510 50 30)
@@ -396,7 +396,8 @@
                         (.setText inlet-text5 (format "%.3f" (proj/tauu (Double/parseDouble(.getText par3-text)) (Double/parseDouble (.getText par10-text)))))
                         (.setText inlet-text3 (format "%.3f" (proj/multiplication (Double/parseDouble(.getText inlet-text5)) (Double/parseDouble (.getText par25-text)))))
                         (.setText chamber-text1 (format "%.3f" (proj/multiplication (Double/parseDouble(.getText par13-text)) (Double/parseDouble (.getText inlet-text2)))))
-
+                        (.setText jet-text1 (format "%.3f" (proj/division (Double/parseDouble(.getText chamber-text1)) (Double/parseDouble (.getText par27-text)))))
+                        (.setText jet-text2 (format "%.3f" (proj/conv-pim (Double/parseDouble(.getText jet-text1)) (Double/parseDouble (.getText par21-text)))))
                         )))
 
 

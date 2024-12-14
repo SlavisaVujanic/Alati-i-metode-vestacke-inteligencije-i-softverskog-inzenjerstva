@@ -116,20 +116,13 @@
 
 ;;Combustion chamber
 ;;22.User needs combustion chamber pressure
-(defn p2* 
-[p1* sigmap]
-(if (> p1* 0)
-  (if (> sigmap 0)
-    (* p1* sigmap)
-    "Incorrect value of the Pressure drop due to heat supply")
-  "Incorrect value of the pressure from inlet"))
 ;;jet
  ;;25.User needs Convergent jet coefficient
- (defn conv-pim
- [pimr1 pikrit]
-   (if (> pimr1 pikrit)
-     (pikrit)
-     (pimr1)))
+(defn conv-pim
+  [pimr1 pikrit]
+  (if (> pimr1 pikrit)
+    pikrit
+    pimr1))
 
 ;;26.User needs Jet exit velocity
 (defn vi
