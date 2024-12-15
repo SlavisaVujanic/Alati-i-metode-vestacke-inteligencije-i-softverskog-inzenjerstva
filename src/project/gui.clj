@@ -136,14 +136,14 @@
       tmm-frame (new JFrame "TMM")
       compare-frame (new JFrame "Compare")
       fields-one [par3-text par4-text]
-      fields-zero [par1-text par2-text  par6-text par7-text par8-text par9-text par10-text par11-text par12-text par13-text par14-text
+      fields-zero [par1-text par2-text  par7-text par8-text par10-text par11-text par12-text par13-text par14-text
                    par15-text par16-text par17-text par18-text par19-text par20-text  par21-text  par22-text  par23-text  par24-text]
-      fields-expr [par25-text par26-text par27-text exp1-text exp2-text exp3-text exp4-text exp5-text exp6-text inlet-text1 inlet-text2 inlet-text3 inlet-text4 inlet-text5
+      fields-expr [ par6-text  par9-text par25-text par26-text par27-text exp1-text exp2-text exp3-text exp4-text exp5-text exp6-text inlet-text1 inlet-text2 inlet-text3 inlet-text4 inlet-text5
                    chamber-text1 chamber-text3 q-text2 jet-text1 jet-text2 jet-text3 a-text b-text c-text g-text f-text fsp-text mg-text csp-text1 csp-text2 mv-text c1-text theta-text]
       labels-one [par3-label par4-label]
-      labels-zero [par1-label par2-label  par6-label par7-label par8-label par9-label par10-label par11-label par12-label par13-label par14-label
+      labels-zero [par1-label par2-label   par7-label par8-label  par10-label par11-label par12-label par13-label par14-label
                    par15-label par16-label par17-label par18-label par19-label par20-label  par21-label  par22-label  par23-label  par24-label]
-      labels-expr [ other-label q-label jet-label chamber-label inlet-label  expression-label par25-label par26-label par27-label exp1-label exp2-label exp3-label exp4-label exp5-label exp6-label inlet-label1 inlet-label2 inlet-label3 inlet-label4 inlet-label5
+      labels-expr [ par6-label par9-label other-label q-label jet-label chamber-label inlet-label  expression-label par25-label par26-label par27-label exp1-label exp2-label exp3-label exp4-label exp5-label exp6-label inlet-label1 inlet-label2 inlet-label3 inlet-label4 inlet-label5
                    chamber-label1 chamber-label3 q-label2 jet-label1 jet-label2 jet-label3 a-label b-label c-label g-label f-label fsp-label mg-label csp-label mv-label c1-label theta-label4]
       btns [back-btn check-btn calc-nmm-button reset-btn]]
 
@@ -187,12 +187,14 @@
   (.setBounds par24-text 50 45 50 30)
   (.setBounds par6-label 110 45 40 30)
   (.setBounds par6-text 160 45 50 30)
+  (.setEditable par6-text false)
   (.setBounds par7-label 220 45 40 30)
   (.setBounds par7-text 270 45 50 30)
   (.setBounds par8-label 330 45 40 30)
   (.setBounds par8-text 380 45 50 30)
   (.setBounds par9-label 0 85 40 30)
   (.setBounds par9-text 50 85 50 30)
+  (.setEditable par9-text false)
   (.setBounds par10-label 110 85 40 30)
   (.setBounds par10-text 160 85 50 30)
   (.setBounds par11-label 220 85 40 30)
@@ -382,6 +384,8 @@
                         (.setEnabled check-btn false)
                         (.setEnabled calc-nmm-button false)
                         (.setText par25-text (format "%.3f" (proj/T0 (Double/parseDouble (.getText par8-text)))))
+                        (.setText par9-text (format "%.3f" (proj/a0 (Double/parseDouble(.getText par3-text)) (Double/parseDouble (.getText par19-text)) (Double/parseDouble (.getText par25-text)))))
+                        (.setText par6-text (format "%.3f" (proj/multiplication (Double/parseDouble(.getText par9-text)) (Double/parseDouble (.getText par10-text)))))
                         (.setText par26-text (format "%.3f" (proj/ro0 (Double/parseDouble (.getText par8-text)))))
                         (.setText par27-text (format "%.3f" (proj/p0 (Double/parseDouble (.getText par8-text)))))
                         (.setText exp1-text (format "%.3f" (proj/fn1 (Double/parseDouble (.getText par3-text)))))
@@ -411,8 +415,8 @@
                         (.setText theta-text (format "%.3f" (proj/degree-of-heating (Double/parseDouble(.getText jet-text3)) (Double/parseDouble (.getText c1-text)) (Double/parseDouble (.getText par17-text)))))
                         (.setText chamber-text3 (format "%.3f" (proj/multiplication (Double/parseDouble(.getText par25-text)) (Double/parseDouble (.getText theta-text)))))
                         (.setText mg-text (format "%.3f" (proj/multiplication (Double/parseDouble(.getText q-text2)) (Double/parseDouble (.getText mv-text)))))
-                        (.setText csp-text1 (format "%.3f" (proj/division (Double/parseDouble(.getText mg-text)) (Double/parseDouble (.getText f-text)))))
-                        (.setText csp-text2 (format "%.3f" (proj/multiplication (Double/parseDouble(.getText fsp-text)) 36000)))
+                        (.setText csp-text1 (format "%.6f" (proj/division (Double/parseDouble(.getText mg-text)) (Double/parseDouble (.getText f-text)))))
+                        (.setText csp-text2 (format "%.3f" (proj/multiplication (Double/parseDouble(.getText csp-text1)) 36000)))
                         )))
 
 
