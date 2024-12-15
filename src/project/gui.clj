@@ -408,6 +408,8 @@
                         (.setText c-text (format "%.3f" (proj/coeff-c (Double/parseDouble(.getText inlet-text5)) (Double/parseDouble (.getText par2-text)) (Double/parseDouble(.getText par1-text)) (Double/parseDouble(.getText par6-text)) (Double/parseDouble(.getText fsp-text)) (Double/parseDouble(.getText c1-text))(Double/parseDouble(.getText par17-text)))))
                         (.setText q-text2 (format "%.3f" (proj/ratio-fuel-air (Double/parseDouble(.getText a-text)) (Double/parseDouble (.getText b-text)) (Double/parseDouble (.getText c-text)))))
                         (.setText jet-text3 (format "%.3f" (proj/vi (Double/parseDouble(.getText fsp-text)) (Double/parseDouble (.getText par6-text)) (Double/parseDouble (.getText q-text2)))))
+                        (.setText theta-text (format "%.3f" (proj/degree-of-heating (Double/parseDouble(.getText jet-text3)) (Double/parseDouble (.getText c1-text)) (Double/parseDouble (.getText par17-text)))))
+                        (.setText chamber-text3 (format "%.3f" (proj/multiplication (Double/parseDouble(.getText par25-text)) (Double/parseDouble (.getText theta-text)))))
                         )))
 
 
