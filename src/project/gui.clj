@@ -405,6 +405,9 @@
                         (.setText a-text (format "%.3f" (proj/coeff-a (Double/parseDouble(.getText par14-text)) (Double/parseDouble(.getText par18-text))(Double/parseDouble (.getText par1-text)) (Double/parseDouble (.getText par25-text)))))
                         (.setText b-text (format "%.3f" (proj/coeff-b (Double/parseDouble(.getText inlet-text5)) (Double/parseDouble (.getText a-text)))))
                         (.setText fsp-text (format "%.3f" (proj/division (Double/parseDouble(.getText f-text)) (Double/parseDouble (.getText mv-text)))))
+                        (.setText c-text (format "%.3f" (proj/coeff-c (Double/parseDouble(.getText inlet-text5)) (Double/parseDouble (.getText par2-text)) (Double/parseDouble(.getText par1-text)) (Double/parseDouble(.getText par6-text)) (Double/parseDouble(.getText fsp-text)) (Double/parseDouble(.getText c1-text))(Double/parseDouble(.getText par17-text)))))
+                        (.setText q-text2 (format "%.3f" (proj/ratio-fuel-air (Double/parseDouble(.getText a-text)) (Double/parseDouble (.getText b-text)) (Double/parseDouble (.getText c-text)))))
+                        (.setText jet-text3 (format "%.3f" (proj/vi (Double/parseDouble(.getText fsp-text)) (Double/parseDouble (.getText par6-text)) (Double/parseDouble (.getText q-text2)))))
                         )))
 
 
