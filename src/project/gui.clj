@@ -410,6 +410,9 @@
                         (.setText jet-text3 (format "%.3f" (proj/vi (Double/parseDouble(.getText fsp-text)) (Double/parseDouble (.getText par6-text)) (Double/parseDouble (.getText q-text2)))))
                         (.setText theta-text (format "%.3f" (proj/degree-of-heating (Double/parseDouble(.getText jet-text3)) (Double/parseDouble (.getText c1-text)) (Double/parseDouble (.getText par17-text)))))
                         (.setText chamber-text3 (format "%.3f" (proj/multiplication (Double/parseDouble(.getText par25-text)) (Double/parseDouble (.getText theta-text)))))
+                        (.setText mg-text (format "%.3f" (proj/multiplication (Double/parseDouble(.getText q-text2)) (Double/parseDouble (.getText mv-text)))))
+                        (.setText csp-text1 (format "%.3f" (proj/division (Double/parseDouble(.getText mg-text)) (Double/parseDouble (.getText f-text)))))
+                        (.setText csp-text2 (format "%.3f" (proj/multiplication (Double/parseDouble(.getText fsp-text)) 36000)))
                         )))
 
 
