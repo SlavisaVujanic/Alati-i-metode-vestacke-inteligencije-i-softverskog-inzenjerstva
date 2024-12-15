@@ -11,7 +11,6 @@
 (let [main-frame (new JFrame "Aircraft Performance")
       main-nmm-button (new JButton "NMM")
       main-tmm-button (new JButton "TMM")
-      main-compare-button (new JButton "Compare")
 
       nmm-frame (new JFrame "NMM")
       par1-label (new JLabel "Cpv")
@@ -134,7 +133,61 @@
       reset-btn (new JButton "Reset")
       back-btn (new JButton "Back")
       tmm-frame (new JFrame "TMM")
-      compare-frame (new JFrame "Compare")
+      tmm-par1-label (new JLabel "Cpv")
+      tmm-par2-label (new JLabel "Cpps")
+      tmm-par3-label (new JLabel "kv")
+      tmm-par4-label (new JLabel "kps")
+      tmm-par6-label (new JLabel "v0")
+      tmm-par7-label (new JLabel "Au")
+      tmm-par8-label (new JLabel "H")
+      tmm-par9-label (new JLabel "a0")
+      tmm-par10-label (new JLabel "M0")
+      tmm-par11-label (new JLabel "\u03C3u")
+      tmm-par12-label (new JLabel "\u03B7k")
+      tmm-par13-label (new JLabel "σp")
+      tmm-par14-label (new JLabel "σg")
+      tmm-par15-label (new JLabel "ηt")
+      tmm-par16-label (new JLabel "ηm")
+      tmm-par17-label (new JLabel "\u03C6")
+      tmm-par18-label (new JLabel "Hd")
+      tmm-par19-label (new JLabel "Rv")
+      tmm-par20-label (new JLabel "Rps")
+      tmm-par21-label (new JLabel "\u03c0krit")
+      tmm-par22-label (new JLabel "Cz/Cx")
+      tmm-par23-label (new JLabel "m")
+      tmm-par24-label (new JLabel "g")
+      tmm-par25-label (new JLabel "T0")
+      tmm-par26-label (new JLabel "ρ0")
+      tmm-par27-label (new JLabel "p0")
+      tmm-par28-label (new JLabel "πk")
+      tmm-par29-label (new JLabel "\u03b4")
+      tmm-par1-text (new JTextField)
+      tmm-par2-text (new JTextField)
+      tmm-par3-text (new JTextField)
+      tmm-par4-text (new JTextField)
+      tmm-par6-text (new JTextField)
+      tmm-par7-text (new JTextField)
+      tmm-par8-text (new JTextField)
+      tmm-par9-text (new JTextField)
+      tmm-par10-text (new JTextField)
+      tmm-par11-text (new JTextField)
+      tmm-par12-text (new JTextField)
+      tmm-par13-text (new JTextField)
+      tmm-par14-text (new JTextField)
+      tmm-par15-text (new JTextField)
+      tmm-par16-text (new JTextField)
+      tmm-par17-text (new JTextField)
+      tmm-par18-text (new JTextField)
+      tmm-par19-text (new JTextField)
+      tmm-par20-text (new JTextField)
+      tmm-par21-text (new JTextField)
+      tmm-par22-text (new JTextField)
+      tmm-par23-text (new JTextField)
+      tmm-par24-text (new JTextField)
+      tmm-par25-text (new JTextField)
+      tmm-par26-text (new JTextField)
+      tmm-par27-text (new JTextField)
+
       fields-one [par3-text par4-text]
       fields-zero [par1-text par2-text  par7-text par8-text par10-text par11-text par12-text par13-text par14-text
                    par15-text par16-text par17-text par18-text par19-text par20-text  par21-text  par22-text  par23-text  par24-text]
@@ -152,7 +205,6 @@
 ;;main-frame
   (.setLayout main-frame nil)
   (.setBounds main-nmm-button 0 0 100 50)
-  (.setBounds main-compare-button 110 0 100 50)
   (.setBounds main-tmm-button 220 0 100 50)
 
   (.addActionListener main-nmm-button
@@ -166,12 +218,6 @@
                         (actionPerformed [evt]
                           (.setVisible main-frame false)
                           (.setVisible tmm-frame true))))
-
-  (.addActionListener main-compare-button
-                      (proxy [ActionListener] []
-                        (actionPerformed [evt]
-                          (.setVisible main-frame false)
-                          (.setVisible compare-frame true))))
 
   ;;nmm-frame
   (.setLayout nmm-frame nil)
@@ -420,6 +466,18 @@
                         )))
 
 
+  ;;tmm-frame
+  (.setLayout tmm-frame nil)
+  (.setBounds tmm-par1-label 0 5 40 30)
+  (.setBounds tmm-par1-text 50 5 50 30)
+  (.setBounds tmm-par2-label 110 5 40 30)
+  (.setBounds tmm-par2-text 160 5 50 30)
+  (.setBounds tmm-par3-label 220 5 40 30)
+  (.setBounds tmm-par3-text 270 5 50 30)
+  (.setBounds tmm-par4-label 330 5 40 30)
+  (.setBounds tmm-par4-text 380 5 50 30)
+
+
   (doto main-frame
     (.setDefaultCloseOperation JFrame/EXIT_ON_CLOSE)
     (.setSize 330 87)
@@ -427,11 +485,7 @@
     (.setLocationRelativeTo nil)
     (.setVisible true)
     (.add main-nmm-button)
-    (.add main-compare-button)
     (.add main-tmm-button))
-
-  (doseq [component (concat fields-one fields-zero fields-expr labels-expr labels-one labels-zero btns)]
-    (.add nmm-frame component))
 
   (doto nmm-frame
     (.setDefaultCloseOperation JFrame/EXIT_ON_CLOSE)
@@ -440,16 +494,20 @@
     (.setLocationRelativeTo nil)
     (.setVisible false))
 
+(doseq [component (concat fields-one fields-zero fields-expr labels-expr labels-one labels-zero btns)]
+  (.add nmm-frame component))
+
   (doto tmm-frame
     (.setDefaultCloseOperation JFrame/EXIT_ON_CLOSE)
-    (.setSize 330 87)
+    (.setSize 700 700)
     (.setResizable false)
     (.setLocationRelativeTo nil)
-    (.setVisible false))
-
-  (doto compare-frame
-    (.setDefaultCloseOperation JFrame/EXIT_ON_CLOSE)
-    (.setSize 330 87)
-    (.setResizable false)
-    (.setLocationRelativeTo nil)
-    (.setVisible false)))
+    (.setVisible false)
+    (.add tmm-par1-label)
+    (.add tmm-par1-text)
+    (.add tmm-par2-label)
+    (.add tmm-par2-text)
+    (.add tmm-par3-label)
+    (.add tmm-par3-text)
+    (.add tmm-par4-label)
+    (.add tmm-par4-text)))
