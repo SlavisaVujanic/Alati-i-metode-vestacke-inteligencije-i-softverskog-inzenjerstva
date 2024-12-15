@@ -189,6 +189,10 @@
       tmm-par26-text (new JTextField)
       tmm-par27-text (new JTextField)
       tmm-par28-text (new JTextField)
+      calc-tmm-button (new JButton "Calculate")
+      check-tmm-btn (new JButton "Check")
+      reset-tmm-btn (new JButton "Reset")
+      back-tmm-btn (new JButton "Back")
 
       fields-one [par3-text par4-text]
       fields-zero [par1-text par2-text  par7-text par8-text par10-text par11-text par12-text par13-text par14-text
@@ -526,6 +530,11 @@
   (.setBounds tmm-par27-text 380 165 50 30)
   (.setBounds tmm-par28-label 440 165 40 30)
   (.setBounds tmm-par28-text 490 165 50 30)
+  (.setBounds check-tmm-btn 180 205 100 20)
+  (.setBounds calc-tmm-button 290 205 100 20)
+  (.setEnabled calc-tmm-button false)
+  (.setBounds reset-tmm-btn 400 205 100 20)
+  (.setEnabled reset-tmm-btn false)
 
 
   (doto main-frame
@@ -608,4 +617,7 @@
     (.add tmm-par27-label)
     (.add tmm-par27-text)
     (.add tmm-par28-label)
-    (.add tmm-par28-text)))
+    (.add tmm-par28-text)
+    (.add check-tmm-btn)
+    (.add calc-tmm-button)
+    (.add reset-tmm-btn)))
