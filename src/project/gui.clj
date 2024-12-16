@@ -288,14 +288,14 @@
 
       tmm-fields-one [tmm-par3-text tmm-par4-text]
       tmm-fields-zero [tmm-par1-text tmm-par2-text tmm-par5-text tmm-par6-text tmm-par7-text tmm-par8-text tmm-par9-text tmm-par10-text tmm-par11-text tmm-par12-text tmm-par13-text tmm-par14-text tmm-par15-text tmm-par16-text
-                       tmm-par17-text tmm-par18-text tmm-par19-text tmm-par20-text tmm-par21-text tmm-par22-text tmm-par23-text tmm-par24-text tmm-par25-text tmm-par26-text tmm-par27-text tmm-par28-text tmm-par29-text]
-      tmm-fields-expr [tmm-par5-text tmm-par8-text tmm-exp1-text tmm-exp2-text tmm-exp3-text tmm-exp4-text tmm-exp5-text tmm-exp6-text tmm-inlet-text1 tmm-inlet-text2 tmm-inlet-text3 tmm-inlet-text4 tmm-inlet-text5
+                       tmm-par17-text tmm-par18-text tmm-par19-text tmm-par20-text tmm-par21-text tmm-par22-text tmm-par23-text tmm-par27-text tmm-par28-text tmm-par29-text]
+      tmm-fields-expr [tmm-par5-text tmm-par8-text tmm-par24-text tmm-par25-text tmm-par26-text tmm-exp1-text tmm-exp2-text tmm-exp3-text tmm-exp4-text tmm-exp5-text tmm-exp6-text tmm-inlet-text1 tmm-inlet-text2 tmm-inlet-text3 tmm-inlet-text4 tmm-inlet-text5
                        tmm-compressor-text1  tmm-compressor-text2  tmm-compressor-text3  tmm-compressor-text4  tmm-compressor-text5 tmm-chamber-text1 tmm-chamber-text2 tmm-chamber-text3  tmm-turbine-text1 tmm-turbine-text2
                        tmm-turbine-text3 tmm-turbine-text4 tmm-turbine-text5 tmm-turbine-text6 tmm-jet-text1 tmm-jet-text2 tmm-jet-text3 tmm-jet-text4 tmm-jet-text5 tmm-jet-text6 tmm-jet-text7 tmm-other-text1 tmm-other-text2 tmm-other-text3 tmm-other-text4]
       tmm-labels-one [tmm-par3-label tmm-par4-label]
       tmm-labels-zero [tmm-par1-label tmm-par2-label tmm-par5-label tmm-par6-label tmm-par7-label tmm-par8-label tmm-par9-label tmm-par10-label tmm-par11-label tmm-par12-label tmm-par13-label tmm-par14-label tmm-par15-label tmm-par16-label
-                       tmm-par17-label tmm-par18-label tmm-par19-label tmm-par20-label tmm-par21-label tmm-par22-label tmm-par23-label tmm-par24-label tmm-par25-label tmm-par26-label tmm-par27-label tmm-par28-label tmm-par29-label]
-      tmm-labels-expr [tmm-par5-label tmm-par8-label tmm-exp1-label tmm-exp2-label tmm-exp3-label tmm-exp4-label tmm-exp5-label tmm-exp6-label tmm-inlet-label1 tmm-inlet-label2 tmm-inlet-label3 tmm-inlet-label4 tmm-inlet-label5
+                       tmm-par17-label tmm-par18-label tmm-par19-label tmm-par20-label tmm-par21-label tmm-par22-label tmm-par23-label tmm-par27-label tmm-par28-label tmm-par29-label]
+      tmm-labels-expr [tmm-par5-label tmm-par8-label tmm-par24-label tmm-par25-label tmm-par26-label tmm-exp1-label tmm-exp2-label tmm-exp3-label tmm-exp4-label tmm-exp5-label tmm-exp6-label tmm-inlet-label1 tmm-inlet-label2 tmm-inlet-label3 tmm-inlet-label4 tmm-inlet-label5
                        tmm-compressor-label1  tmm-compressor-label2  tmm-compressor-label3  tmm-compressor-label4  tmm-compressor-label5 tmm-chamber-label1 tmm-chamber-label2 tmm-chamber-label3  tmm-turbine-label1 tmm-turbine-label2
                        tmm-turbine-label3 tmm-turbine-label4 tmm-turbine-label5 tmm-turbine-label6 tmm-jet-label1 tmm-jet-label2 tmm-jet-label3 tmm-jet-label4 tmm-jet-label5 tmm-jet-label6 tmm-jet-label7 tmm-other-label1 tmm-other-label2 tmm-other-label3 tmm-other-label tmm-expression-label
                        tmm-inlet-label tmm-compressor-label tmm-chamber-label tmm-turbine-label tmm-jet-label tmm-other-label]
@@ -619,10 +619,13 @@
   (.setBounds tmm-par23-text 490 125 50 30)
   (.setBounds tmm-par24-label 550 125 40 30)
   (.setBounds tmm-par24-text 600 125 50 30)
+  (.setEditable tmm-par24-text false)
   (.setBounds tmm-par25-label 0 165 40 30)
   (.setBounds tmm-par25-text 50 165 50 30)
+(.setEditable tmm-par25-text false)
   (.setBounds tmm-par26-label 110 165 40 30)
   (.setBounds tmm-par26-text 160 165 50 30)
+(.setEditable tmm-par26-text false)
   (.setBounds tmm-par27-label 220 165 40 30)
   (.setBounds tmm-par27-text 270 165 50 30)
   (.setBounds tmm-par28-label 330 165 40 30)
@@ -796,6 +799,19 @@
                         (.setEnabled check-tmm-btn true)
                         (.setEnabled reset-tmm-btn false))))
 
+(.addActionListener calc-tmm-button
+                    (proxy [ActionListener] []
+                      (actionPerformed [evt]
+                        (.setEnabled reset-tmm-btn true)
+                        (.setEnabled check-tmm-btn false)
+                        (.setEnabled calc-tmm-button false)
+                        (.setText tmm-exp1-text (format "%.3f" (proj/fn1 (Double/parseDouble (.getText par3-text)))))
+                        (.setText tmm-exp2-text (format "%.3f" (proj/fn1 (Double/parseDouble (.getText par4-text)))))
+                        (.setText tmm-exp3-text (format "%.3f" (proj/fn2 (Double/parseDouble (.getText par3-text)))))
+                        (.setText tmm-exp4-text (format "%.3f" (proj/fn3 (Double/parseDouble (.getText par4-text)))))
+                        (.setText tmm-exp5-text (format "%.3f" (proj/fn2 (Double/parseDouble (.getText par4-text)))))
+                        (.setText tmm-exp6-text (format "%.3f" (proj/fn4 (Double/parseDouble (.getText par3-text)))))
+                        )))
 
 
   (doto main-frame
