@@ -131,7 +131,7 @@
       calc-nmm-button (new JButton "Calculate")
       check-btn (new JButton "Check")
       reset-btn (new JButton "Reset")
-      back-btn (new JButton "Back")
+      nmm-btn (new JButton "TMM")
       tmm-frame (new JFrame "TMM")
       tmm-par1-label (new JLabel "Cpv")
       tmm-par2-label (new JLabel "Cpps")
@@ -272,7 +272,7 @@
       calc-tmm-button (new JButton "Calculate")
       check-tmm-btn (new JButton "Check")
       reset-tmm-btn (new JButton "Reset")
-      back-tmm-btn (new JButton "Back")
+      tmm-btn (new JButton "NMM")
 
       fields-one [par3-text par4-text]
       fields-zero [par1-text par2-text  par7-text par8-text par10-text par11-text par12-text par13-text par14-text
@@ -284,10 +284,10 @@
                    par15-label par16-label par17-label par18-label par19-label par20-label  par21-label  par22-label  par23-label  par24-label]
       labels-expr [ par6-label par9-label other-label q-label jet-label chamber-label inlet-label  expression-label par25-label par26-label par27-label exp1-label exp2-label exp3-label exp4-label exp5-label exp6-label inlet-label1 inlet-label2 inlet-label3 inlet-label4 inlet-label5
                    chamber-label1 chamber-label3 q-label2 jet-label1 jet-label2 jet-label3 a-label b-label c-label g-label f-label fsp-label mg-label csp-label mv-label c1-label theta-label4]
-      btns [back-btn check-btn calc-nmm-button reset-btn]
+      btns [nmm-btn check-btn calc-nmm-button reset-btn]
 
       tmm-fields-one [tmm-par3-text tmm-par4-text]
-      tmm-fields-zero [tmm-par1-text tmm-par2-text tmm-par5-text tmm-par6-text tmm-par7-label tmm-par8-text tmm-par9-text tmm-par10-text tmm-par11-text tmm-par12-text tmm-par13-text tmm-par14-text tmm-par15-text tmm-par16-text
+      tmm-fields-zero [tmm-par1-text tmm-par2-text tmm-par5-text tmm-par6-text tmm-par7-text tmm-par8-text tmm-par9-text tmm-par10-text tmm-par11-text tmm-par12-text tmm-par13-text tmm-par14-text tmm-par15-text tmm-par16-text
                        tmm-par17-text tmm-par18-text tmm-par19-text tmm-par20-text tmm-par21-text tmm-par22-text tmm-par23-text tmm-par24-text tmm-par25-text tmm-par26-text tmm-par27-text tmm-par28-text tmm-par29-text]
       tmm-fields-expr [tmm-par5-text tmm-par8-text tmm-exp1-text tmm-exp2-text tmm-exp3-text tmm-exp4-text tmm-exp5-text tmm-exp6-text tmm-inlet-text1 tmm-inlet-text2 tmm-inlet-text3 tmm-inlet-text4 tmm-inlet-text5
                        tmm-compressor-text1  tmm-compressor-text2  tmm-compressor-text3  tmm-compressor-text4  tmm-compressor-text5 tmm-chamber-text1 tmm-chamber-text2 tmm-chamber-text3  tmm-turbine-text1 tmm-turbine-text2
@@ -299,8 +299,7 @@
                        tmm-compressor-label1  tmm-compressor-label2  tmm-compressor-label3  tmm-compressor-label4  tmm-compressor-label5 tmm-chamber-label1 tmm-chamber-label2 tmm-chamber-label3  tmm-turbine-label1 tmm-turbine-label2
                        tmm-turbine-label3 tmm-turbine-label4 tmm-turbine-label5 tmm-turbine-label6 tmm-jet-label1 tmm-jet-label2 tmm-jet-label3 tmm-jet-label4 tmm-jet-label5 tmm-jet-label6 tmm-jet-label7 tmm-other-label1 tmm-other-label2 tmm-other-label3 tmm-other-label tmm-expression-label
                        tmm-inlet-label tmm-compressor-label tmm-chamber-label tmm-turbine-label tmm-jet-label tmm-other-label]
-      tmm-btns [calc-tmm-button check-tmm-btn reset-tmm-btn back-tmm-btn]
-      ]
+      tmm-btns [calc-tmm-button check-tmm-btn reset-tmm-btn tmm-btn]]
 
 
 
@@ -477,14 +476,14 @@
   (.setBounds c1-label 110 780 40 20)
   (.setBounds c1-text 160 780 60 30)
   (.setEditable c1-text false)
-  (.setBounds back-btn 370 775 70 40)
+  (.setBounds nmm-btn 370 775 70 40)
 
 
-  (.addActionListener back-btn
+  (.addActionListener nmm-btn
                       (proxy [ActionListener] []
                         (actionPerformed [evt]
                           (.setVisible nmm-frame false)
-                          (.setVisible main-frame true)
+                          (.setVisible tmm-frame true)
                           (doseq [field (concat fields-zero fields-one fields-expr)]
                             (.setText field "")
                             (when (or (some #(= field %) fields-zero)
@@ -580,12 +579,14 @@
   (.setBounds tmm-par4-text 380 5 50 30)
   (.setBounds tmm-par5-label 440 5 40 30)
   (.setBounds tmm-par5-text 490 5 50 30)
+  (.setEditable tmm-par5-text false)
   (.setBounds tmm-par6-label 550 5 40 30)
   (.setBounds tmm-par6-text 600 5 50 30)
   (.setBounds tmm-par7-label 0 45 40 30)
   (.setBounds tmm-par7-text 50 45 50 30)
   (.setBounds tmm-par8-label 110 45 40 30)
   (.setBounds tmm-par8-text 160 45 50 30)
+  (.setEditable tmm-par8-text false)
   (.setBounds tmm-par9-label 220 45 40 30)
   (.setBounds tmm-par9-text 270 45 50 30)
   (.setBounds tmm-par10-label 330 45 40 30)
@@ -747,6 +748,53 @@
   (.setEditable tmm-other-text3 false)
   (.setBounds tmm-other-text4 510 690 50 30)
   (.setEditable tmm-other-text4 false)
+
+
+
+(.addActionListener tmm-btn
+                    (proxy [ActionListener] []
+                      (actionPerformed [evt]
+                        (.setVisible tmm-frame false)
+                        (.setVisible nmm-frame true)
+                        (doseq [fields (concat tmm-fields-zero tmm-fields-one tmm-fields-expr)]
+                          (.setText fields "")
+                          (when (or (some #(= fields %) tmm-fields-zero)
+                                    (some #(= fields %) tmm-fields-one))
+                            (.setEditable fields true)))
+                        (.setEnabled check-tmm-btn true)
+                        (.setEnabled reset-tmm-btn false)
+                        (.setEnabled calc-tmm-button false))))
+
+(.addActionListener check-tmm-btn
+                    (proxy [ActionListener] []
+                      (actionPerformed [evt]
+                        (let [validation-result (proj/validate-fields tmm-fields-zero tmm-fields-one)]
+                          (if (:valid validation-result)
+                            (do
+                              (.setEnabled calc-tmm-button true)
+                              (.setEnabled check-tmm-btn false)
+                              (doseq [field (concat tmm-fields-zero tmm-fields-one)]
+                                (.setEditable field false)))
+                            (do
+                              (cond
+                                (some #(<= % 0) (:values-zero validation-result))
+                                (JOptionPane/showMessageDialog nil "All values (except kv, kps) must be greater than 0.")
+                                (some #(not (proj/greater-than-one? % )) (:values-one validation-result))
+                                (JOptionPane/showMessageDialog nil "Some values (kv,kps) must be greater than 1."))
+                              ))))))
+
+(.addActionListener reset-tmm-btn
+                    (proxy [ActionListener] []
+                      (actionPerformed [evt]
+                        (doseq [field (concat tmm-fields-zero tmm-fields-one tmm-fields-expr)]
+                          (.setText field "")
+                          (when (or (some #(= field %) tmm-fields-zero)
+                                    (some #(= field %) tmm-fields-one))
+                            (.setEditable field true)))
+
+                        (.setEnabled calc-tmm-button false)
+                        (.setEnabled check-tmm-btn true)
+                        (.setEnabled reset-tmm-btn false))))
 
 
 
