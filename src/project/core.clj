@@ -2,12 +2,12 @@
   (:gen-class) )
 
 
-;;multiplication ;;functions p1*,t1*,aircraft-weight-p2*,t2*,mg,csph
+;;multiplication ;;functions p1*,t1*,aircraft-weight-p2*,t2*,mg,csph||  p2-tmm tau-sum tau-k pi-sum p3-tmm tmm-csph
 (defn multiplication
   [a b]
   (* a b))
 
-;;division ;;functions pimr piu-v2,thrust,specific-thrust,csps
+;;division ;;functions pimr piu-v2,thrust,specific-thrust,csps||  tmm-degree-heating tmm-p4 tau-t tmm-pimr pout
 (defn division
   [a b]
   (/ a b))
@@ -136,31 +136,6 @@
   (* t1 (+ 1 (* (- (Math/pow pik (fn2 kv)) 1) (/ 1 nik)))))
 
 ;;30.User needs compressor pressure
-(defn p2-tmm
-  [p1 pik]
-  (* p1 pik))
-
-;;31.User needs tau parameter of the compressor
-(defn tau-sum
-  [tau1 tau2]
-  (* tau1 tau2))
-
-;;32.User needs tau temperature parameter
-(defn tau-k
-  [t2 t1]
-  (* t1 t2))
-
-;;33.User needs pi parameter of the compressor
-(defn pi-sum
-  [pi1 pi2]
-  (* pi1 pi2))
-
-;;TMM-Combustion chamber
-;;34.User needs pressure in the combustion chamber
-(defn p3-tmm
-  [sigmap p2]
-  (* sigmap p2))
-
 ;;35.User needs tmm degree of heating
 (defn tmm-degree-heating
   [t3 t0]
@@ -177,21 +152,12 @@
   [t4 t3 nit kps]
   (Math/pow (- 1 (* (- 1 (/ t4 t3)) (/ 1 nit))) (- 0 (fn1 kps)) ))
 
-;;38.User needs turbine pressure
-(defn tmm-p4
-  [p3 pit]
-  (/ p3 pit))
-
 ;;39.User needs turbine temperature
 (defn tmm-t4
   [t3 wt cpps]
   (- t3 (/ wt cpps)))
 
 ;;40.User needs turbine tau parameter
-(defn tau-t
-  [t3 t4]
-  (/ t3 t4))
-
 ;;41.User needs compressor w parameter
 (defn wk
   [cpv t2 t1]
@@ -204,9 +170,6 @@
 
 ;;TMM-jet
 ;;43.User needs Available expansion rate in the TMM-jet
-(defn tmm-pimr
-  [p4 p0]
-  (/ p4 p0))
 
 ;;44.User needs mass parameter at the jet
 (defn mps
@@ -214,9 +177,6 @@
   (* mv (+ 1 (- q sigma)) ) )
 
 ;;45.User needs output pressure
-(defn pout
-  [p4 pim]
-  (/ p4 pim))
 
 ;;46.User needs output velocity
 (defn tmm-vi
@@ -246,10 +206,6 @@
 (defn tmm-csps
 [q mv F]
   (/ (* q mv) F))
-
-(defn tmm-csph
-  [q mv F]
-  (* (tmm-csps q mv F) 36000))
 
 ;;51.Parse values from JTextFields
 (defn parse [text]
