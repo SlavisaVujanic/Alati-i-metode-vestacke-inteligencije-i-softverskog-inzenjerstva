@@ -820,6 +820,13 @@
                         (.setText tmm-inlet-text4 (format "%.3f" (proj/division (Double/parseDouble(.getText tmm-inlet-text2)) (Double/parseDouble (.getText tmm-par26-text)))))
                         (.setText tmm-inlet-text5 (format "%.3f" (proj/tauu (Double/parseDouble(.getText tmm-par3-text)) (Double/parseDouble (.getText tmm-par9-text)))))
                         (.setText tmm-inlet-text3 (format "%.3f" (proj/multiplication (Double/parseDouble(.getText tmm-inlet-text5)) (Double/parseDouble (.getText tmm-par24-text)))))
+                        (.setText tmm-par8-text (format "%.3f" (proj/a0 (Double/parseDouble(.getText tmm-par3-text)) (Double/parseDouble (.getText tmm-par18-text)) (Double/parseDouble (.getText tmm-par24-text)))))
+                        (.setText tmm-par5-text (format "%.3f" (proj/multiplication (Double/parseDouble(.getText tmm-par9-text)) (Double/parseDouble (.getText tmm-par8-text)))))
+                        (.setText tmm-compressor-text1 (format "%.3f" (proj/t2-tmm (Double/parseDouble(.getText tmm-inlet-text3)) (Double/parseDouble (.getText tmm-par27-text))  (Double/parseDouble (.getText tmm-par3-text))  (Double/parseDouble (.getText tmm-par11-text)))))
+                        (.setText tmm-compressor-text2 (format "%.3f" (proj/multiplication(Double/parseDouble(.getText tmm-inlet-text2)) (Double/parseDouble (.getText tmm-par27-text)))))
+                        (.setText tmm-compressor-text3 (format "%.3f" (proj/division(Double/parseDouble(.getText tmm-compressor-text1)) (Double/parseDouble (.getText tmm-inlet-text3)))))
+                        (.setText tmm-compressor-text4 (format "%.3f" (proj/multiplication(Double/parseDouble(.getText tmm-compressor-text3)) (Double/parseDouble (.getText tmm-inlet-text5)))))
+                        (.setText tmm-compressor-text5 (format "%.3f" (proj/multiplication(Double/parseDouble(.getText tmm-par27-text)) (Double/parseDouble (.getText tmm-inlet-text4)))))
                         )))
 
 
