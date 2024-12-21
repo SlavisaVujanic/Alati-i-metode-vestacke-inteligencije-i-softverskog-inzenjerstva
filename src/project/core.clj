@@ -182,7 +182,7 @@
 ;;47.User needs parameter dependent on Mach number
 (defn func-M
   [m kps]
-  (* m (Math/pow (* (fn4 kps) (Math/pow m 2)) (/ (- 0 (+ kps 1)) (* 2 (- kps 1))))))
+  (* m (Math/pow (+ m (* (/ (- kps 1) 2) (Math/pow m 2))) (- (/ (+ kps 1) (* 2 (- kps 1)))))))
 
 ;;48.User needs output A
 (defn out-a
