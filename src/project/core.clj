@@ -189,14 +189,10 @@
   [mps fm rps kps t4 p4]
   (* (/ mps fm) (* (Math/sqrt (/ rps kps)) (/ (Math/sqrt t4) p4))))
 
-;;49.User needs tmm thrust with 2 different measurement units
-(defn tmm-thrust-n
+;;49.User needs tmm thrust
+(defn tmm-thrust
   [mv q sigma vi v0 aout pout p0]
   (+ (* mv (- (* (- (+ 1 q) sigma) vi) v0)) (* aout (- pout p0))))
-
-(defn tmm-thrust-dan
-  [mv q sigma vi v0 aout pout p0]
-  (/ (tmm-thrust-n mv q sigma vi v0 aout pout p0) 10))
 
 ;;50.User needs Specific fuel consumption with 2 different measurement units
 (defn tmm-csps

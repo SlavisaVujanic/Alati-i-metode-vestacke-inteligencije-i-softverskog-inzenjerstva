@@ -843,6 +843,10 @@
                         (.setText tmm-jet-text5 (format "%.3f" (proj/division(Double/parseDouble(.getText tmm-turbine-text2)) (Double/parseDouble(.getText tmm-jet-text2)))))
                         (.setText tmm-jet-text6 (format "%.3f" (proj/func-M (Double/parseDouble(.getText tmm-par9-text)) (Double/parseDouble(.getText tmm-par4-text)))))
                         (.setText tmm-jet-text7 (format "%.3f" (proj/out-a (Double/parseDouble(.getText tmm-jet-text4)) (Double/parseDouble(.getText tmm-jet-text6)) (Double/parseDouble(.getText tmm-par19-text)) (Double/parseDouble(.getText tmm-par4-text)) (Double/parseDouble(.getText tmm-turbine-text3)) (Double/parseDouble(.getText tmm-turbine-text2)))))
+                        (.setText tmm-other-text1 (format "%.3f" (proj/tmm-thrust(Double/parseDouble(.getText tmm-par6-text)) (Double/parseDouble(.getText tmm-chamber-text2)) (Double/parseDouble(.getText tmm-par28-text)) (Double/parseDouble(.getText tmm-jet-text3)) (Double/parseDouble(.getText tmm-par5-text)) (Double/parseDouble(.getText tmm-jet-text7)) (Double/parseDouble(.getText tmm-jet-text5)) (Double/parseDouble(.getText tmm-par26-text)))))
+                        (.setText tmm-other-text2 (format "%.3f" (proj/division(Double/parseDouble(.getText tmm-other-text1)) (Double/parseDouble(.getText tmm-par6-text)))))
+                        (.setText tmm-other-text3 (format "%.3f" (proj/tmm-csps (Double/parseDouble(.getText tmm-chamber-text2)) (Double/parseDouble(.getText tmm-par6-text)) (Double/parseDouble(.getText tmm-other-text1)))))
+                        (.setText tmm-other-text4 (format "%.3f" (proj/multiplication(Double/parseDouble(.getText tmm-other-text2)) 36000)))
                         )))
 
 
