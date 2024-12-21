@@ -138,7 +138,7 @@
       tmm-par3-label (new JLabel "kv")
       tmm-par4-label (new JLabel "kps")
       tmm-par5-label (new JLabel "v0")
-      tmm-par6-label (new JLabel "Au")
+      tmm-par6-label (new JLabel "mv")
       tmm-par7-label (new JLabel "H")
       tmm-par8-label (new JLabel "a0")
       tmm-par9-label (new JLabel "M0")
@@ -830,6 +830,12 @@
                         (.setText tmm-chamber-text1 (format "%.3f" (proj/multiplication(Double/parseDouble(.getText tmm-compressor-text2)) (Double/parseDouble (.getText tmm-par12-text)))))
                         (.setText tmm-chamber-text2 (format "%.3f" (proj/tmm-mixing-ratio (Double/parseDouble(.getText tmm-par2-text)) (Double/parseDouble (.getText tmm-par29-text)) (Double/parseDouble(.getText tmm-par1-text)) (Double/parseDouble (.getText tmm-compressor-text1)) (Double/parseDouble(.getText tmm-par13-text)) (Double/parseDouble (.getText tmm-par17-text)))))
                         (.setText tmm-chamber-text3 (format "%.3f" (proj/division(Double/parseDouble(.getText tmm-par29-text)) (Double/parseDouble (.getText tmm-par24-text)))))
+                        (.setText tmm-turbine-text5 (format "%.3f" (proj/wk(Double/parseDouble(.getText tmm-par1-text)) (Double/parseDouble (.getText tmm-compressor-text1)) (Double/parseDouble (.getText tmm-inlet-text3)))))
+                        (.setText tmm-turbine-text6 (format "%.3f" (proj/wt(Double/parseDouble(.getText tmm-par6-text)) (Double/parseDouble (.getText tmm-turbine-text5)) (Double/parseDouble(.getText tmm-chamber-text2)) (Double/parseDouble(.getText tmm-par28-text)) (Double/parseDouble(.getText tmm-par15-text)))))
+                        (.setText tmm-turbine-text3 (format "%.3f" (proj/tmm-t4(Double/parseDouble(.getText tmm-par29-text)) (Double/parseDouble(.getText tmm-turbine-text6)) (Double/parseDouble(.getText tmm-par2-text)))))
+                        (.setText tmm-turbine-text4 (format "%.3f" (proj/division(Double/parseDouble(.getText tmm-par29-text)) (Double/parseDouble(.getText tmm-turbine-text3)))))
+                        (.setText tmm-turbine-text1 (format "%.3f" (proj/pi-turbine  (Double/parseDouble(.getText tmm-turbine-text3)) (Double/parseDouble(.getText tmm-par29-text)) (Double/parseDouble(.getText tmm-par14-text)) (Double/parseDouble(.getText tmm-par4-text)))))
+                        (.setText tmm-turbine-text2 (format "%.3f" (proj/division(Double/parseDouble(.getText tmm-chamber-text1)) (Double/parseDouble(.getText tmm-turbine-text1)))))
                         )))
 
 

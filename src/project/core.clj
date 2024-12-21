@@ -7,14 +7,13 @@
   [a b]
   (* a b))
 
-;;division ;;functions pimr piu-v2,thrust,specific-thrust,csps||  tmm-degree-heating tmm-p4 tau-t tmm-pimr pout
+;;division ;;functions pimr piu-v2,thrust,specific-thrust,csps||  tmm-degree-heating tmm-p4 tau-t tmm-pimr pout tmm-degree-heating
 (defn division
   [a b]
   (/ a b))
 ;;0
 (defn greater-than-one? [n]
-  (> n 1)
-  )
+  (> n 1))
 ;;NMM
  ;;1.The user wants to get a parameters that makes the calculation easier for him
 (defn fn1
@@ -137,9 +136,6 @@
 
 ;;30.User needs compressor pressure
 ;;35.User needs tmm degree of heating
-(defn tmm-degree-heating
-  [t3 t0]
-  (/ t3 t0))
 
 ;;36.User needs tmm Mixing ratio of fuel and air
 (defn tmm-mixing-ratio
