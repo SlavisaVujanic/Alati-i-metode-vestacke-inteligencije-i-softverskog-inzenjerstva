@@ -827,6 +827,9 @@
                         (.setText tmm-compressor-text3 (format "%.3f" (proj/division(Double/parseDouble(.getText tmm-compressor-text1)) (Double/parseDouble (.getText tmm-inlet-text3)))))
                         (.setText tmm-compressor-text4 (format "%.3f" (proj/multiplication(Double/parseDouble(.getText tmm-compressor-text3)) (Double/parseDouble (.getText tmm-inlet-text5)))))
                         (.setText tmm-compressor-text5 (format "%.3f" (proj/multiplication(Double/parseDouble(.getText tmm-par27-text)) (Double/parseDouble (.getText tmm-inlet-text4)))))
+                        (.setText tmm-chamber-text1 (format "%.3f" (proj/multiplication(Double/parseDouble(.getText tmm-compressor-text2)) (Double/parseDouble (.getText tmm-par12-text)))))
+                        (.setText tmm-chamber-text2 (format "%.3f" (proj/tmm-mixing-ratio (Double/parseDouble(.getText tmm-par2-text)) (Double/parseDouble (.getText tmm-par29-text)) (Double/parseDouble(.getText tmm-par1-text)) (Double/parseDouble (.getText tmm-compressor-text1)) (Double/parseDouble(.getText tmm-par13-text)) (Double/parseDouble (.getText tmm-par17-text)))))
+                        (.setText tmm-chamber-text3 (format "%.3f" (proj/division(Double/parseDouble(.getText tmm-par29-text)) (Double/parseDouble (.getText tmm-par24-text)))))
                         )))
 
 
