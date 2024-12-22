@@ -1,7 +1,8 @@
 (ns project.gui
   (:import (java.util Locale)
-           (javax.swing JOptionPane))
-  (:require [project.core :as proj]))
+           (javax.swing JOptionPane JPasswordField))
+  (:require [project.core :as proj]
+            [project.base :as db]))
 (Locale/setDefault Locale/US)
 
 (import '(javax.swing JFrame JLabel JTextField JButton)
@@ -11,7 +12,12 @@
 (let [main-frame (new JFrame "Aircraft Performance")
       main-nmm-button (new JButton "NMM")
       main-tmm-button (new JButton "TMM")
-
+      login-frame (new JFrame "Login")
+      username-label (new JLabel "Username:")
+      password-label (new JLabel "Password:")
+      username-text (new JTextField)
+      password-text (new JPasswordField)
+      login-button (new JButton "Login")
       nmm-frame (new JFrame "NMM")
       par1-label (new JLabel "Cpv")
       par2-label (new JLabel "Cpps")
@@ -296,7 +302,13 @@
       tmm-btns [calc-tmm-button check-tmm-btn reset-tmm-btn tmm-btn]]
 
 
-
+;;login-frame
+  (.setLayout login-frame nil)
+  (.setBounds username-label 50 30 75 30)
+  (.setBounds username-text 130 30 120 30)
+  (.setBounds password-label 50 70 75 30)
+  (.setBounds password-text 130 70 120 30)
+  (.setBounds login-button 120 130 80 30)
 ;;main-frame
   (.setLayout main-frame nil)
   (.setBounds main-nmm-button 0 0 100 50)
@@ -837,13 +849,24 @@
                         (.setText tmm-other-text4 (format "%.3f" (proj/multiplication(Double/parseDouble(.getText tmm-other-text3)) 36000)))
                         )))
 
+  (doto login-frame
+    (.setDefaultCloseOperation JFrame/EXIT_ON_CLOSE)
+    (.setSize 300 200)
+    (.setResizable false)
+    (.setVisible true)
+    (.setLocationRelativeTo nil)
+    (.add username-label)
+    (.add username-text)
+    (.add password-label)
+    (.add password-text)
+    (.add login-button))
 
   (doto main-frame
     (.setDefaultCloseOperation JFrame/EXIT_ON_CLOSE)
     (.setSize 330 87)
     (.setResizable false)
     (.setLocationRelativeTo nil)
-    (.setVisible true)
+    (.setVisible false)
     (.add main-nmm-button)
     (.add main-tmm-button))
 
@@ -854,8 +877,8 @@
     (.setLocationRelativeTo nil)
     (.setVisible false))
 
-(doseq [component (concat fields-one fields-zero fields-expr labels-expr labels-one labels-zero btns)]
-  (.add nmm-frame component))
+  (doseq [component (concat fields-one fields-zero fields-expr labels-expr labels-one labels-zero btns)]
+    (.add nmm-frame component))
 
   (doto tmm-frame
     (.setDefaultCloseOperation JFrame/EXIT_ON_CLOSE)
@@ -864,5 +887,5 @@
     (.setLocationRelativeTo nil)
     (.setVisible false))
 
-(doseq [components (concat tmm-fields-one tmm-fields-zero tmm-fields-expr tmm-labels-expr tmm-labels-one tmm-labels-zero tmm-btns)]
-  (.add tmm-frame components)))
+  (doseq [components (concat tmm-fields-one tmm-fields-zero tmm-fields-expr tmm-labels-expr tmm-labels-one tmm-labels-zero tmm-btns)]
+    (.add tmm-frame components)))
