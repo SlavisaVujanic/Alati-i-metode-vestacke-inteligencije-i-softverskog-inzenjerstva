@@ -328,18 +328,20 @@
                       (actionPerformed [evt]
                         (let [host "localhost"
                               dbname "Clojure"
-                              username (username-text)
-                              password (password-text)
+                              username (.getText username-text)
+                              password (String. (.getPassword password-text))
                               account-type (db/authenticate host dbname username password)]
                           (cond
-                            (= account-type "Admin") (do (JOptionPane/showMessageDialog nil "Login successful!") (accounts-frame))
-                            (= account-type "TMM") (do (JOptionPane/showMessageDialog nil "Login successful!") (tmm-frame))
-                            (= account-type "NMM") (do (JOptionPane/showMessageDialog nil "Login successful!") (nmm-frame))
-                            (= account-type "Director") (do (JOptionPane/showMessageDialog nil "Login successful!") (main-frame))
-                            :else (JOptionPane/showMessageDialog nil "Invalid username or password."))))))
+                            (= account-type "Admin") (do (JOptionPane/showMessageDialog nil "Login successful!") (.setVisible accounts-frame true) (.setVisible login-frame false))
+                            (= account-type "TMM") (do (JOptionPane/showMessageDialog nil "Login successful!") (.setVisible tmm-frame true) (.setVisible login-frame false))
+                            (= account-type "NMM") (do (JOptionPane/showMessageDialog nil "Login successful!") (.setVisible nmm-frame true) (.setVisible login-frame false))
+                            (= account-type "Director") (do (JOptionPane/showMessageDialog nil "Login successful!") (.setVisible main-frame true) (.setVisible login-frame false))
+                            :else (JOptionPane/showMessageDialog nil "Invalid username or password.") )))))
 
 ;;accounts-frame
-(.setLayout accounts-frame (new FlowLayout))
+  (.setLayout accounts-frame (new FlowLayout))
+  (doseq [user (db/get-all-users "localhost" "Clojure")]
+    (.addRow table-model (into-array [(get user :username) (get user :password) (get user :type)])))
 ;;main-frame
   (.setLayout main-frame nil)
   (.setBounds main-nmm-button 0 0 100 50)
@@ -884,7 +886,7 @@
     (.setDefaultCloseOperation JFrame/EXIT_ON_CLOSE)
     (.setSize 300 200)
     (.setResizable false)
-    (.setVisible false)
+    (.setVisible true)
     (.setLocationRelativeTo nil)
     (.add username-label)
     (.add username-text)
@@ -896,7 +898,7 @@
     (.setDefaultCloseOperation JFrame/EXIT_ON_CLOSE)
     (.setSize 500 500)
     (.setResizable false)
-    (.setVisible true)
+    (.setVisible false)
     (.setLocationRelativeTo nil)
     (.add username-acc-text)
     (.add password-acc-text)
