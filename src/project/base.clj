@@ -12,8 +12,7 @@
 (defn authenticate [host dbname username password]
   (let [db-spec (create-db-spec host dbname)
         result (jdbc/query db-spec
-                           ["SELECT * FROM users WHERE username = ? AND password = ?"
-                            username password])]
+                           ["SELECT * FROM users WHERE username = ? AND password = ?" username password])]
     (if (empty? result)
       nil
       (first result))))
@@ -27,3 +26,9 @@
 (defn delete-user [host dbname username]
   (let [db-spec (create-db-spec host dbname)]
     (jdbc/delete! db-spec :users ["username = ?" username])))
+
+(defn update-user [host dbname username new-password new-account-type]
+  (let [db-spec (create-db-spec host dbname)]
+    (jdbc/update! db-spec :users
+                  {:password new-password :account_type new-account-type}
+                  ["username = ?" username])))
