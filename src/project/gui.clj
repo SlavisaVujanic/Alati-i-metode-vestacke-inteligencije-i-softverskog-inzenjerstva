@@ -1,6 +1,8 @@
 (ns project.gui
-  (:import (java.util Locale)
-           (javax.swing JOptionPane JPasswordField))
+  (:import (java.awt FlowLayout)
+           (java.util Locale)
+           (javax.swing JComboBox JOptionPane JPasswordField JScrollPane JTable)
+           (javax.swing.table DefaultTableModel))
   (:require [project.core :as proj]
             [project.base :as db]))
 (Locale/setDefault Locale/US)
@@ -13,12 +15,22 @@
       main-nmm-button (new JButton "NMM")
       main-tmm-button (new JButton "TMM")
       login-frame (new JFrame "Login")
-      accounts-frame (new JFrame "Accounts")
       username-label (new JLabel "Username:")
       password-label (new JLabel "Password:")
       username-text (new JTextField)
       password-text (new JPasswordField)
       login-button (new JButton "Login")
+      accounts-frame (new JFrame "Accounts Management")
+      username-acc-text (new JTextField 15)
+      password-acc-text (new JTextField 15)
+      account-types (into-array ["Admin" "TMM" "NMM" "Director"])
+      account-type-combo (new JComboBox account-types)
+      table-model (new DefaultTableModel (into-array ["Username" "Password" "Account Type"]) 0)
+      user-table (new JTable table-model)
+      add-button (new JButton "Add User")
+      delete-button (new JButton "Delete User")
+      update-button (new JButton "Update User")
+      scroll-pane (new JScrollPane user-table)
       nmm-frame (new JFrame "NMM")
       par1-label (new JLabel "Cpv")
       par2-label (new JLabel "Cpps")
@@ -326,7 +338,8 @@
                             (= account-type "Director") (do (JOptionPane/showMessageDialog nil "Login successful!") (main-frame))
                             :else (JOptionPane/showMessageDialog nil "Invalid username or password."))))))
 
-
+;;accounts-frame
+(.setLayout accounts-frame (new FlowLayout))
 ;;main-frame
   (.setLayout main-frame nil)
   (.setBounds main-nmm-button 0 0 100 50)
@@ -871,13 +884,27 @@
     (.setDefaultCloseOperation JFrame/EXIT_ON_CLOSE)
     (.setSize 300 200)
     (.setResizable false)
-    (.setVisible true)
+    (.setVisible false)
     (.setLocationRelativeTo nil)
     (.add username-label)
     (.add username-text)
     (.add password-label)
     (.add password-text)
     (.add login-button))
+
+  (doto accounts-frame
+    (.setDefaultCloseOperation JFrame/EXIT_ON_CLOSE)
+    (.setSize 500 500)
+    (.setResizable false)
+    (.setVisible true)
+    (.setLocationRelativeTo nil)
+    (.add username-acc-text)
+    (.add password-acc-text)
+    (.add account-type-combo)
+    (.add add-button)
+    (.add delete-button)
+    (.add update-button)
+    (.add scroll-pane))
 
   (doto main-frame
     (.setDefaultCloseOperation JFrame/EXIT_ON_CLOSE)
