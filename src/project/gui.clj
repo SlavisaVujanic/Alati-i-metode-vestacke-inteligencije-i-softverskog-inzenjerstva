@@ -13,6 +13,7 @@
       main-nmm-button (new JButton "NMM")
       main-tmm-button (new JButton "TMM")
       login-frame (new JFrame "Login")
+      accounts-frame (new JFrame "Accounts")
       username-label (new JLabel "Username:")
       password-label (new JLabel "Password:")
       username-text (new JTextField)
@@ -309,6 +310,23 @@
   (.setBounds password-label 50 70 75 30)
   (.setBounds password-text 130 70 120 30)
   (.setBounds login-button 120 130 80 30)
+
+(.addActionListener login-button
+                    (proxy [ActionListener] []
+                      (actionPerformed [evt]
+                        (let [host "localhost"
+                              dbname "Clojure"
+                              username (username-text)
+                              password (password-text)
+                              account-type (db/authenticate host dbname username password)]
+                          (cond
+                            (= account-type "Admin") (do (JOptionPane/showMessageDialog nil "Login successful!") (accounts-frame))
+                            (= account-type "TMM") (do (JOptionPane/showMessageDialog nil "Login successful!") (tmm-frame))
+                            (= account-type "NMM") (do (JOptionPane/showMessageDialog nil "Login successful!") (nmm-frame))
+                            (= account-type "Director") (do (JOptionPane/showMessageDialog nil "Login successful!") (main-frame))
+                            :else (JOptionPane/showMessageDialog nil "Invalid username or password."))))))
+
+
 ;;main-frame
   (.setLayout main-frame nil)
   (.setBounds main-nmm-button 0 0 100 50)
