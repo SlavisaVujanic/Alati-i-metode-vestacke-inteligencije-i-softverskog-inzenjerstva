@@ -344,16 +344,38 @@
   (doseq [user (db/get-all-users "localhost" "Clojure")]
     (.addRow table-model (into-array [(get user :username) (get user :password) (get user :type)])))
 
-(.addMouseListener user-table
-                   (proxy [MouseAdapter] []
-                     (mouseClicked [e]
-                       (let [selected-row (.getSelectedRow user-table)
-                             username (.getValueAt user-table selected-row 0)
-                             password (.getValueAt user-table selected-row 1)
-                             account-type (.getValueAt user-table selected-row 2)]
-                         (.setText username-acc-text (str username))
-                         (.setText password-acc-text (str password))
-                         (.setSelectedItem account-type-combo (str account-type))))))
+  (.addMouseListener user-table
+                     (proxy [MouseAdapter] []
+                       (mouseClicked [e]
+                         (let [selected-row (.getSelectedRow user-table)
+                               username (.getValueAt user-table selected-row 0)
+                               password (.getValueAt user-table selected-row 1)
+                               account-type (.getValueAt user-table selected-row 2)]
+                          (.setText username-acc-text (str username))
+                          (.setText password-acc-text (str password))
+                          (.setSelectedItem account-type-combo (str account-type))))))
+
+(.addActionListener add-button
+                    (proxy [java.awt.event.ActionListener] []
+                      (actionPerformed [e]
+                        (let [username (.getText username-acc-text)
+                              password (.getText password-acc-text)
+                              account-type (.getSelectedItem account-type-combo)
+                              host "localhost"
+                              dbname "Clojure"]
+                          (if (and (not (empty? username))
+                                   (not (empty? password))
+                                   (not (empty? account-type)))
+                            (try
+                              (db/add-user host dbname username password (str account-type))
+                              (.addRow table-model (into-array [username password account-type]))
+                              (JOptionPane/showMessageDialog accounts-frame "User added successfully!")
+                              (catch Exception ex
+                                (JOptionPane/showMessageDialog accounts-frame
+                                                               (str "Failed to add user: " (.getMessage ex))
+                                                               "Error"
+                                                               JOptionPane/ERROR_MESSAGE)))
+                            (JOptionPane/showMessageDialog accounts-frame "All fields are required!"))))))
 
 ;;main-frame
   (.setLayout main-frame nil)
