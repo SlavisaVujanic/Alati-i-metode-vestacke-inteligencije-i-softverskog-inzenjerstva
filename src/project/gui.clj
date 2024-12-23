@@ -355,7 +355,7 @@
                           (.setText password-acc-text (str password))
                           (.setSelectedItem account-type-combo (str account-type))))))
 
-(.addActionListener add-button
+  (.addActionListener add-button
                     (proxy [java.awt.event.ActionListener] []
                       (actionPerformed [e]
                         (let [username (.getText username-acc-text)
@@ -369,6 +369,8 @@
                             (try
                               (db/add-user host dbname username password (str account-type))
                               (.addRow table-model (into-array [username password account-type]))
+                              (.setText username-acc-text "")
+                              (.setText password-acc-text "")
                               (JOptionPane/showMessageDialog accounts-frame "User added successfully!")
                               (catch Exception ex
                                 (JOptionPane/showMessageDialog accounts-frame
@@ -376,6 +378,28 @@
                                                                "Error"
                                                                JOptionPane/ERROR_MESSAGE)))
                             (JOptionPane/showMessageDialog accounts-frame "All fields are required!"))))))
+
+(.addActionListener delete-button
+                    (proxy [java.awt.event.ActionListener] []
+                      (actionPerformed [e]
+                        (let [selected-row (.getSelectedRow user-table)
+                              host "localhost"
+                              dbname "Clojure"]
+                          (if (>= selected-row 0)
+                            (let [username (.getValueAt (.getModel user-table) selected-row 0)]
+                              (try
+                                (db/delete-user host dbname username)
+                                (.removeRow table-model selected-row)
+                                (.setText username-acc-text "")
+                                (.setText password-acc-text "")
+                                (JOptionPane/showMessageDialog accounts-frame "User deleted successfully!")
+                                (catch Exception ex
+                                  (JOptionPane/showMessageDialog accounts-frame
+                                                                 (str "Failed to delete user: " (.getMessage ex))
+                                                                 "Error"
+                                                                 JOptionPane/ERROR_MESSAGE))))
+                            (JOptionPane/showMessageDialog accounts-frame "Please select a user to delete!"))))))
+
 
 ;;main-frame
   (.setLayout main-frame nil)
