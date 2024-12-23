@@ -400,6 +400,27 @@
                                                                  JOptionPane/ERROR_MESSAGE))))
                             (JOptionPane/showMessageDialog accounts-frame "Please select a user to delete!"))))))
 
+    (.addActionListener update-button
+                      (proxy [java.awt.event.ActionListener] []
+                        (actionPerformed [e]
+                          (let [selected-row (.getSelectedRow user-table)
+                                host "localhost"
+                                dbname "Clojure"
+                                username (.getText username-acc-text)
+                                new-password (.getText password-acc-text)
+                                new-account-type (.getSelectedItem account-type-combo)]
+                            (if (>= selected-row 0)
+                              (try
+                                (db/update-user host dbname username new-password new-account-type)
+                                (.setValueAt (.getModel user-table) new-password selected-row 1)
+                                (.setValueAt (.getModel user-table) new-account-type selected-row 2)
+                                (JOptionPane/showMessageDialog accounts-frame "User updated successfully!")
+                                (catch Exception ex
+                                  (JOptionPane/showMessageDialog accounts-frame
+                                                                 (str "Failed to update user: " (.getMessage ex))
+                                                                 "Error"
+                                                                 JOptionPane/ERROR_MESSAGE)))
+                              (JOptionPane/showMessageDialog accounts-frame "Please select a user to update!"))))))
 
 ;;main-frame
   (.setLayout main-frame nil)
