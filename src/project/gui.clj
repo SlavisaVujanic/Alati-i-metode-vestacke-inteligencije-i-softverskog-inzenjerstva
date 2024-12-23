@@ -1,5 +1,6 @@
 (ns project.gui
   (:import (java.awt FlowLayout)
+           (java.awt.event MouseAdapter)
            (java.util Locale)
            (javax.swing JComboBox JOptionPane JPasswordField JScrollPane JTable)
            (javax.swing.table DefaultTableModel))
@@ -332,9 +333,9 @@
                               password (String. (.getPassword password-text))
                               account-type (db/authenticate host dbname username password)]
                           (cond
-                            (= account-type "Admin") (do (JOptionPane/showMessageDialog nil "Login successful!") (.setVisible accounts-frame true) (.setVisible login-frame false))
-                            (= account-type "TMM") (do (JOptionPane/showMessageDialog nil "Login successful!") (.setVisible tmm-frame true) (.setVisible login-frame false))
-                            (= account-type "NMM") (do (JOptionPane/showMessageDialog nil "Login successful!") (.setVisible nmm-frame true) (.setVisible login-frame false))
+                            (= account-type "Admin") (do (JOptionPane/showMessageDialog nil "Login successful!") (.setVisible accounts-frame true)  (.setVisible login-frame false))
+                            (= account-type "TMM") (do (JOptionPane/showMessageDialog nil "Login successful!") (.setVisible tmm-frame true) (.setVisible tmm-btn false) (.setVisible login-frame false))
+                            (= account-type "NMM") (do (JOptionPane/showMessageDialog nil "Login successful!") (.setVisible nmm-frame true) (.setVisible nmm-btn false) (.setVisible login-frame false))
                             (= account-type "Director") (do (JOptionPane/showMessageDialog nil "Login successful!") (.setVisible main-frame true) (.setVisible login-frame false))
                             :else (JOptionPane/showMessageDialog nil "Invalid username or password.") )))))
 
@@ -342,6 +343,18 @@
   (.setLayout accounts-frame (new FlowLayout))
   (doseq [user (db/get-all-users "localhost" "Clojure")]
     (.addRow table-model (into-array [(get user :username) (get user :password) (get user :type)])))
+
+(.addMouseListener user-table
+                   (proxy [MouseAdapter] []
+                     (mouseClicked [e]
+                       (let [selected-row (.getSelectedRow user-table)
+                             username (.getValueAt user-table selected-row 0)
+                             password (.getValueAt user-table selected-row 1)
+                             account-type (.getValueAt user-table selected-row 2)]
+                         (.setText username-acc-text (str username))
+                         (.setText password-acc-text (str password))
+                         (.setSelectedItem account-type-combo (str account-type))))))
+
 ;;main-frame
   (.setLayout main-frame nil)
   (.setBounds main-nmm-button 0 0 100 50)
