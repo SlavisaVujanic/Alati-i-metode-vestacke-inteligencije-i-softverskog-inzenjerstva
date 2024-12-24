@@ -1,16 +1,12 @@
 (ns project.gui
-  (:import (java.awt FlowLayout)
-           (java.awt.event MouseAdapter)
+  (:import (java.awt Color FlowLayout GridLayout)
+           (java.awt.event MouseAdapter ActionListener)
            (java.util Locale)
-           (javax.swing JComboBox JOptionPane JPasswordField JScrollPane JTable)
+           (javax.swing JComboBox JOptionPane JPasswordField JScrollPane JTable JFrame JLabel JTextField JButton)
            (javax.swing.table DefaultTableModel))
   (:require [project.core :as proj]
             [project.base :as db]))
 (Locale/setDefault Locale/US)
-
-(import '(javax.swing JFrame JLabel JTextField JButton)
-        '(java.awt.event ActionListener)
-        '(java.awt GridLayout))
 
 (let [main-frame (new JFrame "Aircraft Performance")
       main-nmm-button (new JButton "NMM")
@@ -323,6 +319,9 @@
   (.setBounds password-label 50 70 75 30)
   (.setBounds password-text 130 70 120 30)
   (.setBounds login-button 120 130 80 30)
+  (.setBackground login-button (Color. 173 216 230))
+  (.setBackground (.getContentPane login-frame) (Color. 227 242 253))
+
 
 (.addActionListener login-button
                     (proxy [ActionListener] []
@@ -339,10 +338,22 @@
                             (= account-type "Director") (do (JOptionPane/showMessageDialog nil "Login successful!") (.setVisible main-frame true) (.setVisible login-frame false))
                             :else (JOptionPane/showMessageDialog nil "Invalid username or password.") )))))
 
+  (.addMouseListener login-button
+                   (proxy [MouseAdapter] []
+                     (mouseEntered [e]
+                       (.setBackground login-button (Color. 135 206 250)))
+                     (mouseExited [e]
+                       (.setBackground login-button (Color. 173 216 230)))))
+
 ;;accounts-frame
   (.setLayout accounts-frame (new FlowLayout))
   (doseq [user (db/get-all-users "localhost" "Clojure")]
     (.addRow table-model (into-array [(get user :username) (get user :password) (get user :type)])))
+  (.setSelectedIndex account-type-combo -1)
+  (.setBackground add-button (Color. 173 216 230))
+  (.setBackground delete-button (Color. 173 216 230))
+  (.setBackground update-button (Color. 173 216 230))
+  (.setBackground (.getContentPane accounts-frame) (Color. 227 242 253))
 
   (.addMouseListener user-table
                      (proxy [MouseAdapter] []
@@ -354,6 +365,13 @@
                           (.setText username-acc-text (str username))
                           (.setText password-acc-text (str password))
                           (.setSelectedItem account-type-combo (str account-type))))))
+
+  (.addMouseListener add-button
+                   (proxy [MouseAdapter] []
+                     (mouseEntered [e]
+                       (.setBackground add-button (Color. 135 206 250)))
+                     (mouseExited [e]
+                       (.setBackground add-button (Color. 173 216 230)))))
 
   (.addActionListener add-button
                     (proxy [java.awt.event.ActionListener] []
@@ -379,7 +397,14 @@
                                                                JOptionPane/ERROR_MESSAGE)))
                             (JOptionPane/showMessageDialog accounts-frame "All fields are required!"))))))
 
-(.addActionListener delete-button
+  (.addMouseListener delete-button
+                   (proxy [MouseAdapter] []
+                     (mouseEntered [e]
+                       (.setBackground delete-button (Color. 135 206 250)))
+                     (mouseExited [e]
+                       (.setBackground delete-button (Color. 173 216 230)))))
+
+  (.addActionListener delete-button
                     (proxy [java.awt.event.ActionListener] []
                       (actionPerformed [e]
                         (let [selected-row (.getSelectedRow user-table)
@@ -399,6 +424,13 @@
                                                                  "Error"
                                                                  JOptionPane/ERROR_MESSAGE))))
                             (JOptionPane/showMessageDialog accounts-frame "Please select a user to delete!"))))))
+
+    (.addMouseListener update-button
+                   (proxy [MouseAdapter] []
+                     (mouseEntered [e]
+                       (.setBackground update-button (Color. 135 206 250)))
+                     (mouseExited [e]
+                       (.setBackground login-button (Color. 173 216 230)))))
 
     (.addActionListener update-button
                       (proxy [java.awt.event.ActionListener] []
@@ -424,8 +456,16 @@
 
 ;;main-frame
   (.setLayout main-frame nil)
-  (.setBounds main-nmm-button 0 0 100 50)
-  (.setBounds main-tmm-button 220 0 100 50)
+  (.setBounds main-nmm-button 20 0 100 50)
+  (.setBounds main-tmm-button 200 0 100 50)
+  (.setBackground (.getContentPane main-frame) (Color. 227 242 253))
+
+  (.addMouseListener main-nmm-button
+                   (proxy [MouseAdapter] []
+                     (mouseEntered [e]
+                       (.setBackground main-nmm-button (Color. 135 206 250)))
+                     (mouseExited [e]
+                       (.setBackground main-nmm-button (Color. 173 216 230)))))
 
   (.addActionListener main-nmm-button
                       (proxy [ActionListener] []
@@ -433,14 +473,24 @@
                           (.setVisible main-frame false)
                           (.setVisible nmm-frame true))))
 
+
+
   (.addActionListener main-tmm-button
                       (proxy [ActionListener] []
                         (actionPerformed [evt]
                           (.setVisible main-frame false)
                           (.setVisible tmm-frame true))))
 
+  (.addMouseListener main-tmm-button
+                   (proxy [MouseAdapter] []
+                     (mouseEntered [e]
+                       (.setBackground main-tmm-button (Color. 135 206 250)))
+                     (mouseExited [e]
+                       (.setBackground main-tmm-button (Color. 173 216 230)))))
+
   ;;nmm-frame
   (.setLayout nmm-frame nil)
+  (.setBackground (.getContentPane nmm-frame) (Color. 227 242 253))
   (.setBounds par1-label 0 5 40 30)
   (.setBounds par1-text 50 5 50 30)
   (.setBounds par2-label 110 5 40 30)
@@ -489,8 +539,8 @@
   (.setBounds par22-text 160 205 50 30)
   (.setBounds par23-label 220 205 40 30)
   (.setBounds par23-text 270 205 50 30)
-  (.setBounds par25-label 0 245 40 30)
-  (.setBounds par25-text 50 245 50 30)
+  (.setBounds par25-label 330 205 40 30)
+  (.setBounds par25-text 380 205 50 30)
   (.setEditable par25-text false)
   (.setBounds par26-label 110 245 40 30)
   (.setBounds par26-text 160 245 50 30)
@@ -503,7 +553,7 @@
   (.setEnabled calc-nmm-button false)
   (.setBounds reset-btn 270 280 100 20)
   (.setEnabled reset-btn false)
-  (.setBounds expression-label 5 300 80 20)
+  (.setBounds expression-label 180 300 80 20)
   (.setBounds exp1-label 5 325 60 30)
   (.setBounds exp1-text 70 325 50 30)
   (.setEditable exp1-text false)
@@ -522,7 +572,7 @@
   (.setBounds exp6-label 280 365 60 30)
   (.setBounds exp6-text 350 365 50 30)
   (.setEditable exp6-text false)
-  (.setBounds inlet-label 5 395 60 20)
+  (.setBounds inlet-label 195 395 60 20)
   (.setBounds inlet-label1 5 420 40 30)
   (.setBounds inlet-text1 55 420 70 30)
   (.setEditable inlet-text1 false)
@@ -532,20 +582,20 @@
   (.setBounds inlet-label3 280 420 60 30)
   (.setBounds inlet-text3 350 420 50 30)
   (.setEditable inlet-text3 false)
-  (.setBounds inlet-label4 5 460 60 30)
-  (.setBounds inlet-text4 70 460 50 30)
+  (.setBounds inlet-label4 65 460 60 30)
+  (.setBounds inlet-text4 130 460 50 30)
   (.setEditable inlet-text4 false)
-  (.setBounds inlet-label5 130 460 70 30)
-  (.setBounds inlet-text5 210 460 50 30)
+  (.setBounds inlet-label5 220 460 40 30)
+  (.setBounds inlet-text5 270 460 50 30)
   (.setEditable inlet-text5 false)
-  (.setBounds chamber-label 5 490 120 15)
-  (.setBounds chamber-label1 5 510 20 20)
-  (.setBounds chamber-text1 55 510 70 30)
+  (.setBounds chamber-label 160 490 120 15)
+  (.setBounds chamber-label1 55 510 20 20)
+  (.setBounds chamber-text1 105 510 70 30)
   (.setEditable chamber-text1 false)
-  (.setBounds chamber-label3 130 510 20 20)
-  (.setBounds chamber-text3 210 510 50 30)
+  (.setBounds chamber-label3 210 510 40 20)
+  (.setBounds chamber-text3 260 510 50 30)
   (.setEditable chamber-text3 false)
-  (.setBounds jet-label 5 545 40 20)
+  (.setBounds jet-label 210 545 40 20)
   (.setBounds jet-label1 5 570 30 20)
   (.setBounds jet-text1 70 570 50 30)
   (.setEditable jet-text1 false)
@@ -555,7 +605,7 @@
   (.setBounds jet-label3 280 570 25 20)
   (.setBounds jet-text3 350 570 50 30)
   (.setEditable jet-text3 false)
-  (.setBounds other-label 5 600 130 25)
+  (.setBounds other-label 175 600 130 25)
   (.setBounds g-label 5 630 20 20)
   (.setBounds g-text 30 630 70 30)
   (.setEditable g-text false)
@@ -565,7 +615,7 @@
   (.setBounds fsp-label 260 630 35 20)
   (.setBounds fsp-text 330 630 70 30)
   (.setEditable fsp-text false)
-  (.setBounds q-label 5 670 230 25)
+  (.setBounds q-label 110 670 230 25)
   (.setBounds a-label 5 700 20 20)
   (.setBounds a-text 30 700 60 30)
   (.setEditable a-text false)
@@ -643,6 +693,34 @@
                         (.setEnabled check-btn true)
                         (.setEnabled reset-btn false))))
 
+(.addMouseListener nmm-btn
+                   (proxy [MouseAdapter] []
+                     (mouseEntered [e]
+                       (.setBackground nmm-btn (Color. 135 206 250)))
+                     (mouseExited [e]
+                       (.setBackground nmm-btn (Color. 173 216 230)))))
+
+(.addMouseListener check-btn
+                   (proxy [MouseAdapter] []
+                     (mouseEntered [e]
+                       (.setBackground check-btn (Color. 135 206 250)))
+                     (mouseExited [e]
+                       (.setBackground check-btn (Color. 173 216 230)))))
+
+(.addMouseListener reset-btn
+                   (proxy [MouseAdapter] []
+                     (mouseEntered [e]
+                       (.setBackground reset-btn (Color. 135 206 250)))
+                     (mouseExited [e]
+                       (.setBackground reset-btn (Color. 173 216 230)))))
+
+(.addMouseListener calc-nmm-button
+                   (proxy [MouseAdapter] []
+                     (mouseEntered [e]
+                       (.setBackground calc-nmm-button (Color. 135 206 250)))
+                     (mouseExited [e]
+                       (.setBackground calc-nmm-button (Color. 173 216 230)))))
+
 (.addActionListener calc-nmm-button
                     (proxy [ActionListener] []
                       (actionPerformed [evt]
@@ -688,6 +766,7 @@
 
   ;;tmm-frame
   (.setLayout tmm-frame nil)
+  (.setBackground (.getContentPane tmm-frame) (Color. 227 242 253))
   (.setBounds tmm-par1-label 0 5 40 30)
   (.setBounds tmm-par1-text 50 5 50 30)
   (.setBounds tmm-par2-label 110 5 40 30)
@@ -739,11 +818,11 @@
   (.setBounds tmm-par24-label 550 125 40 30)
   (.setBounds tmm-par24-text 600 125 50 30)
   (.setEditable tmm-par24-text false)
-  (.setBounds tmm-par25-label 0 165 40 30)
-  (.setBounds tmm-par25-text 50 165 50 30)
+  (.setBounds tmm-par25-label 220 165 40 30)
+  (.setBounds tmm-par25-text 270 165 50 30)
   (.setEditable tmm-par25-text false)
-  (.setBounds tmm-par26-label 110 165 40 30)
-  (.setBounds tmm-par26-text 160 165 50 30)
+  (.setBounds tmm-par26-label 330 165 40 30)
+  (.setBounds tmm-par26-text 380 165 50 30)
   (.setEditable tmm-par26-text false)
   (.setBounds check-tmm-btn 180 205 100 20)
   (.setBounds calc-tmm-button 290 205 100 20)
@@ -882,6 +961,13 @@
                         (.setEnabled reset-tmm-btn false)
                         (.setEnabled calc-tmm-button false))))
 
+(.addMouseListener tmm-btn
+                   (proxy [MouseAdapter] []
+                     (mouseEntered [e]
+                       (.setBackground tmm-btn (Color. 135 206 250)))
+                     (mouseExited [e]
+                       (.setBackground tmm-btn (Color. 173 216 230)))))
+
 (.addActionListener check-tmm-btn
                     (proxy [ActionListener] []
                       (actionPerformed [evt]
@@ -897,8 +983,14 @@
                                 (some #(<= % 0) (:values-zero validation-result))
                                 (JOptionPane/showMessageDialog nil "All values (except kv, kps) must be greater than 0.")
                                 (some #(not (proj/greater-than-one? % )) (:values-one validation-result))
-                                (JOptionPane/showMessageDialog nil "Some values (kv,kps) must be greater than 1."))
-                              ))))))
+                                (JOptionPane/showMessageDialog nil "Some values (kv,kps) must be greater than 1."))))))))
+
+(.addMouseListener check-tmm-btn
+                   (proxy [MouseAdapter] []
+                     (mouseEntered [e]
+                       (.setBackground check-tmm-btn (Color. 135 206 250)))
+                     (mouseExited [e]
+                       (.setBackground check-tmm-btn (Color. 173 216 230)))))
 
 (.addActionListener reset-tmm-btn
                     (proxy [ActionListener] []
@@ -912,6 +1004,20 @@
                         (.setEnabled calc-tmm-button false)
                         (.setEnabled check-tmm-btn true)
                         (.setEnabled reset-tmm-btn false))))
+
+(.addMouseListener reset-tmm-btn
+                   (proxy [MouseAdapter] []
+                     (mouseEntered [e]
+                       (.setBackground reset-tmm-btn (Color. 135 206 250)))
+                     (mouseExited [e]
+                       (.setBackground reset-tmm-btn (Color. 173 216 230)))))
+
+(.addMouseListener calc-tmm-button
+                   (proxy [MouseAdapter] []
+                     (mouseEntered [e]
+                       (.setBackground calc-tmm-button (Color. 135 206 250)))
+                     (mouseExited [e]
+                       (.setBackground calc-tmm-button (Color. 173 216 230)))))
 
 (.addActionListener calc-tmm-button
                     (proxy [ActionListener] []

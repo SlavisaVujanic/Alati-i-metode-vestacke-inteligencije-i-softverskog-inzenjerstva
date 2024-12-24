@@ -16,9 +16,7 @@
                            ["SELECT Type FROM Accounts WHERE username = ? AND password = ?" username password])]
     (if (empty? result)
       nil
-      (-> (first result)
-          :type
-          (.trim)))))
+      (.trim (:type (first result))))))
 
 
 (defn add-user [host dbname username password account-type]
