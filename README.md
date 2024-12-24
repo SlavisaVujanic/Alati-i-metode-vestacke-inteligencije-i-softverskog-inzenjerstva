@@ -38,3 +38,13 @@ This application is used to calculate the performance of aircraft, more precisel
 30. Checking if the value is greater than 1, used later for field validation (greater-than-one?)
 31. Parse values from JTextFields (parse)
 32. Field validation is performed based on the condition that the entered parameter must be greater than a predefined value (validate-fields)
+
+### Base
+
+1. Function for setting important database-related parameters (create-db-spec)
+2. User authentication, depending on the account type, determines further actions in the application (authenticate)
+3. Adding users to the database (add-user)
+4. Deleting users from the database (delete-user)
+5. Updating user data (update-user)
+6. List of all users required for the table (get-all-users)
+
