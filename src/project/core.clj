@@ -182,7 +182,7 @@
 [q mv F]
   (/ (* q mv) F))
 
-;;31
+;;31.Checks if the value is greater than 1
 (defn greater-than-one? [n]
   (> n 1))
 
