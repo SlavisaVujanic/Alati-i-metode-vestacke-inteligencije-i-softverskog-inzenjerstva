@@ -2,10 +2,10 @@
   (:gen-class) )
 
 
-;;1.Multiplication changes some functions ;;functions p1*,t1*,aircraft-weight-p2*,t2*,mg,csph||  p2-tmm tau-sum tau-k pi-sum p3-tmm tmm-csph
+;;1.Multiplication changes some functions ;;functions p1*,t1*,aircraft-weight-p2*,t2*,mg,csph air-flow||  p2-tmm tau-sum tau-k pi-sum p3-tmm tmm-csph
 (defn multiplication
-  [a b]
-  (* a b))
+  [& args]
+  (apply * args))
 
 ;;2.Dividing changes some functions ;;functions pimr piu-v2,thrust,specific-thrust,csps||  tmm-degree-heating tmm-p4 tau-t tmm-pimr pout tmm-degree-heating
 (defn division
@@ -76,123 +76,118 @@
 [vi c1 fi]
   (Math/pow (/ vi (* c1 fi)) 2))
 
-;;11.User needs Mass air flow
-(defn air-flow
-  [v0 ro0 Au]
-  (* v0 ro0 Au))
-
-;;12.User needs Constant for easy calculation
+;;11.User needs Constant for easy calculation
 (defn easy-calculation
   [Cpps T0 pimr kps]
   (Math/sqrt (* 2 (* Cpps (* T0 (- 1 (Math/pow (/ 1 pimr) (fn2 kps))))))))
 
-;;13.User needs Mixing ratio of fuel and air
+;;12.User needs Mixing ratio of fuel and air
 (defn ratio-fuel-air
   [a b c]
   (/ (- (Math/sqrt (- (Math/pow b 2) (* 4 (* a c)))) b) (* 2 a)))
 
-;;14.User needs coefficient a
+;;13.User needs coefficient a
 (defn coeff-a
 [Hd sigmag Cpv T0]
   (/ (* Hd sigmag) (* Cpv T0)))
 
-;;15.User needs coefficient b
+;;14.User needs coefficient b
 (defn coeff-b
   [tau a]
   (+ tau a) )
 
-;;16.User needs coefficient c
+;;15.User needs coefficient c
 (defn coeff-c
   [tau cpps cpv v0 fsp c1 r]
   (- tau (* (/ cpps cpv) (/ (Math/pow (+ v0 fsp) 2) (* (Math/pow c1 2) (Math/pow r 2))))))
 
 ;;Combustion chamber
- ;;17.User needs Convergent jet coefficient
+ ;;16.User needs Convergent jet coefficient
 (defn conv-pim
   [pimr1 pikrit]
   (if (> pimr1 pikrit)
     pikrit
     pimr1))
 
-;;18.User needs Jet exit velocity
+;;17.User needs Jet exit velocity
 (defn vi
 [fsp v0 q]
   (/ (+ fsp v0) (+ 1 q)))
 
 ;;compressor
-;;19.User needs temperature in the compressor
+;;18.User needs temperature in the compressor
 (defn t2-tmm
   [t1 pik kv nik]
   (* t1 (+ 1 (* (- (Math/pow pik (fn2 kv)) 1) (/ 1 nik)))))
 
-;;20.User needs tmm Mixing ratio of fuel and air
+;;19.User needs tmm Mixing ratio of fuel and air
 (defn tmm-mixing-ratio
   [cpps t3  cpv t2 sigmag hd]
   (/ (- (* cpps t3) (* cpv t2)) (- (* sigmag hd) (* cpps t3))))
 
 ;;Turbine
-;;21.User needs parameter pi of turbine
+;;20.User needs parameter pi of turbine
 (defn pi-turbine
   [t4 t3 nit kps]
   (Math/pow (- 1 (* (- 1 (/ t4 t3)) (/ 1 nit))) (- 0 (fn1 kps)) ))
 
-;;22.User needs turbine temperature
+;;21.User needs turbine temperature
 (defn tmm-t4
   [t3 wt cpps]
   (- t3 (/ wt cpps)))
 
-;;23.User needs compressor w parameter
+;;22.User needs compressor w parameter
 (defn wk
   [cpv t2 t1]
   (* cpv (- t2 t1)))
 
-;;24.User needs turbine w parameter
+;;23.User needs turbine w parameter
 (defn wt
   [mv wk q sigma nim]
   (/ (* mv wk) (* mv (* nim (+ 1 (- q sigma)))) ))
 
 ;;TMM-jet
-;;25.User needs mass parameter at the jet
+;;24.User needs mass parameter at the jet
 (defn mps
   [mv q sigma]
   (* mv (+ 1 (- q sigma)) ) )
 
-;;26.User needs output velocity
+;;25.User needs output velocity
 (defn tmm-vi
   [fi cpps t4 pim kps]
   (* fi (Math/sqrt (* 2 (* cpps (* t4 (- 1 (/ 1 (Math/pow pim (fn2 kps))))))))))
 
-;;27.User needs parameter dependent on Mach number
+;;26.User needs parameter dependent on Mach number
 (defn func-M
   [m kps]
   (* m (Math/pow (+ m (* (/ (- kps 1) 2) (Math/pow m 2))) (- (/ (+ kps 1) (* 2 (- kps 1)))))))
 
-;;28.User needs output A
+;;27.User needs output A
 (defn out-a
   [mps fm rps kps t4 p4]
   (* (/ mps fm) (* (Math/sqrt (/ rps kps)) (/ (Math/sqrt t4) p4))))
 
-;;29.User needs tmm thrust
+;;28.User needs tmm thrust
 (defn tmm-thrust
   [mv q sigma vi v0 aout pout p0]
   (+ (* mv (- (* (- (+ 1 q) sigma) vi) v0)) (* aout (- pout p0))))
 
-;;30.User needs Specific fuel consumption with 2 different measurement units
+;;29.User needs Specific fuel consumption
 (defn tmm-csps
 [q mv F]
   (/ (* q mv) F))
 
-;;31.Checks if the value is greater than 1
+;;30.Checks if the value is greater than 1
 (defn greater-than-one? [n]
   (> n 1))
 
-;;32.Parse values from JTextFields
+;;31.Parse values from JTextFields
 (defn parse [text]
   (try
     (Double/parseDouble text)
     (catch Exception _ -1)))
 
-;;33.Validate fields
+;;32.Validate fields
 (defn validate-fields [greater-than-zero-fields greater-than-one-fields]
   (let [values-zero (map parse (map #(.getText %) greater-than-zero-fields))
         values-one  (map parse (map #(.getText %) greater-than-one-fields))

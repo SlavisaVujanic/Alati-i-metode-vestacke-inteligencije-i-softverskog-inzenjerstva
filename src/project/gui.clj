@@ -1,5 +1,5 @@
 (ns project.gui
-  (:import (java.awt Color FlowLayout GridLayout)
+  (:import (java.awt Color FlowLayout)
            (java.awt.event MouseAdapter ActionListener)
            (java.util Locale)
            (javax.swing JComboBox JOptionPane JPasswordField JScrollPane JTable JFrame JLabel JTextField JButton)
@@ -312,8 +312,15 @@
       tmm-btns [calc-tmm-button check-tmm-btn reset-tmm-btn tmm-btn]]
 
 
-  (defn create-gui []
-    )
+ (defn hover [btn]
+   (.addMouseListener btn
+                      (proxy [MouseAdapter] []
+                        (mouseEntered [e]
+                          (.setBackground btn (Color. 135 206 250)))
+                        (mouseExited [e]
+                          (.setBackground btn (Color. 173 216 230))))))
+
+
 ;;login-frame
   (.setLayout login-frame nil)
   (.setBounds username-label 50 30 75 30)
@@ -324,6 +331,8 @@
   (.setBackground login-button (Color. 173 216 230))
   (.setBackground (.getContentPane login-frame) (Color. 227 242 253))
 
+ (doseq [btn [login-button add-button delete-button update-button nmm-btn check-btn calc-nmm-button reset-btn calc-tmm-button check-tmm-btn reset-tmm-btn tmm-btn main-nmm-button main-tmm-button]]
+   (hover btn))
 
 (.addActionListener login-button
                     (proxy [ActionListener] []
@@ -339,13 +348,6 @@
                             (= account-type "NMM") (do (JOptionPane/showMessageDialog nil "Login successful!") (.setVisible nmm-frame true) (.setVisible nmm-btn false) (.setVisible login-frame false))
                             (= account-type "Director") (do (JOptionPane/showMessageDialog nil "Login successful!") (.setVisible main-frame true) (.setVisible login-frame false))
                             :else (JOptionPane/showMessageDialog nil "Invalid username or password.") )))))
-
-  (.addMouseListener login-button
-                   (proxy [MouseAdapter] []
-                     (mouseEntered [e]
-                       (.setBackground login-button (Color. 135 206 250)))
-                     (mouseExited [e]
-                       (.setBackground login-button (Color. 173 216 230)))))
 
 ;;accounts-frame
   (.setLayout accounts-frame (new FlowLayout))
@@ -368,15 +370,9 @@
                           (.setText password-acc-text (str password))
                           (.setSelectedItem account-type-combo (str account-type))))))
 
-  (.addMouseListener add-button
-                   (proxy [MouseAdapter] []
-                     (mouseEntered [e]
-                       (.setBackground add-button (Color. 135 206 250)))
-                     (mouseExited [e]
-                       (.setBackground add-button (Color. 173 216 230)))))
 
   (.addActionListener add-button
-                    (proxy [java.awt.event.ActionListener] []
+                    (proxy [ActionListener] []
                       (actionPerformed [e]
                         (let [username (.getText username-acc-text)
                               password (.getText password-acc-text)
@@ -399,15 +395,9 @@
                                                                JOptionPane/ERROR_MESSAGE)))
                             (JOptionPane/showMessageDialog accounts-frame "All fields are required!"))))))
 
-  (.addMouseListener delete-button
-                   (proxy [MouseAdapter] []
-                     (mouseEntered [e]
-                       (.setBackground delete-button (Color. 135 206 250)))
-                     (mouseExited [e]
-                       (.setBackground delete-button (Color. 173 216 230)))))
 
   (.addActionListener delete-button
-                    (proxy [java.awt.event.ActionListener] []
+                    (proxy [ActionListener] []
                       (actionPerformed [e]
                         (let [selected-row (.getSelectedRow user-table)
                               host "localhost"
@@ -427,15 +417,8 @@
                                                                  JOptionPane/ERROR_MESSAGE))))
                             (JOptionPane/showMessageDialog accounts-frame "Please select a user to delete!"))))))
 
-    (.addMouseListener update-button
-                   (proxy [MouseAdapter] []
-                     (mouseEntered [e]
-                       (.setBackground update-button (Color. 135 206 250)))
-                     (mouseExited [e]
-                       (.setBackground login-button (Color. 173 216 230)))))
-
     (.addActionListener update-button
-                      (proxy [java.awt.event.ActionListener] []
+                      (proxy [ActionListener] []
                         (actionPerformed [e]
                           (let [selected-row (.getSelectedRow user-table)
                                 host "localhost"
@@ -462,33 +445,17 @@
   (.setBounds main-tmm-button 200 0 100 50)
   (.setBackground (.getContentPane main-frame) (Color. 227 242 253))
 
-  (.addMouseListener main-nmm-button
-                   (proxy [MouseAdapter] []
-                     (mouseEntered [e]
-                       (.setBackground main-nmm-button (Color. 135 206 250)))
-                     (mouseExited [e]
-                       (.setBackground main-nmm-button (Color. 173 216 230)))))
-
   (.addActionListener main-nmm-button
                       (proxy [ActionListener] []
                         (actionPerformed [evt]
                           (.setVisible main-frame false)
                           (.setVisible nmm-frame true))))
 
-
-
   (.addActionListener main-tmm-button
                       (proxy [ActionListener] []
                         (actionPerformed [evt]
                           (.setVisible main-frame false)
                           (.setVisible tmm-frame true))))
-
-  (.addMouseListener main-tmm-button
-                   (proxy [MouseAdapter] []
-                     (mouseEntered [e]
-                       (.setBackground main-tmm-button (Color. 135 206 250)))
-                     (mouseExited [e]
-                       (.setBackground main-tmm-button (Color. 173 216 230)))))
 
   ;;nmm-frame
   (.setLayout nmm-frame nil)
@@ -695,33 +662,6 @@
                         (.setEnabled check-btn true)
                         (.setEnabled reset-btn false))))
 
-(.addMouseListener nmm-btn
-                   (proxy [MouseAdapter] []
-                     (mouseEntered [e]
-                       (.setBackground nmm-btn (Color. 135 206 250)))
-                     (mouseExited [e]
-                       (.setBackground nmm-btn (Color. 173 216 230)))))
-
-(.addMouseListener check-btn
-                   (proxy [MouseAdapter] []
-                     (mouseEntered [e]
-                       (.setBackground check-btn (Color. 135 206 250)))
-                     (mouseExited [e]
-                       (.setBackground check-btn (Color. 173 216 230)))))
-
-(.addMouseListener reset-btn
-                   (proxy [MouseAdapter] []
-                     (mouseEntered [e]
-                       (.setBackground reset-btn (Color. 135 206 250)))
-                     (mouseExited [e]
-                       (.setBackground reset-btn (Color. 173 216 230)))))
-
-(.addMouseListener calc-nmm-button
-                   (proxy [MouseAdapter] []
-                     (mouseEntered [e]
-                       (.setBackground calc-nmm-button (Color. 135 206 250)))
-                     (mouseExited [e]
-                       (.setBackground calc-nmm-button (Color. 173 216 230)))))
 
 (.addActionListener calc-nmm-button
                     (proxy [ActionListener] []
@@ -750,7 +690,7 @@
                         (.setText jet-text2 (format "%.3f" (proj/conv-pim (Double/parseDouble(.getText jet-text1)) (Double/parseDouble (.getText par21-text)))))
                         (.setText g-text (format "%.3f" (proj/multiplication (Double/parseDouble(.getText par23-text)) (Double/parseDouble (.getText par24-text)))))
                         (.setText f-text (format "%.3f" (proj/division (Double/parseDouble(.getText g-text)) (Double/parseDouble (.getText par22-text)))))
-                        (.setText mv-text (format "%.3f" (proj/air-flow (Double/parseDouble(.getText par6-text)) (Double/parseDouble (.getText par26-text)) (Double/parseDouble (.getText par7-text)))))
+                        (.setText mv-text (format "%.3f" (proj/multiplication (Double/parseDouble(.getText par6-text)) (Double/parseDouble (.getText par26-text)) (Double/parseDouble (.getText par7-text)))))
                         (.setText c1-text (format "%.3f" (proj/easy-calculation (Double/parseDouble(.getText par2-text)) (Double/parseDouble (.getText par25-text)) (Double/parseDouble (.getText jet-text1)) (Double/parseDouble (.getText par4-text)))))
                         (.setText a-text (format "%.3f" (proj/coeff-a (Double/parseDouble(.getText par14-text)) (Double/parseDouble(.getText par18-text))(Double/parseDouble (.getText par1-text)) (Double/parseDouble (.getText par25-text)))))
                         (.setText b-text (format "%.3f" (proj/coeff-b (Double/parseDouble(.getText inlet-text5)) (Double/parseDouble (.getText a-text)))))
@@ -963,13 +903,6 @@
                         (.setEnabled reset-tmm-btn false)
                         (.setEnabled calc-tmm-button false))))
 
-(.addMouseListener tmm-btn
-                   (proxy [MouseAdapter] []
-                     (mouseEntered [e]
-                       (.setBackground tmm-btn (Color. 135 206 250)))
-                     (mouseExited [e]
-                       (.setBackground tmm-btn (Color. 173 216 230)))))
-
 (.addActionListener check-tmm-btn
                     (proxy [ActionListener] []
                       (actionPerformed [evt]
@@ -987,13 +920,6 @@
                                 (some #(not (proj/greater-than-one? % )) (:values-one validation-result))
                                 (JOptionPane/showMessageDialog nil "Some values (kv,kps) must be greater than 1."))))))))
 
-(.addMouseListener check-tmm-btn
-                   (proxy [MouseAdapter] []
-                     (mouseEntered [e]
-                       (.setBackground check-tmm-btn (Color. 135 206 250)))
-                     (mouseExited [e]
-                       (.setBackground check-tmm-btn (Color. 173 216 230)))))
-
 (.addActionListener reset-tmm-btn
                     (proxy [ActionListener] []
                       (actionPerformed [evt]
@@ -1006,20 +932,6 @@
                         (.setEnabled calc-tmm-button false)
                         (.setEnabled check-tmm-btn true)
                         (.setEnabled reset-tmm-btn false))))
-
-(.addMouseListener reset-tmm-btn
-                   (proxy [MouseAdapter] []
-                     (mouseEntered [e]
-                       (.setBackground reset-tmm-btn (Color. 135 206 250)))
-                     (mouseExited [e]
-                       (.setBackground reset-tmm-btn (Color. 173 216 230)))))
-
-(.addMouseListener calc-tmm-button
-                   (proxy [MouseAdapter] []
-                     (mouseEntered [e]
-                       (.setBackground calc-tmm-button (Color. 135 206 250)))
-                     (mouseExited [e]
-                       (.setBackground calc-tmm-button (Color. 173 216 230)))))
 
 (.addActionListener calc-tmm-button
                     (proxy [ActionListener] []

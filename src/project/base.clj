@@ -1,6 +1,5 @@
 (ns project.base
-  (:require [clojure.java.jdbc :as jdbc]
-            [clojure.string :as str]))
+  (:require [clojure.java.jdbc :as jdbc]))
 
 (defn create-db-spec [host dbname]
   {:dbtype "mssql"
