@@ -312,6 +312,8 @@
       tmm-btns [calc-tmm-button check-tmm-btn reset-tmm-btn tmm-btn]]
 
 
+  (defn create-gui []
+    )
 ;;login-frame
   (.setLayout login-frame nil)
   (.setBounds username-label 50 30 75 30)
