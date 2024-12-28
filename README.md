@@ -2,6 +2,23 @@
 
 This application is used to calculate the performance of aircraft, more precisely their engines, which is very important in mechanical engineering.
 
+## Account Types
+
+This application supports four types of user accounts:
+
+- **Admin**:  
+  Admins have the ability to manage user accounts, including adding and deleting accounts, updating passwords, and changing account types.
+
+- **TMM**:  
+  TMM users can work exclusively with TMM-type engines.
+
+- **NMM**:  
+  NMM users can work exclusively with NMM-type engines.
+
+- **Director**:  
+  Directors have access to work with both TMM and NMM types of engines.
+
+
 ## Functions
 
 ### Core
@@ -48,3 +65,12 @@ This application is used to calculate the performance of aircraft, more precisel
 5. Updating user data (update-user)
 6. List of all users required for the table (get-all-users)
 
+## Tools and Technologies
+
+This project was developed using the following tools and technologies:
+
+- **IntelliJ IDEA Community Edition**  
+  This project was developed using IntelliJ IDEA Community Edition, which is free and open-source under the Apache 2.0 license. For more information, visit the [IntelliJ IDEA Community Edition](https://www.jetbrains.com/idea/download/).
+
+- **Microsoft SQL Server Express**  
+  This project uses Microsoft SQL Server Express Edition, which is free to use under the Microsoft SQL Server Express license. For more details, visit [Microsoft SQL Server Express](https://www.microsoft.com/en-us/sql-server/sql-server-downloads).
