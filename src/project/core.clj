@@ -1,5 +1,5 @@
 (ns project.core
-  (:gen-class) )
+  (:gen-class))
 
 
 ;;1.Multiplication changes some functions ;;functions p1*,t1*,aircraft-weight-p2*,t2*,mg,csph air-flow||  p2-tmm tau-sum tau-k pi-sum p3-tmm tmm-csph
