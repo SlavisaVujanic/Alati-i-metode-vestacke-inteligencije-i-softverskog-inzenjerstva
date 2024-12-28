@@ -33,3 +33,16 @@
 
 (fact
   (Double/parseDouble (format "%.3f" (a0 1.4 287 216.65))) => (Double/parseDouble "295.042"))
+
+(fact
+  (Double/parseDouble (format "%.3f" (tauu 1.4 3.25))) => (Double/parseDouble "3.112"))
+
+(fact
+  (Double/parseDouble (format "%.3f" (p0* 5460.295 1.4 3.25))) => (Double/parseDouble "290468.383"))
+
+(fact
+  (Double/parseDouble (format "%.3f" (easy-calculation 1150 216.65 50.047 1.33))) => (Double/parseDouble "556.387"))
+
+(fact
+  (Double/parseDouble (format "%.3f" (degree-of-heating 1618.197 556.388 0.95))) => (Double/parseDouble "9.373"))
+
