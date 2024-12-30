@@ -770,7 +770,7 @@
   (.setBounds tmm-par25-text 270 165 50 30)
   (.setEditable tmm-par25-text false)
   (.setBounds tmm-par26-label 330 165 40 30)
-  (.setBounds tmm-par26-text 380 165 50 30)
+  (.setBounds tmm-par26-text 380 165 70 30)
   (.setEditable tmm-par26-text false)
   (.setBounds check-tmm-btn 180 205 100 20)
   (.setBounds calc-tmm-button 290 205 100 20)
