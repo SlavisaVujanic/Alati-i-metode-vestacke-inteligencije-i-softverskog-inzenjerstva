@@ -75,3 +75,15 @@
 
 (fact
   (Double/parseDouble (format "%.3f" (pi-turbine 1597.595 1800 1 1.33))) => (Double/parseDouble "1.617"))
+
+(fact
+  (Double/parseDouble (format "%.3f" (tmm-t4 1800 232766.124 1150))) => (Double/parseDouble "1597.595"))
+
+(fact
+  (Double/parseDouble (format "%.3f" (wk 1005 633.5 255.284))) => (Double/parseDouble "380107.080"))
+
+(fact
+  (Double/parseDouble (format "%.3f" (wt 50 380107.08 0.643 0.01 1))) => (Double/parseDouble "232766.124"))
+
+(fact
+  (Double/parseDouble (format "%.3f" (mps 50 0.643 0.01))) => (Double/parseDouble "81.650"))
