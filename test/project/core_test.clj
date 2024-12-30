@@ -87,3 +87,22 @@
 
 (fact
   (Double/parseDouble (format "%.3f" (mps 50 0.643 0.01))) => (Double/parseDouble "81.650"))
+
+(fact
+  (Double/parseDouble (format "%.3f" (tmm-vi 1 1150 1597.595 1.805 1.33 ))) => (Double/parseDouble "707.694"))
+
+(fact
+  (Double/parseDouble (format "%.3f" (func-M 0.85 1.33))) => (Double/parseDouble "0.949"))
+
+(fact
+  (Double/parseDouble (format "%.3f" (out-a 81.650 0.949 285 1.33 1597.595 631176.434))) => (Double/parseDouble "0.080"))
+
+(fact
+  (Double/parseDouble (format "%.3f" (tmm-thrust 50 0.643 0.01 707.694 254.521 0.08 349682.235 26434.755))) => (Double/parseDouble "70916.964"))
+
+(fact
+  (Double/parseDouble (format "%.5f" (tmm-csps 0.643 50 70916.964))) => (Double/parseDouble "0.00045"))
+
+(fact
+      (greater-than-one? 2) => true
+      (greater-than-one? 1) => false)
