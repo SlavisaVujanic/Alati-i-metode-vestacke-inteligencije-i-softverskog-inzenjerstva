@@ -57,3 +57,21 @@
 
 (fact
   (Double/parseDouble (format "%.3f" (coeff-c 3.112 1150 1005 958.887 49.383 556.387 0.95))) => (Double/parseDouble "-1.052"))
+
+(fact
+  (conv-pim 1.3 1.805)=> 1.3)
+
+(fact
+  (conv-pim 1.805 1.3)=> 1.3)
+
+(fact
+  (Double/parseDouble (format "%.3f" (vi 49.383 958.887 0.045 ))) => (Double/parseDouble "964.852"))
+
+(fact
+  (Double/parseDouble (format "%.3f" (t2-tmm 255.284 24.073 1.4 1))) => (Double/parseDouble "633.500"))
+
+(fact
+  (Double/parseDouble (format "%.3f" (tmm-mixing-ratio 1150 1800 1005 633.5 1 4300000))) => (Double/parseDouble "0.643"))
+
+(fact
+  (Double/parseDouble (format "%.3f" (pi-turbine 1597.595 1800 1 1.33))) => (Double/parseDouble "1.617"))
