@@ -444,6 +444,8 @@
   (.setBounds main-nmm-button 20 0 100 50)
   (.setBounds main-tmm-button 200 0 100 50)
   (.setBackground (.getContentPane main-frame) (Color. 227 242 253))
+  (.setBackground main-nmm-button (Color. 173 216 230))
+  (.setBackground main-tmm-button (Color. 173 216 230))
 
   (.addActionListener main-nmm-button
                       (proxy [ActionListener] []
@@ -615,6 +617,10 @@
   (.setBounds c1-text 160 780 60 30)
   (.setEditable c1-text false)
   (.setBounds nmm-btn 330 790 100 20)
+  (.setBackground check-btn (Color. 173 216 230))
+  (.setBackground calc-nmm-button (Color. 173 216 230))
+  (.setBackground reset-btn (Color. 173 216 230))
+  (.setBackground nmm-btn (Color. 173 216 230))
 
 
   (.addActionListener nmm-btn
@@ -886,6 +892,10 @@
   (.setEditable tmm-other-text3 false)
   (.setBounds tmm-other-text4 510 690 50 30)
   (.setEditable tmm-other-text4 false)
+  (.setBackground check-tmm-btn (Color. 173 216 230))
+  (.setBackground calc-tmm-button (Color. 173 216 230))
+  (.setBackground reset-tmm-btn (Color. 173 216 230))
+  (.setBackground tmm-btn (Color. 173 216 230))
 
 
 

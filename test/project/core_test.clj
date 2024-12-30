@@ -46,3 +46,14 @@
 (fact
   (Double/parseDouble (format "%.3f" (degree-of-heating 1618.197 556.388 0.95))) => (Double/parseDouble "9.373"))
 
+(fact
+  (Double/parseDouble (format "%.3f" (ratio-fuel-air 19.551 22.663 -1.052))) => (Double/parseDouble "0.045"))
+
+(fact
+  (Double/parseDouble (format "%.3f" (coeff-a 4300000 0.99 1005 216.65))) => (Double/parseDouble "19.551"))
+
+(fact
+  (Double/parseDouble (format "%.3f" (coeff-b 3.112 19.551))) => (Double/parseDouble "22.663"))
+
+(fact
+  (Double/parseDouble (format "%.3f" (coeff-c 3.112 1150 1005 958.887 49.383 556.387 0.95))) => (Double/parseDouble "-1.052"))
