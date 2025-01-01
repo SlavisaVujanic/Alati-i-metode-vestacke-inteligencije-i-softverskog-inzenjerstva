@@ -2,9 +2,11 @@
   (:import (java.awt Color FlowLayout)
            (java.awt.event MouseAdapter ActionListener)
            (java.util Locale)
+           (javax.imageio ImageIO)
            (javax.swing JComboBox JOptionPane JPasswordField JScrollPane JTable JFrame JLabel JTextField JButton)
            (javax.swing.table DefaultTableModel))
-  (:require [project.core :as proj]
+  (:require [clojure.java.io :as io]
+            [project.core :as proj]
             [project.base :as db]))
 (Locale/setDefault Locale/US)
 
@@ -310,6 +312,9 @@
                        tmm-turbine-label3 tmm-turbine-label4 tmm-turbine-label5 tmm-turbine-label6 tmm-jet-label1 tmm-jet-label2 tmm-jet-label3 tmm-jet-label4 tmm-jet-label5 tmm-jet-label6 tmm-jet-label7 tmm-other-label1 tmm-other-label2 tmm-other-label3 tmm-other-label tmm-expression-label
                        tmm-inlet-label tmm-compressor-label tmm-chamber-label tmm-turbine-label tmm-jet-label tmm-other-label]
       tmm-btns [calc-tmm-button check-tmm-btn reset-tmm-btn tmm-btn]]
+
+  (doseq [frm [login-frame accounts-frame tmm-frame nmm-frame main-frame]]
+    (.setIconImage frm (ImageIO/read (io/resource "ico/aircraft-maintenance.png"))))
 
 
  (defn hover [btn]
