@@ -1,13 +1,15 @@
 (ns project.gui
   (:import (java.awt Color FlowLayout)
            (java.awt.event MouseAdapter ActionListener)
+           (java.io FileWriter)
            (java.util Locale)
            (javax.imageio ImageIO)
            (javax.swing JComboBox JOptionPane JPasswordField JScrollPane JTable JFrame JLabel JTextField JButton)
            (javax.swing.table DefaultTableModel))
   (:require [clojure.java.io :as io]
             [project.core :as proj]
-            [project.base :as db]))
+            [project.base :as db]
+            [clojure.data.csv :as csv]))
 (Locale/setDefault Locale/US)
 
 (let [main-frame (new JFrame "Aircraft Performance")
@@ -151,6 +153,7 @@
       reset-btn (new JButton "Reset")
       nmm-btn (new JButton "TMM")
       tmm-frame (new JFrame "TMM")
+      export-nmm (new JButton "Export")
       tmm-par1-label (new JLabel "Cpv")
       tmm-par2-label (new JLabel "Cpps")
       tmm-par3-label (new JLabel "kv")
@@ -285,6 +288,7 @@
       check-tmm-btn (new JButton "Check")
       reset-tmm-btn (new JButton "Reset")
       tmm-btn (new JButton "NMM")
+      export-tmm (new JButton "Export")
 
       fields-one [par3-text par4-text]
       fields-zero [par1-text par2-text  par7-text par8-text par10-text par11-text par12-text par13-text par14-text
@@ -296,7 +300,7 @@
                    par15-label par16-label par17-label par18-label par19-label par20-label  par21-label  par22-label  par23-label  par24-label]
       labels-expr [ par6-label par9-label other-label q-label jet-label chamber-label inlet-label  expression-label par25-label par26-label par27-label exp1-label exp2-label exp3-label exp4-label exp5-label exp6-label inlet-label1 inlet-label2 inlet-label3 inlet-label4 inlet-label5
                    chamber-label1 chamber-label3 q-label2 jet-label1 jet-label2 jet-label3 a-label b-label c-label g-label f-label fsp-label mg-label csp-label mv-label c1-label theta-label4]
-      btns [nmm-btn check-btn calc-nmm-button reset-btn]
+      btns [nmm-btn check-btn calc-nmm-button reset-btn export-nmm]
 
       tmm-fields-one [tmm-par3-text tmm-par4-text]
       tmm-fields-zero [tmm-par1-text tmm-par2-text tmm-par6-text tmm-par7-text  tmm-par9-text tmm-par10-text tmm-par11-text tmm-par12-text tmm-par13-text tmm-par14-text tmm-par15-text tmm-par16-text
@@ -311,7 +315,7 @@
                        tmm-compressor-label1  tmm-compressor-label2  tmm-compressor-label3  tmm-compressor-label4  tmm-compressor-label5 tmm-chamber-label1 tmm-chamber-label2 tmm-chamber-label3  tmm-turbine-label1 tmm-turbine-label2
                        tmm-turbine-label3 tmm-turbine-label4 tmm-turbine-label5 tmm-turbine-label6 tmm-jet-label1 tmm-jet-label2 tmm-jet-label3 tmm-jet-label4 tmm-jet-label5 tmm-jet-label6 tmm-jet-label7 tmm-other-label1 tmm-other-label2 tmm-other-label3 tmm-other-label tmm-expression-label
                        tmm-inlet-label tmm-compressor-label tmm-chamber-label tmm-turbine-label tmm-jet-label tmm-other-label]
-      tmm-btns [calc-tmm-button check-tmm-btn reset-tmm-btn tmm-btn]]
+      tmm-btns [calc-tmm-button check-tmm-btn reset-tmm-btn tmm-btn export-tmm]]
 
   (doseq [frm [login-frame accounts-frame tmm-frame nmm-frame main-frame]]
     (.setIconImage frm (ImageIO/read (io/resource "ico/aircraft-maintenance.png"))))
@@ -325,6 +329,10 @@
                         (mouseExited [e]
                           (.setBackground btn (Color. 173 216 230))))))
 
+  (defn write-csv [file-path data]
+    (with-open [writer (FileWriter. file-path)]
+      (csv/write-csv writer data)))
+
 
 ;;login-frame
   (.setLayout login-frame nil)
@@ -336,7 +344,7 @@
   (.setBackground login-button (Color. 173 216 230))
   (.setBackground (.getContentPane login-frame) (Color. 227 242 253))
 
- (doseq [btn [login-button add-button delete-button update-button nmm-btn check-btn calc-nmm-button reset-btn calc-tmm-button check-tmm-btn reset-tmm-btn tmm-btn main-nmm-button main-tmm-button]]
+ (doseq [btn [login-button add-button delete-button update-button nmm-btn check-btn calc-nmm-button reset-btn calc-tmm-button check-tmm-btn reset-tmm-btn tmm-btn main-nmm-button main-tmm-button export-tmm export-nmm]]
    (hover btn))
 
 (.addActionListener login-button
@@ -524,11 +532,13 @@
   (.setBounds par27-label 220 245 40 30)
   (.setBounds par27-text 270 245 60 30)
   (.setEditable par27-text false)
-  (.setBounds check-btn 50 280 100 20)
-  (.setBounds calc-nmm-button 160 280 100 20)
+  (.setBounds check-btn 5 280 100 20)
+  (.setBounds calc-nmm-button 110 280 100 20)
   (.setEnabled calc-nmm-button false)
-  (.setBounds reset-btn 270 280 100 20)
+  (.setBounds reset-btn 215 280 100 20)
   (.setEnabled reset-btn false)
+  (.setBounds export-nmm 320 280 100 20)
+  (.setEnabled export-nmm false)
   (.setBounds expression-label 180 300 80 20)
   (.setBounds exp1-label 5 325 60 30)
   (.setBounds exp1-text 70 325 50 30)
@@ -626,6 +636,7 @@
   (.setBackground calc-nmm-button (Color. 173 216 230))
   (.setBackground reset-btn (Color. 173 216 230))
   (.setBackground nmm-btn (Color. 173 216 230))
+  (.setBackground export-nmm (Color. 173 216 230))
 
 
   (.addActionListener nmm-btn
@@ -777,11 +788,13 @@
   (.setBounds tmm-par26-label 330 165 40 30)
   (.setBounds tmm-par26-text 380 165 70 30)
   (.setEditable tmm-par26-text false)
-  (.setBounds check-tmm-btn 180 205 100 20)
-  (.setBounds calc-tmm-button 290 205 100 20)
+  (.setBounds check-tmm-btn 110 205 100 20)
+  (.setBounds calc-tmm-button 220 205 100 20)
   (.setEnabled calc-tmm-button false)
-  (.setBounds reset-tmm-btn 400 205 100 20)
+  (.setBounds reset-tmm-btn 330 205 100 20)
   (.setEnabled reset-tmm-btn false)
+  (.setBounds export-tmm 440 205 100 20)
+  (.setEnabled export-tmm false)
   (.setBounds tmm-btn 580 720 100 20)
   (.setBounds tmm-expression-label 305 225 80 20)
   (.setBounds tmm-exp1-label 0 245 60 30)
@@ -901,6 +914,7 @@
   (.setBackground calc-tmm-button (Color. 173 216 230))
   (.setBackground reset-tmm-btn (Color. 173 216 230))
   (.setBackground tmm-btn (Color. 173 216 230))
+  (.setBackground export-tmm (Color. 173 216 230))
 
 
 
