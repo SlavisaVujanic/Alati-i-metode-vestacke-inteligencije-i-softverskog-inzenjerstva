@@ -360,7 +360,7 @@
   (.setBounds username-text 130 30 120 30)
   (.setBounds password-label 50 70 75 30)
   (.setBounds password-text 130 70 120 30)
-  (.setBounds login-button 120 130 80 30)
+  (.setBounds login-button 110 120 80 30)
   (.setBackground login-button (Color. 173 216 230))
   (.setBackground (.getContentPane login-frame) (Color. 227 242 253))
 
@@ -800,9 +800,9 @@
                                       [(format "%-12s %-12s %-2s %-12s %-12s" "Rv" (.getText par19-text) ""  "C1" (.getText c1-text))]
                                       ["------------------------------------------------------------------------------------------------------------------------"]
                                       [(format "%-12s %-12s" "Rps" (.getText par20-text))]
-                                      ["------------------------------------------------------------------------------------------------------------------------"]
-                                      ]]
-                                (write-pdf file-path data)))))
+                                      ["------------------------------------------------------------------------------------------------------------------------"]]]
+                                (write-pdf file-path data)
+                                (JOptionPane/showMessageDialog nil "All data has been successfully exported.")))))
 
 
   ;;tmm-frame
@@ -1017,6 +1017,7 @@
                             (do
                               (.setEnabled calc-tmm-button true)
                               (.setEnabled check-tmm-btn false)
+                              (.setEnabled export-tmm false)
                               (doseq [field (concat tmm-fields-zero tmm-fields-one)]
                                 (.setEditable field false)))
                             (do
@@ -1037,7 +1038,8 @@
 
                         (.setEnabled calc-tmm-button false)
                         (.setEnabled check-tmm-btn true)
-                        (.setEnabled reset-tmm-btn false))))
+                        (.setEnabled reset-tmm-btn false)
+                        (.setEnabled export-tmm false))))
 
 (.addActionListener calc-tmm-button
                     (proxy [ActionListener] []
@@ -1045,6 +1047,7 @@
                         (.setEnabled reset-tmm-btn true)
                         (.setEnabled check-tmm-btn false)
                         (.setEnabled calc-tmm-button false)
+                        (.setEnabled export-tmm true)
                         (.setText tmm-exp1-text (format "%.3f" (proj/fn1 (Double/parseDouble (.getText tmm-par3-text)))))
                         (.setText tmm-exp2-text (format "%.3f" (proj/fn1 (Double/parseDouble (.getText tmm-par4-text)))))
                         (.setText tmm-exp3-text (format "%.3f" (proj/fn2 (Double/parseDouble (.getText tmm-par3-text)))))
@@ -1085,8 +1088,17 @@
                         (.setText tmm-other-text1 (format "%.3f" (proj/tmm-thrust(Double/parseDouble(.getText tmm-par6-text)) (Double/parseDouble(.getText tmm-chamber-text2)) (Double/parseDouble(.getText tmm-par28-text)) (Double/parseDouble(.getText tmm-jet-text3)) (Double/parseDouble(.getText tmm-par5-text)) (Double/parseDouble(.getText tmm-jet-text7)) (Double/parseDouble(.getText tmm-jet-text5)) (Double/parseDouble(.getText tmm-par26-text)))))
                         (.setText tmm-other-text2 (format "%.3f" (proj/division(Double/parseDouble(.getText tmm-other-text1)) (Double/parseDouble(.getText tmm-par6-text)))))
                         (.setText tmm-other-text3 (format "%.5f" (proj/tmm-csps (Double/parseDouble(.getText tmm-chamber-text2)) (Double/parseDouble(.getText tmm-par6-text)) (Double/parseDouble(.getText tmm-other-text1)))))
-                        (.setText tmm-other-text4 (format "%.3f" (proj/multiplication(Double/parseDouble(.getText tmm-other-text3)) 36000)))
-                        )))
+                        (.setText tmm-other-text4 (format "%.3f" (proj/multiplication(Double/parseDouble(.getText tmm-other-text3)) 36000))))))
+
+  (.addActionListener export-tmm
+                      (proxy [ActionListener] []
+                        (actionPerformed [evt]
+                          (let [file-path (str (System/getProperty "user.home") "/Desktop/TMM.pdf")
+                                data [[(format "%-12s %-12s %-2s %-12s %-12s %-2s %-8s %-22s %-2s  %-12s %-12s %-2s %-12s %-12s  %-2s %-12s %-12s" "Data" "Value" "" "0-1*" "Inlet" ""  "1*-2*" "Compressor" "" "2*-3*"  "Combustion chamber" "" "3*-4*" "Turbine" "" "4*-5" "Jet")]
+                                      ["--------------------------------------------------------------------------------------------------------------------------------------------"]
+                                     ]]
+                            (write-pdf file-path data)
+                            (JOptionPane/showMessageDialog nil "All data has been successfully exported.")))))
 
   (doto login-frame
     (.setDefaultCloseOperation JFrame/EXIT_ON_CLOSE)
