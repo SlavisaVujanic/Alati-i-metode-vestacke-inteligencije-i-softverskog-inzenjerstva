@@ -331,20 +331,25 @@
                         (mouseExited [e]
                           (.setBackground btn (Color. 173 216 230))))))
 
-
   (defn write-pdf [file-path data]
     (let [doc (PDDocument.)
-          page (PDPage. PDRectangle/A4)
-          font (PDType0Font/load doc (File. "resources/fonts/FreeSans.ttf"))
-          font-size 12]
+          page (PDPage. (PDRectangle. 950 595))  ;; A4 Landscape
+          font (PDType0Font/load doc (File. "resources/fonts/DejaVuSansMono.ttf"))
+          font-size 12
+          line-height 14
+          y-start 580
+          margin 50]
       (.addPage doc page)
       (with-open [content-stream (PDPageContentStream. doc page)]
         (.setFont content-stream font font-size)
         (.beginText content-stream)
-        (.newLineAtOffset content-stream 50 750)
+        (.newLineAtOffset content-stream margin y-start)
+
         (doseq [row data]
-          (.showText content-stream (clojure.string/join "    " row))
-          (.newLine content-stream))
+          (doseq [text row]
+            (.showText content-stream text))
+          (.newLineAtOffset content-stream 0 (- line-height)))
+
         (.endText content-stream))
       (.save doc file-path)
       (.close doc)))
@@ -748,9 +753,22 @@
                       (proxy [ActionListener] []
                         (actionPerformed [evt]
                           (let [file-path (str (System/getProperty "user.home") "/Desktop/NMM.pdf")
-                                data [["Data" "Value" "" "0-1*" "Inlet" "" "2*-3*" "Combustion chamber" "" "4*-5" "Jet"]
-                                      ["Cpv"  (.getText par1-text) "" "p0*" "" "" "p2*" "" "" "πmr" ""]]]
-                            (write-pdf file-path data)))))
+                                data [[(format "%-12s %-12s %-2s %-12s %-12s %-2s %-8s %-22s %-2s %-12s %-12s" "Data" "Value" "" "0-1*" "Inlet" ""  "2*-3*"  "Combustion chamber" "" "4*-5" "Jet")]
+                                      ["------------------------------------------------------------------------------------------------------------------------"]
+                                      [(format "%-12s %-12s %-2s %-12s %-12s %-2s %-8s %-22s %-2s %-12s %-12s" "Cpv" (.getText par1-text) ""  "p0*" (.getText inlet-text1) ""  "p2*"  (.getText chamber-text1) ""  "πmr" (.getText jet-text1))]
+                                      ["------------------------------------------------------------------------------------------------------------------------"]
+                                      [(format "%-12s %-12s %-2s %-12s %-12s %-2s %-8s %-22s %-2s %-12s %-12s" "Cpps" (.getText par2-text) ""  "p1*" (.getText inlet-text2) ""  "q"  (.getText q-text2) ""  "πm" (.getText jet-text2))]
+                                      ["------------------------------------------------------------------------------------------------------------------------"]
+                                      [(format "%-12s %-12s %-2s %-12s %-12s %-2s %-8s %-22s %-2s %-12s %-12s" "kv" (.getText par3-text) ""  "T1*" (.getText inlet-text3) ""  "T2*"  (.getText chamber-text3) ""  "Vi" (.getText jet-text3))]
+                                      ["------------------------------------------------------------------------------------------------------------------------"]
+                                      [(format "%-12s %-12s %-2s %-12s %-12s %-2s %-8s %-22s %-2s %-12s %-12s" "kps" (.getText par4-text) ""  "πu" (.getText inlet-text4) ""  "θ"  (.getText theta-text) ""  "πkrit" (.getText par21-text))]
+                                      ["------------------------------------------------------------------------------------------------------------------------"]
+                                      [(format "%-12s %-12s %-2s %-12s %-12s" "T0" (.getText par25-text) ""  "τu" (.getText inlet-text5))]
+                                      ["------------------------------------------------------------------------------------------------------------------------"]
+                                      [(format "%-12s %-12s %-2s %-12s %-12s %-2s %-8s %-22s %-2s %-12s %-12s" "v0" (.getText par6-text) ""  "" "" "mg"  (.getText mg-text) ""  "" "")]
+                                      ["------------------------------------------------------------------------------------------------------------------------"]
+                                      ]]
+                                (write-pdf file-path data)))))
 
 
   ;;tmm-frame
