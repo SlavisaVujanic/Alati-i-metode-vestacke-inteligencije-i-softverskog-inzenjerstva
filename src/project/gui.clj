@@ -1,15 +1,17 @@
 (ns project.gui
   (:import (java.awt Color FlowLayout)
            (java.awt.event MouseAdapter ActionListener)
-           (java.io FileWriter)
+           (java.io File)
            (java.util Locale)
            (javax.imageio ImageIO)
            (javax.swing JComboBox JOptionPane JPasswordField JScrollPane JTable JFrame JLabel JTextField JButton)
-           (javax.swing.table DefaultTableModel))
+           (javax.swing.table DefaultTableModel)
+           (org.apache.pdfbox.pdmodel PDDocument PDPage PDPageContentStream)
+           (org.apache.pdfbox.pdmodel.common PDRectangle)
+           (org.apache.pdfbox.pdmodel.font PDType0Font))
   (:require [clojure.java.io :as io]
             [project.core :as proj]
-            [project.base :as db]
-            [clojure.data.csv :as csv]))
+            [project.base :as db]))
 (Locale/setDefault Locale/US)
 
 (let [main-frame (new JFrame "Aircraft Performance")
@@ -329,10 +331,23 @@
                         (mouseExited [e]
                           (.setBackground btn (Color. 173 216 230))))))
 
-  (defn write-csv [file-path data]
-    (with-open [writer (FileWriter. file-path)]
-      (csv/write-csv writer data)))
 
+  (defn write-pdf [file-path data]
+    (let [doc (PDDocument.)
+          page (PDPage. PDRectangle/A4)
+          font (PDType0Font/load doc (File. "resources/fonts/FreeSans.ttf"))
+          font-size 12]
+      (.addPage doc page)
+      (with-open [content-stream (PDPageContentStream. doc page)]
+        (.setFont content-stream font font-size)
+        (.beginText content-stream)
+        (.newLineAtOffset content-stream 50 750)
+        (doseq [row data]
+          (.showText content-stream (clojure.string/join "    " row))
+          (.newLine content-stream))
+        (.endText content-stream))
+      (.save doc file-path)
+      (.close doc)))
 
 ;;login-frame
   (.setLayout login-frame nil)
@@ -679,8 +694,8 @@
                           (when (or (some #(= field %) fields-zero)
                                     (some #(= field %) fields-one))
                             (.setEditable field true)))
-
                         (.setEnabled calc-nmm-button false)
+                        (.setEnabled export-nmm false)
                         (.setEnabled check-btn true)
                         (.setEnabled reset-btn false))))
 
@@ -689,6 +704,7 @@
                     (proxy [ActionListener] []
                       (actionPerformed [evt]
                         (.setEnabled reset-btn true)
+                        (.setEnabled export-nmm true)
                         (.setEnabled check-btn false)
                         (.setEnabled calc-nmm-button false)
                         (.setText par25-text (format "%.3f" (proj/T0 (Double/parseDouble (.getText par8-text)))))
@@ -726,6 +742,15 @@
                         (.setText csp-text1 (format "%.6f" (proj/division (Double/parseDouble(.getText mg-text)) (Double/parseDouble (.getText f-text)))))
                         (.setText csp-text2 (format "%.3f" (proj/multiplication (Double/parseDouble(.getText csp-text1)) 36000)))
                         )))
+
+
+  (.addActionListener export-nmm
+                      (proxy [ActionListener] []
+                        (actionPerformed [evt]
+                          (let [file-path (str (System/getProperty "user.home") "/Desktop/NMM.pdf")
+                                data [["Data" "Value" "" "0-1*" "Inlet" "" "2*-3*" "Combustion chamber" "" "4*-5" "Jet"]
+                                      ["Cpv"  (.getText par1-text) "" "p0*" "" "" "p2*" "" "" "πmr" ""]]]
+                            (write-pdf file-path data)))))
 
 
   ;;tmm-frame
