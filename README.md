@@ -1,6 +1,6 @@
 # Aircraft Performance
 
-This application is used to calculate the performance of aircraft, more precisely their engines, which is very important in mechanical engineering.
+This application is used to calculate the performance of aircraft, more precisely their engines, which is very important in mechanical engineering.The application has the ability to export calculated data to a PDF file.
 
 ## Account Types
 
