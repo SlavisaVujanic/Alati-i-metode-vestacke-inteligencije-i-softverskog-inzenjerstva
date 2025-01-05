@@ -1,6 +1,7 @@
 # Aircraft Performance
 
 This application is used to calculate the performance of aircraft, more precisely their engines, which is very important in mechanical engineering.The application has the ability to export calculated data to a PDF file.
+All decimal numbers are entered with . as the decimal separator (abc.def).All values are rounded to 3 decimal places, except those that require more.
 
 ## Account Types
 
