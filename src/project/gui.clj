@@ -331,13 +331,12 @@
                         (mouseExited [e]
                           (.setBackground btn (Color. 173 216 230))))))
 
-  (defn write-pdf [file-path data]
+  (defn write-pdf [file-path data x y y-start]
     (let [doc (PDDocument.)
-          page (PDPage. (PDRectangle. 950 750))  ;; A4 Landscape
+          page (PDPage. (PDRectangle. x y))  ;; A4 Landscape
           font (PDType0Font/load doc (File. "resources/fonts/DejaVuSansMono.ttf"))
           font-size 12
           line-height 14
-          y-start 730
           margin 50]
       (.addPage doc page)
       (with-open [content-stream (PDPageContentStream. doc page)]
@@ -801,7 +800,7 @@
                                       ["------------------------------------------------------------------------------------------------------------------------"]
                                       [(format "%-12s %-12s" "Rps" (.getText par20-text))]
                                       ["------------------------------------------------------------------------------------------------------------------------"]]]
-                                (write-pdf file-path data)
+                                (write-pdf file-path data 950 750 730)
                                 (JOptionPane/showMessageDialog nil "All data has been successfully exported.")))))
 
 
@@ -1094,10 +1093,22 @@
                       (proxy [ActionListener] []
                         (actionPerformed [evt]
                           (let [file-path (str (System/getProperty "user.home") "/Desktop/TMM.pdf")
-                                data [[(format "%-12s %-12s %-2s %-12s %-12s %-2s %-8s %-22s %-2s  %-12s %-12s %-2s %-12s %-12s  %-2s %-12s %-12s" "Data" "Value" "" "0-1*" "Inlet" ""  "1*-2*" "Compressor" "" "2*-3*"  "Combustion chamber" "" "3*-4*" "Turbine" "" "4*-5" "Jet")]
-                                      ["--------------------------------------------------------------------------------------------------------------------------------------------"]
+                                data [[(format "%-12s %-12s %-2s %-12s %-14s %-3s %-8s %-22s %-3s  %-12s %-12s %-2s %-12s %-12s  %-2s %-12s %-12s" "Data" "Value" "" "0-1*" "Inlet" ""  "1*-2*" "Compressor" "" "2*-3*"  "Combustion chamber" "" "3*-4*" "Turbine" "" "4*-5" "Jet")]
+                                      ["---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------"]
+                                      [(format "%-12s %-12s %-2s %-12s %-14s %-3s %-8s %-22s %-3s  %-12s %-12s %-2s %-12s %-12s  %-2s %-12s %-12s" "Cpv" (.getText tmm-par1-text) "" "p0*" (.getText tmm-inlet-text1) ""  "T2*" (.getText tmm-compressor-text1) "" "p3*"  (.getText tmm-chamber-text1) "" "πt" (.getText tmm-turbine-text1) "" "πmr" (.getText tmm-jet-text1))]
+                                      ["---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------"]
+                                      [(format "%-12s %-12s %-2s %-12s %-14s %-3s %-8s %-22s %-3s  %-12s %-12s %-2s %-12s %-12s  %-2s %-12s %-12s" "Cpps" (.getText tmm-par2-text) "" "p1*" (.getText tmm-inlet-text2) ""  "p2*" (.getText tmm-compressor-text2) "" "q"  (.getText tmm-chamber-text2) "" "p4*" (.getText tmm-turbine-text2) "" "πm" (.getText tmm-jet-text2))]
+                                      ["---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------"]
+                                      [(format "%-12s %-12s %-2s %-12s %-14s %-3s %-8s %-22s %-3s  %-12s %-12s %-2s %-12s %-12s  %-2s %-12s %-12s" "kv" (.getText tmm-par3-text) "" "T1*" (.getText tmm-inlet-text3) ""  "τk" (.getText tmm-compressor-text3) "" "θ"  (.getText tmm-chamber-text3) "" "T4*" (.getText tmm-turbine-text3) "" "Vi" (.getText tmm-jet-text3))]
+                                      ["---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------"]
+                                      [(format "%-12s %-12s %-2s %-12s %-14s %-3s %-8s %-22s %-3s  %-12s %-12s %-2s %-12s %-12s  %-2s %-12s %-12s" "kps" (.getText tmm-par4-text) "" "πu" (.getText tmm-inlet-text4) ""  "τΣ" (.getText tmm-compressor-text4) "" ""  "" "" "τt" (.getText tmm-turbine-text4) "" "πkrit" (.getText tmm-par20-text))]
+                                      ["---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------"]
+                                      [(format "%-12s %-12s %-2s %-12s %-14s %-3s %-8s %-22s %-3s  %-12s %-12s %-2s %-12s %-12s  %-2s %-12s %-12s" "T0" (.getText tmm-par24-text) "" "τu" (.getText tmm-inlet-text5) ""  "πΣ" (.getText tmm-compressor-text5) "" ""  "" "" "wk" (.getText tmm-turbine-text5) "" "mps" (.getText tmm-jet-text4))]
+                                      ["---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------"]
+                                      [(format "%-12s %-12s %-2s %-12s %-14s %-3s %-8s %-22s %-3s  %-12s %-12s %-2s %-12s %-12s  %-2s %-12s %-12s" "v0" (.getText tmm-par5-text) "" "" "" ""  "πk" (.getText tmm-par27-text) "" ""  "" "" "wt" (.getText tmm-turbine-text6) "" "p5" (.getText tmm-jet-text5))]
+                                      ["---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------"]
                                      ]]
-                            (write-pdf file-path data)
+                            (write-pdf file-path data 1450 750 730)
                             (JOptionPane/showMessageDialog nil "All data has been successfully exported.")))))
 
   (doto login-frame
